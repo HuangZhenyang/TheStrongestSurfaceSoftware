@@ -10,7 +10,7 @@
 ***
 
 ## 系统架构
-* 前端 bootstrape + JQuery
+* 前端 bootstrap + JQuery
 * 后端 JSP
 
 ## 特点
