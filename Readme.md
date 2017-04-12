@@ -1,4 +1,6 @@
-﻿# TheStrongestSurfaceSoftware
+﻿![](https://raw.github.com/HuangZhenyang/TheStrongestSurfaceSoftware/master/docs/logo.png)
+
+# TheStrongestSurfaceSoftware
 
 <p align="left">
 	<img alt="" src="https://img.shields.io/badge/JavaScript-ES6-green.svg" />
