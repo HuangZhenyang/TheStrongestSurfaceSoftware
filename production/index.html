@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
 	<meta charset="utf-8">
@@ -113,17 +113,17 @@
 						</ul>
 						</li>
 
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-book"></i>
-							<span style="font-weight:bold;">顾客分析</span>
-						</a>
-						<ul class="sub">
-							<li><a href="blank.html">来访周期Blank Page</a></li>
-							<li><a href="login.html">新老客户Login</a></li>
-							<li><a href="lock_screen.html">顾客活跃度Lock Screen</a></li>
-						</ul>
-					</li>
+						<li class="sub-menu">
+							<a href="javascript:;">
+								<i class="fa fa-book"></i>
+								<span style="font-weight:bold;">顾客分析</span>
+							</a>
+							<ul class="sub">
+								<li><a href="blank.html">来访周期Blank Page</a></li>
+								<li><a href="login.html">新老客户Login</a></li>
+								<li><a href="lock_screen.html">顾客活跃度Lock Screen</a></li>
+							</ul>
+						</li>
 
 						<li class="sub-menu">
 							<a href="javascript:;">
@@ -167,192 +167,250 @@
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
-				<div class="row">
-					<div class="col-lg-11 main-chart">
-						<div class="row mtbox">
-							<div class="row mt">
+				<h3><i class="fa fa-angle-right"></i> Chartjs Charts</h3>
+				<!-- page start-->
+				<div class="tab-pane" id="chartjs">
+					<div class="row mt">
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> Doughnut</h4>
+								<div class="panel-body text-center">
+									<!--<canvas id="test1" height="300" width="400"></canvas>-->
+									<div id="test1" style="width: 490px;height:305px;"></div>
+									<script type="text/javascript">
+										// 基于准备好的dom，初始化echarts实例
+										var myChart = echarts.init(document.getElementById('test1'));
 
-								<!-- SERVER STATUS PANELS -->
-								<div class="col-md-4 col-sm-4 mb">
-									<div class="white-panel pn donut-chart">
-										<div class="white-header">
-											<h5>客流量</h5>
-										</div>
-										<div class="row">
-											<div class="col-sm-6 col-xs-6 goleft">
-												<p><i class="fa fa-database"></i> 70%</p>
-											</div>
-										</div>
-										<canvas id="serverstatus01" height="120" width="120"></canvas>
-										<script>
-											var doughnutData = [
-												{
-													value: 70,
-													color: "#68dff0"
+										// 指定图表的配置项和数据
+										var option = {
+											tooltip: {
+												trigger: 'axis',
+												axisPointer: {
+													type: 'cross',
+													crossStyle: {
+														color: '#999'
+													}
+												}
 											},
-												{
-													value: 30,
-													color: "#fdfdfd"
-											}
-										];
-											var myDoughnut = new Chart(document.getElementById("serverstatus01").getContext("2d")).Doughnut(doughnutData);
-										</script>
-									</div>
-									<! --/grey-panel -->
-								</div>
-								<!-- /col-md-4-->
-
-								<div class="col-md-4 col-sm-4 mb">
-									<div class="white-panel pn">
-										<div class="white-header">
-											<h5>TOP PRODUCT</h5>
-										</div>
-										<div class="row">
-											<div class="col-sm-6 col-xs-6 goleft">
-												<p><i class="fa fa-heart"></i> 122</p>
-											</div>
-											<div class="col-sm-6 col-xs-6"></div>
-										</div>
-										<div class="centered">
-											<img src="assets/img/product.png" width="120">
-										</div>
-									</div>
-								</div>
-								<!-- /col-md-4 -->
-
-								<div class="col-md-4 mb">
-									<!-- WHITE PANEL - TOP USER -->
-									<div class="white-panel pn">
-										<div class="white-header">
-											<h5>TOP USER</h5>
-										</div>
-										<p><img src="assets/img/ui-zac.jpg" class="img-circle" width="80"></p>
-										<p><b>Zac Snider</b></p>
-										<div class="row">
-											<div class="col-md-6">
-												<p class="small mt">MEMBER SINCE</p>
-												<p>2012</p>
-											</div>
-											<div class="col-md-6">
-												<p class="small mt">TOTAL SPEND</p>
-												<p>$ 47,60</p>
-											</div>
-										</div>
-									</div>
-								</div>
-								<!-- /col-md-4 -->
-
-
-							</div>
-							<!-- /row -->
-
-
-							<div class="row">
-								<!-- TWITTER PANEL -->
-								<div class="col-md-4 mb">
-									<div class="darkblue-panel pn">
-										<div class="darkblue-header">
-											<h5>DROPBOX STATICS</h5>
-										</div>
-										<canvas id="serverstatus02" height="120" width="120"></canvas>
-										<script>
-											var doughnutData = [
-												{
-													value: 60,
-													color: "#68dff0"
+											toolbox: {
+												feature: {
+													dataView: {
+														show: true,
+														readOnly: false
+													},
+													magicType: {
+														show: true,
+														type: ['line', 'bar']
+													},
+													restore: {
+														show: true
+													},
+													saveAsImage: {
+														show: true
+													}
+												}
 											},
+											legend: {
+												data: ['客流量', '入店量', '入店率']
+											},
+											xAxis: [
 												{
-													value: 40,
-													color: "#444c57"
-											}
-										];
-											var myDoughnut = new Chart(document.getElementById("serverstatus02").getContext("2d")).Doughnut(doughnutData);
-										</script>
-										<p>April 17, 2014</p>
-										<footer>
-											<div class="pull-left">
-												<h5><i class="fa fa-hdd-o"></i> 17 GB</h5>
-											</div>
-											<div class="pull-right">
-												<h5>60% Used</h5>
-											</div>
-										</footer>
-									</div>
-									<! -- /darkblue panel -->
+													type: 'category',
+													data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+													axisPointer: {
+														type: 'shadow'
+													}
+        }
+    ],
+											yAxis: [
+												{
+													type: 'value',
+													name: '人次',
+													min: 0,
+													max: 250,
+													interval: 50,
+													axisLabel: {
+														formatter: '{value} '
+													}
+        },
+												{
+													type: 'value',
+													name: '百分比',
+													min: 0,
+													max: 100,
+													interval: 20,
+													axisLabel: {
+														formatter: '{value} %'
+													}
+        }
+    ],
+											series: [
+												{
+													name: '客流量',
+													type: 'bar',
+													data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
+        },
+												{
+													name: '入店量',
+													type: 'bar',
+													data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+        },
+												{
+													name: '入店率',
+													type: 'line',
+													yAxisIndex: 1,
+													data: [20.0, 22.2, 35.3, 40.5, 60.3, 10.2, 20.3, 23.4, 43.0, 36.5, 22.0, 36.2]
+        }
+    ]
+										};
+
+
+										// 使用刚指定的配置项和数据显示图表。
+										myChart.setOption(option);
+									</script>
 								</div>
-								<!-- /col-md-4 -->
-
-
-								<div class="col-md-4 mb">
-									<!-- INSTAGRAM PANEL -->
-									<div class="instagram-panel pn">
-										<i class="fa fa-instagram fa-4x"></i>
-										<p>@THISISYOU
-											<br/> 5 min. ago
-										</p>
-										<p><i class="fa fa-comment"></i> 18 | <i class="fa fa-heart"></i> 49</p>
-									</div>
-								</div>
-								<!-- /col-md-4 -->
-
-								<div class="col-md-4 col-sm-4 mb">
-									<!-- REVENUE PANEL -->
-									<div class="darkblue-panel pn">
-										<div class="darkblue-header">
-											<h5>REVENUE</h5>
-										</div>
-										<div class="chart mt">
-											<div class="sparkline" data-type="line" data-resize="true" data-height="75" data-width="90%" data-line-width="1" data-line-color="#fff" data-spot-color="#fff" data-fill-color="" data-highlight-line-color="#fff" data-spot-radius="4" data-data="[200,135,667,333,526,996,564,123,890,464,655]"></div>
-										</div>
-										<p class="mt"><b>$ 17,980</b>
-											<br/>Month Income</p>
-									</div>
-								</div>
-								<!-- /col-md-4 -->
-
-							</div>
-							<!-- /row -->
-
-							<div class="row">
-								<div id="main" style="width: 600px;height:400px;" class="col-md-12 col-sm-12 mb"></div>
-								<script type="text/javascript">
-									// 基于准备好的dom，初始化echarts实例
-									var myChart = echarts.init(document.getElementById('main'));
-
-									// 指定图表的配置项和数据
-									var option = {
-										title: {
-											text: 'ECharts 入门示例'
-										},
-										tooltip: {},
-										legend: {
-											data: ['销量']
-										},
-										xAxis: {
-											data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-										},
-										yAxis: {},
-										series: [{
-											name: '销量',
-											type: 'bar',
-											data: [5, 20, 36, 10, 10, 20]
-                                    }]
-									};
-
-									// 使用刚指定的配置项和数据显示图表。
-									myChart.setOption(option);
-								</script>
 							</div>
 						</div>
-						<!-- /row -->
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> 新老顾客概览</h4>
+								<div class="panel-body text-center">
+									<div id="test2" style="width: 490px;height:305px;"></div>
+									<script type="text/javascript">
+										// 基于准备好的dom，初始化echarts实例
+										var myChart = echarts.init(document.getElementById('test2'));
 
+										// 指定图表的配置项和数据
+										var option = {
+											title: {
+												text: '新老顾客比例',
+												subtext: '',
+												x: 'center'
+											},
+											tooltip: {
+												trigger: 'item',
+												formatter: "{a} <br/>{b} : {c} ({d}%)"
+											},
+											legend: {
+												orient: 'vertical',
+												left: 'left',
+												data: ['新顾客', '老顾客']
+											},
+											toolbox: {
+												show: true,
+												feature: {
+													mark: {
+														show: true
+													},
+													dataView: {
+														show: true,
+														readOnly: true
+													},
+													magicType: {
+														show: true,
+														type: ['pie', 'funnel'],
+														option: {
+															funnel: {
+																x: '25%',
+																width: '50%',
+																funnelAlign: 'left',
+																max: 1548
+															}
+														}
+													},
+													restore: {
+														show: true
+													},
+													saveAsImage: {
+														show: true
+													}
+												}
+											},
+											calculable: true,
+											series: [
+												{
+													name: '访问来源',
+													type: 'pie',
+													radius: '55%',
+													center: ['50%', '60%'],
+													data: [
+														{
+															value: 205,
+															name: '新顾客'
+														},
+														{
+															value: 610,
+															name: '老顾客'
+														}
+            ],
+													itemStyle: {
+														normal: {
+															color: function (params) {
+																// build a color map as your need.
+																var colorList = ['#22DDDD', '#F0805A'];
+																return colorList[params.dataIndex]
+															},
+														},
+														emphasis: {
+															shadowBlur: 10,
+															shadowOffsetX: 0,
+															shadowColor: 'rgba(0, 0, 0, 0.5)'
+														}
+													}
+        }
+    ]
+										};
+
+
+
+										// 使用刚指定的配置项和数据显示图表。
+										myChart.setOption(option);
+									</script>
+								</div>
+							</div>
+						</div>
 					</div>
-					<!-- /col-lg-9 END SECTION MIDDLE -->
-
+					<div class="row mt">
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> Radar</h4>
+								<div class="panel-body text-center">
+									<canvas id="radar" height="300" width="400"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> Polar Area</h4>
+								<div class="panel-body text-center">
+									<canvas id="polarArea" height="300" width="400"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row mt">
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> Bar</h4>
+								<div class="panel-body text-center">
+									<canvas id="bar" height="300" width="400"></canvas>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-6">
+							<div class="content-panel">
+								<h4><i class="fa fa-angle-right"></i> Pie</h4>
+								<div class="panel-body text-center">
+									<canvas id="pie" height="300" width="400"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<!--/row-->
+				<!-- page end-->
 			</section>
 		</section>
+		<!-- /MAIN CONTENT -->
 
 		<!--main content end-->
 		<!--footer start-->
