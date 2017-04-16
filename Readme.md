@@ -13,7 +13,7 @@
 
 ## 系统架构
 * 前端 bootstrap + JQuery
-* 后端 JSP
+* 后端 Spring MVC
 
 ## 特点
 * UI简约大气，方便使用
