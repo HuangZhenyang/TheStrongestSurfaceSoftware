@@ -1,3 +1,6 @@
+'use strict';
+
+
 function loginFunc() {
 	if (checkLoginInput()) {
 		$.ajax({
@@ -9,9 +12,17 @@ function loginFunc() {
 				passwd: $('#passwd').val()
 			},
 
-		}).done(function (data) {
-			console.log('成功, 收到的数据: ' + JSON.stringify(data));
-		}).fail(function (xhr, status) {
+		}).done( (data) => {
+			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+			var result = JSON.parse();
+			if(result.result === "true"){
+				window.location.href("index.html?name=" + result.name);
+			}else{
+				$('#loginTip').text("登录失败");
+				console.log("登录失败");
+			}
+			
+		}).fail( (xhr, status) =>{
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
@@ -19,6 +30,9 @@ function loginFunc() {
 }
 
 
+/*
+*  检查用户输入的规范
+*/
 function checkLoginInput() {
 	if ($('#userName').val() === null || $('#userName').val() === '') {
 		$('#loginTip').text("请输入用户名");

@@ -1,3 +1,5 @@
+'use strict';
+
 function registerFunc() {
 	if (checkRegisterFunc()) {
 		$.ajax({
@@ -11,7 +13,15 @@ function registerFunc() {
 			},
 
 		}).done(function (data) {
-			console.log('成功, 收到的数据: ' + JSON.stringify(data));
+			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+			var result = JSON.parse();
+			if(result.result === "true"){
+			window.location.href("index.html?name=" + result.name);
+			}else{
+				$('#registerTip').text("注册失败");
+				console.log("注册失败");
+			}
+			
 		}).fail(function (xhr, status) {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
