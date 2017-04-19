@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="Dashboard">
+	<meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+	<title>客流热图</title>
+
+	<!-- Bootstrap core CSS -->
+	<link href="assets/css/bootstrap.css" rel="stylesheet">
+	<!--external css-->
+	<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+	<!-- Custom styles for this template -->
+	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="assets/css/style-responsive.css" rel="stylesheet">
+
+	<!--室内地图-->
+	<script src="assets/js/fengmap.min.js"></script>
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+	<section id="container">
+		<!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+		<!--header start-->
+		<header class="header black-bg">
+			<div class="sidebar-toggle-box">
+				<div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+			</div>
+			<!--logo start-->
+			<a href="index.html" class="logo"><b>Business Data Analysis</b></a>
+			<!--logo end-->
+			<div class="top-menu">
+				<ul class="nav pull-right top-menu">
+					<li><a class="logout" href="login.html">退出</a></li>
+				</ul>
+			</div>
+		</header>
+		<!--header end-->
+
+		<!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+		<!--header start-->
+		<header class="header black-bg">
+			<div class="sidebar-toggle-box">
+				<div class="fa fa-bars tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+			</div>
+			<!--logo start-->
+			<a href="index.html" class="logo"><b>Business Data Analysis</b></a>
+			<!--logo end-->
+			<div class="top-menu">
+				<ul class="nav pull-right top-menu">
+					<li><a class="logout" href="login.html">退出</a></li>
+				</ul>
+			</div>
+		</header>
+		<!--header end-->
+
+		<!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+		<!--sidebar start-->
+		<aside>
+			<div id="sidebar" class="nav-collapse ">
+				<!-- sidebar menu start-->
+				<ul class="sidebar-menu" id="nav-accordion">
+
+					<p class="centered">
+						<a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a>
+					</p>
+					<!--用户名-->
+					<h5 class="centered"><script>window.location.href.split("=")[1]</script></h5>
+
+					<li class="mt">
+						<a href="index.html">
+							<i class="fa fa-desktop"></i>
+							<span>我的概览</span>
+						</a>
+					</li>
+
+					<li class="sub-menu">
+						<a class="active" href="javascript:;">
+							<i class="fa fa-dashboard"></i>
+							<span>实时数据</span>
+						</a>
+						<ul class="sub">
+							<li><a href="general.html">客流量</a></li>
+							<li class="active"><a href="area.html">客流热图</a></li>
+							<li><a href="panels.html">Panels</a></li>
+						</ul>
+					</li>
+
+					<li class="sub-menu">
+						<a href="javascript:;">
+							<i class="fa fa-bar-chart-o"></i>
+							<span>趋势分析</span>
+						</a>
+						<ul class="sub">
+							<li><a href="calendar.html">客流量Calendar</a></li>
+							<li><a href="gallery.html">入店量、入店率Gallery</a></li>
+							<li><a href="todo_list.html">Todo List</a></li>
+						</ul>
+					</li>
+					<li class="sub-menu">
+						<a href="javascript:;">
+							<i class="fa fa-book"></i>
+							<span>顾客分析</span>
+						</a>
+						<ul class="sub">
+							<li><a href="blank.html">来访周期Blank Page</a></li>
+							<li><a href="login.html">新老客户Login</a></li>
+							<li><a href="lock_screen.html">顾客活跃度Lock Screen</a></li>
+						</ul>
+					</li>
+					<li class="sub-menu">
+						<a href="javascript:;">
+							<i class="fa fa-tasks"></i>
+							<span>探针设备配置</span>
+						</a>
+						<ul class="sub">
+							<li><a href="form_component.html">Form Components</a></li>
+						</ul>
+					</li>
+					<li class="sub-menu">
+						<a href="javascript:;">
+							<i class="fa fa-th"></i>
+							<span>Data Tables</span>
+						</a>
+						<ul class="sub">
+							<li><a href="basic_table.html">Basic Table</a></li>
+							<li><a href="responsive_table.html">Responsive Table</a></li>
+						</ul>
+					</li>
+					<li class="sub-menu">
+						<a href="javascript:;">
+							<i class=" fa fa-bar-chart-o"></i>
+							<span>Charts</span>
+						</a>
+						<ul class="sub">
+							<li><a href="morris.html">Morris</a></li>
+							<li><a href="chartjs.html">Chartjs</a></li>
+						</ul>
+					</li>
+
+				</ul>
+				<!-- sidebar menu end-->
+			</div>
+		</aside>
+		<!--sidebar end-->
+
+		<!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+		<!--main content start-->
+		<section id="main-content">
+			<section class="wrapper">
+				<div class="row mt">
+				<!--class="col-lg-12 col-md-12 col-sm-12"-->
+					<div id="indoorMap" class="col-lg-12 col-md-12 col-sm-12">
+						<!--操作按钮-->
+						<div >
+							<button class="btn btn-default">显示随机热力图</button>
+							<button class="btn btn-default">显示数据热力图</button>
+						</div>
+						<!--室内地图-->
+						<script>
+							//获取版本号,设置title
+							document.title = '热力图V' + fengmap.VERSION;
+
+							//定义全局map变量
+							var map = null;
+							//热力图实例
+							var heatmapInstance = null;
+							var fmapID = '10347';
+							var randomHeatmap = false;
+							var dataHeatmap = false;
+							var groupLayer;
+
+							window.onload = function () {
+									map = new fengmap.FMMap({
+										//渲染dom
+										container: document.getElementById('indoorMap'),
+										//地图数据位置
+										mapServerURL: './assets/data/' + fmapID,
+										//主题数据位置
+										mapThemeURL: './assets/data/theme',
+										//设置主题
+										defaultThemeName: '3007',
+										// 默认比例尺级别设置为20级 
+										defaultMapScaleLevel: 20,
+										//开发者申请应用下web服务的key
+										key: '57c7f309aca507497d028a9c00207cf8',
+										//开发者申请应用名称
+										appName: 'wifiProbe-室内地图',
+									});
+
+									//打开Fengmap服务器的地图数据和主题
+									map.openMapById(fmapID);
+
+									//添加热力图方法,根据json文件
+									function createDtataHeatmap(map, groupID, data) {
+										// 创建热力图对象
+										if (!heatmapInstance) heatmapInstance = fengmap.FMHeatMap.create(map, {
+											//热点半径
+											radius: 20,
+											//热力图透明度
+											opacity: .5,
+											//热力点value的最大值
+											max: 100,
+											//渐变色值，可配置
+											// gradient:{ 0.45: "rgb(201,135,255)", 0.55: "rgb(189,97,255)", 0.65: "rgb(155,49,255)", 0.95: "yellow", 1.0: "rgb(157,53,255)" }  
+										});
+
+										var heatmapPoints = data.points;
+										//移除热力点
+										heatmapInstance.clearPoints();
+										heatmapInstance.addPoints(data.points);
+
+										//热力图应用到哪一楼层
+										groupLayer = map.getFMGroup(groupID);
+										groupLayer.applyHeatMap(heatmapInstance);
+										return;
+									};
+
+									//随机添加热力图方法
+									function createRandomHeatmap(map, groupID) {
+										// 创建热力图对象
+										if (!heatmapInstance) heatmapInstance = fengmap.FMHeatMap.create(map, {
+											//热点半径
+											radius: 20,
+											//热力图透明度
+											opacity: .5,
+											//热力点value的最大值
+											max: 100
+										});
+										heatmapInstance.randomPoints(200);
+
+										//热力图应用到哪一楼层
+										groupLayer = map.getFMGroup(groupID);
+										groupLayer.applyHeatMap(heatmapInstance);
+									};
+
+									//移除热力图
+									function removeHeatmap() {
+										groupLayer = map.getFMGroup(map.focusGroupID);
+										groupLayer.removeHeatMap(heatmapInstance);
+									}
+
+									var aBtn = document.querySelectorAll('.btn');
+
+									//随机添加热力图方法
+
+									aBtn[0].onclick = function () {
+										randomHeatmap = !randomHeatmap;
+										if (randomHeatmap) {
+											createRandomHeatmap(map, map.focusGroupID);
+											dataHeatmap = false;
+											this.classList.add('btn-primary');
+											aBtn[1].classList.remove('btn-primary');
+										} else {
+											removeHeatmap();
+											this.classList.remove('btn-primary');
+										}
+									};
+
+									//显示数据热力图
+									
+								aBtn[1].onclick = function () {
+									dataHeatmap = !dataHeatmap;
+									if (dataHeatmap) {
+										$.getJSON('data/heatmap.json', function (data) {
+											createDtataHeatmap(map, map.focusGroupID, data);
+										});
+										randomHeatmap = false;
+										this.classList.add('btn-primary');
+										aBtn[0].classList.remove('btn-primary');
+									} else {
+										removeHeatmap();
+										this.classList.remove('btn-primary');
+									}
+								};
+							};
+						</script>
+					</div>
+				</div>
+				<!--/ row -->
+			</section>
+			<!--/wrapper-->
+		</section>
+		<!-- /MAIN CONTENT -->
+
+		<!--main content end-->
+		<!--footer start-->
+		<footer class="site-footer">
+			<div class="text-center">
+				2017 - Geek Pang.is
+				<a href="buttons.html#" class="go-top">
+					<i class="fa fa-angle-up"></i>
+				</a>
+			</div>
+		</footer>
+		<!--footer end-->
+	</section>
+
+	<!-- js placed at the end of the document so the pages load faster -->
+	<script src="assets/js/jquery.js"></script>
+	<script src="assets/js/jquery-1.8.3.min.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
+	<script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
+	<script src="assets/js/jquery.scrollTo.min.js"></script>
+	<script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+
+
+	<!--common script for all pages-->
+	<script src="assets/js/common-scripts.js"></script>
+
+
+
+	<!--script for this page-->
+
+	<script>
+		//custom select box
+
+		$(function () {
+			//$('select.styled').customSelect();
+
+		});
+	</script>
+
+</body>
+
+</html>

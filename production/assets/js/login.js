@@ -5,7 +5,7 @@ function loginFunc() {
 	if (checkLoginInput()) {
 		$.ajax({
 			type: 'post',
-			url: '/user/login',
+			url: '/user/login.do',
 			dataType: 'json',
 			data: {
 				userName: $('#userName').val(),

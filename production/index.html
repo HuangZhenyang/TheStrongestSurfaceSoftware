@@ -71,7 +71,8 @@
 						<a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a>
 					</p>
 					<!--##### 这里是用户名 ####-->
-					<h5 class="centered">Marcel Newman</h5>
+					<!-- index.html?name=XXX -->
+					<h5 id="userName" class="centered"><script>window.location.href.split("=")[1]</script></h5>
 					<hr>
 					<li class="mt">
 						<a class="active" href="index.html">
@@ -95,7 +96,7 @@
 						</a>
 						<ul class="sub">
 							<li><a href="passengerFlow.html">客流量</a></li>
-							<li><a href="buttons.html">客流热图</a></li>
+							<li><a href="area.html">客流热图</a></li>
 							<li><a href="panels.html">Panels</a></li>
 						</ul>
 					</li>
@@ -171,7 +172,7 @@
 				<!-- page start-->
 				<div class="tab-pane" id="chartjs">
 					<div class="row mt">
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-md-6 col-sm-12">
 							<div class="content-panel">
 								<h4><i class="fa fa-angle-right"></i> 客流量、入店量、入店率概览</h4>
 								<div class="panel-body text-center">
@@ -216,6 +217,7 @@
 											xAxis: [
 												{
 													type: 'category',
+													/*这里记得更改时间轴*/
 													data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
 													axisPointer: {
 														type: 'shadow'
@@ -248,6 +250,9 @@
 												{
 													name: '客流量',
 													type: 'bar',
+													/*
+													*这里嵌进服务器传来的数据
+													*/
 													data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
         },
 												{
@@ -271,7 +276,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-6">
+						<div class="col-lg-6 col-md-6 col-sm-12">
 							<div class="content-panel">
 								<h4><i class="fa fa-angle-right"></i> 新老顾客比例概览</h4>
 								<div class="panel-body text-center">
@@ -334,6 +339,9 @@
 													type: 'pie',
 													radius: '55%',
 													center: ['50%', '60%'],
+													/*
+													*这里嵌进服务器传来的新老顾客数据
+													*/
 													data: [
 														{
 															value: 105,
@@ -417,7 +425,7 @@
 		<!--footer start-->
 		<footer class="site-footer">
 			<div class="text-center">
-				2017
+				2017-Geek Pang.is
 				<a href="index.html#" class="go-top">
 					<i class="fa fa-angle-up"></i>
 				</a>
@@ -445,7 +453,9 @@
 	<!--script for this page-->
 	<script src="assets/js/sparkline-chart.js"></script>
 	<script src="assets/js/zabuto_calendar.js"></script>
+	
 
+	
 
 
 	<script type="text/javascript">
@@ -459,9 +469,9 @@
 				// (string | optional) the image to display on the left
 				image: 'assets/img/ui-sam.jpg',
 				// (bool | optional) if you want it to fade out on its own or just sit there
-				sticky: true,
+				sticky: false,
 				// (int | optional) the time you want it to be alive for before fading out
-				time: '',
+				time: '3000',
 				// (string | optional) the class name you want to apply to that specific message
 				class_name: 'my-sticky-class'
 			});
@@ -471,48 +481,22 @@
 	</script>
 
 	<script type="application/javascript">
-		$(document).ready(function () {
-			$("#date-popover").popover({
-				html: true,
-				trigger: "manual"
-			});
-			$("#date-popover").hide();
-			$("#date-popover").click(function (e) {
-				$(this).hide();
-			});
-
-			$("#my-calendar").zabuto_calendar({
-				action: function () {
-					return myDateFunction(this.id, false);
-				},
-				action_nav: function () {
-					return myNavFunction(this.id);
-				},
-				ajax: {
-					url: "show_data.php?action=1",
-					modal: true
-				},
-				legend: [
-					{
-						type: "text",
-						label: "Special event",
-						badge: "00"
-					},
-					{
-						type: "block",
-						label: "Regular event",
-					}
-                ]
-			});
+		$(document).ready( () => {
+			//向服务器请求概览的数据
+			$.get('/user/overviewData',{
+				name: $("#userName").text()
+			}).done((data) => {
+				/*
+				* 到时候把数据嵌进Echarts里的数据
+				*/
+				console.log("接收到数据" + data);
+			}).fail((xhr, status)=>{
+				console.log('失败: ' + xhr.status + ', 原因: ' + status);
+			})
+			
 		});
 
 
-		function myNavFunction(id) {
-			$("#date-popover").hide();
-			var nav = $("#" + id).data("navigation");
-			var to = $("#" + id).data("to");
-			console.log('nav ' + nav + ' to: ' + to.month + '/' + to.year);
-		}
 	</script>
 
 

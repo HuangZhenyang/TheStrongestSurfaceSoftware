@@ -28,6 +28,10 @@ function registerFunc() {
 	}
 }
 
+
+/*
+*  检查用户输入的规范
+*/
 function checkRegisterFunc() {
 	if ($('#userName').val() === null || $('#userName').val() === '') {
 		$('#registerTip').text("请输入用户名");
