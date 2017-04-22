@@ -8,7 +8,7 @@ function registerFunc() {
 			dataType: 'json',
 			data: {
 				userName: $('#userName').val(),
-				passwd: $('#passwd').val(),
+				passWord: $('#passwd').val(),
 				eamil: $('#email').val()
 			},
 
@@ -57,7 +57,6 @@ function checkRegisterFunc() {
 }
 
 function checkIsEmail() {
-	var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/; 
-	console.log(reg.test($('#eamil').val()));
-	return reg.test($('#eamil').val());
+	var reg = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/; 
+	return reg.test($('#email').val());
 }

@@ -9,7 +9,7 @@ function loginFunc() {
 			dataType: 'json',
 			data: {
 				userName: $('#userName').val(),
-				passwd: $('#passwd').val()
+				passWord: $('#passwd').val()
 			},
 
 		}).done( (data) => {
