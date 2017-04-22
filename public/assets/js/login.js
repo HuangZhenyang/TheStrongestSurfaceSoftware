@@ -40,6 +40,9 @@ function checkLoginInput() {
 	} else if ($('#passwd').val() === null || $('#passwd').val() === '') {
 		$('#loginTip').text("请输入密码");
 		return false;
-	} 
+	} else if(!($('#passwd').val().length>=9 && $('#passwd').val().length<=16)){
+		$('#loginTip').text("密码不能少于9个字符或多于16个字符");
+		return false;
+	}
 	return true;
 }

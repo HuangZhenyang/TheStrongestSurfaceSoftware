@@ -9,20 +9,24 @@ function registerFunc() {
 			data: {
 				userName: $('#userName').val(),
 				passWord: $('#passwd').val(),
-				eamil: $('#email').val()
+				email: $('#email').val()
 			},
 
 		}).done(function (data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-			var result = JSON.parse();
+			var result = JSON.parse(data);
 			if(result.result === "true"){
 			window.location.href("index.html?name=" + result.name);
-			}else{
-				$('#registerTip').text("注册失败");
+			}else if(result.result === "netFalse"){
+				$('#registerTip').text("网络连接失败");
+				console.log("注册失败");
+			}else if(result.result === "exist"){
+				$('#registerTip').text("已经被注册");
 				console.log("注册失败");
 			}
 			
 		}).fail(function (xhr, status) {
+			$('#registerTip').text("注册失败");
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
@@ -39,10 +43,13 @@ function checkRegisterFunc() {
 	} else if ($('#passwd').val() === null || $('#passwd').val() === '') {
 		$('#registerTip').text("请输入密码");
 		return false;
-	} else if ($('#passwd').val() === null || $('#passwd2').val() === '') {
+	} else if ($('#passwd2').val() === null || $('#passwd2').val() === '') {
 		$('#registerTip').text("请输入密码");
 		return false;
-	} else if ($('#email').val() === null || $('#email').val() === '') {
+	} else if(!($('#passwd').val().length>=9 && $('#passwd').val().length<=16)){
+		$('#registerTip').text("密码不能少于9个字符或多于16个字符");
+		return false;
+	}else if ($('#email').val() === null || $('#email').val() === '') {
 		$('#registerTip').text("请输入邮箱");
 		return false;
 	} else if (!checkIsEmail()) {
