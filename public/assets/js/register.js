@@ -4,7 +4,7 @@ function registerFunc() {
 	if (checkRegisterFunc()) {
 		$.ajax({
 			type: 'post',
-			url: '/user/register',
+			url: '/register.do',
 			dataType: 'json',
 			data: {
 				userName: $('#userName').val(),
