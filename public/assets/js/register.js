@@ -14,9 +14,10 @@ function registerFunc() {
 
 		}).done(function (data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-			var result = JSON.parse(data);
+			//var result = JSON.parse(data);
+			var result=data;
 			if(result.result === "true"){
-			window.location.href("index.html?name=" + result.name);
+			window.location.href = "index.html?name=" + result.name;
 			}else if(result.result === "netFalse"){
 				$('#registerTip').text("网络连接失败");
 				console.log("注册失败");
@@ -32,6 +33,11 @@ function registerFunc() {
 	}
 }
 
+
+{
+	result： true,
+	"data":[]
+}
 
 /*
 *  检查用户输入的规范
