@@ -2,6 +2,7 @@
 
 function registerFunc() {
 	if (checkRegisterFunc()) {
+		//发送Ajax请求到服务器
 		$.ajax({
 			type: 'post',
 			url: '/register.do',
@@ -31,12 +32,6 @@ function registerFunc() {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
-}
-
-
-{
-	result： true,
-	"data":[]
 }
 
 /*
