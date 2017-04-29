@@ -481,7 +481,7 @@
 	</script>
 
 	<script type="application/javascript">
-		$(document).ready( () => {
+		$(document).ready(function(){
 			//向服务器请求概览的数据
 			$.get('/user/overviewData',{
 				name: $("#userName").text()

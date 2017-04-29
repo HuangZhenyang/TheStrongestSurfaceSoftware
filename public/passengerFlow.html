@@ -165,13 +165,13 @@
 									function randomData1() {
 										now = new Date(+now + oneDay);
 										value = value + Math.random() * 21 - 10;
-										return {
-											name: now.toString(),
-											value: [
-            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-            Math.round(value)
-        ]
-										}
+										//return {
+											//name: now.toString(),
+										//	value: [
+            //[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+           // Math.round(value)]
+										//}
+										return [[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),Math.round(value)]
 									}
 
 									var data = [];
@@ -189,12 +189,14 @@
 										tooltip: {
 											trigger: 'axis',
 											formatter: function (params) {
-												params = params[0];
-												var date = new Date(params.name);
-												return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+												param = params[0];
+												//var date = new Date(params.name);
+												//return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+												console.log(param);
+												return param.value[0]+':'+param.value[1];
 											},
 											axisPointer: {
-												animation: false
+												animation: true
 											}
 										},
 										xAxis: {
@@ -238,7 +240,7 @@
 										});
 									}, 1000);
 
-
+									//console.log(data[0]);
 									// 使用刚指定的配置项和数据显示图表。
 									myChart.setOption(option);
 								</script>
@@ -339,8 +341,6 @@
 										});
 									}, 1000);
 
-
-
 									// 使用刚指定的配置项和数据显示图表。
 									myChart2.setOption(option);
 								</script>
@@ -386,13 +386,8 @@
 	<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
 	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
-	<!--<script>
-		//custom select box
-
-		$(function () {
-			$('select.styled').customSelect();
-		});
-	</script>-->
+	<!--实时数据交互-->
+	<script type="text/javascript" src="assets/js/passengerFlow.js"></script>
 
 </body>
 
