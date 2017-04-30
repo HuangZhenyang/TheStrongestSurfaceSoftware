@@ -5,11 +5,13 @@
 */
 var passengerFlowData = []; //用于存取数据 [['1997/07/06', 626],['1992/01/06',677]]
 
+/*
 $(function(){
 	setInterval(function(){
 		getPassengerFlowData();
 	},3000);
 })
+*/
 
 var getPassengerFlowData = function(){
 	$.ajax({
@@ -25,7 +27,10 @@ var getPassengerFlowData = function(){
 		tempList.push(result.time);
 		tempList.push(result.value);
 		passengerFlowData.push(tempList);
+		
 	}).fail((xhr, status)=>{
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
+	
+	return passengerFlowData;
 }

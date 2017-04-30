@@ -162,6 +162,7 @@
 									var myChart = echarts.init(document.getElementById('realTimePassengerFlow'));
 
 									// 指定图表的配置项和数据
+									/*
 									function randomData1() {
 										now = new Date(+now + oneDay);
 										value = value + Math.random() * 21 - 10;
@@ -180,8 +181,12 @@
 									var value = Math.random() * 1000;
 									for (var i = 0; i < 1000; i++) {
 										data.push(randomData1());
-									}
-
+									}*/
+									var data = [];
+									setInterval(function(){
+										data = getPassengerFlowData();
+									}, 3000);
+									
 									var option = {
 										title: {
 											text: '实时客流量动态折线图'
@@ -230,7 +235,7 @@
 
 										for (var i = 0; i < 5; i++) {
 											data.shift();
-											data.push(randomData1());
+											//data.push(randomData1());
 										}
 
 										myChart.setOption({
