@@ -12,7 +12,7 @@
 ***
 
 ## 系统架构
-* 前端 html+css+javascript   bootstrap + JQuery
+* 前端 html+css+javascript   bootstrap + JQuery  Echarts 3.0
 * 后端 Spring Boot
 
 ## 特点
