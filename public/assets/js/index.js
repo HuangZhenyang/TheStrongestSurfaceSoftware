@@ -121,8 +121,9 @@ var option1 = {
 myChart1.setOption(option1);
 
 
-
-// 基于准备好的dom，初始化echarts实例
+/*#######################################################################*/
+/*########################基于准备好的dom，初始化echarts实例#################*/
+/*#######################################################################*/
 var myChart2 = echarts.init(document.getElementById('chart2'));
 
 // 指定图表的配置项和数据
@@ -204,6 +205,31 @@ var option2 = {
 	}]
 };
 
+var app={currentIndex:-1};
+app.currentIndex = -1;
+
+setInterval(function () {
+    var dataLen = option2.series[0].data.length;
+    // 取消之前高亮的图形
+    myChart2.dispatchAction({
+        type: 'downplay',
+        seriesIndex: 0,
+        dataIndex: app.currentIndex
+    });
+    app.currentIndex = (app.currentIndex + 1) % dataLen;
+    // 高亮当前图形
+    myChart2.dispatchAction({
+        type: 'highlight',
+        seriesIndex: 0,
+        dataIndex: app.currentIndex
+    });
+    // 显示 tooltip
+    myChart2.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: app.currentIndex
+    });
+}, 3000);
 
 
 // 使用刚指定的配置项和数据显示图表。
