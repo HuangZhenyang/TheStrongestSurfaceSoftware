@@ -1,5 +1,7 @@
 // index.js 用于显示数据概览
-
+var myChart1 = echarts.init(document.getElementById('chart1'));
+var myChart2 = echarts.init(document.getElementById('chart2'));
+var option2 = null;
 //文档加载后触发该函数
 $(document).ready(function () {
 	var unique_id = $.gritter.add({
@@ -18,19 +20,8 @@ $(document).ready(function () {
 		class_name: 'my-sticky-class'
 	});
 
-	//向服务器请求概览的数据
-	/*
-	$.get('/user/overviewData', {
-		name: $("#userName").text()
-	}).done((data) => {
-		
-		 // 到时候把数据嵌进Echarts里的数据
-		 
-		console.log("接收到数据" + data);
-	}).fail((xhr, status) => {
-		console.log('失败: ' + xhr.status + ', 原因: ' + status);
-	})
-	*/
+	// 初始化新老顾客饼图
+	initMyChart2();
 
 });
 
@@ -38,7 +29,7 @@ $(document).ready(function () {
 
 // 显示第一个图表：客流量、入店量、入店率概览
 // 基于准备好的dom，初始化echarts实例
-var myChart1 = echarts.init(document.getElementById('chart1'));
+
 
 // 指定图表的配置项和数据
 var option1 = {
@@ -79,7 +70,7 @@ var option1 = {
 		axisPointer: {
 			type: 'shadow'
 		}
-	}],
+    }],
 	yAxis: [{
 		type: 'value',
 		name: '人次',
@@ -89,7 +80,7 @@ var option1 = {
 		axisLabel: {
 			formatter: '{value} '
 		}
-	}, {
+    }, {
 		type: 'value',
 		name: '百分比',
 		min: 0,
@@ -98,7 +89,7 @@ var option1 = {
 		axisLabel: {
 			formatter: '{value} %'
 		}
-	}],
+    }],
 	series: [{
 		name: '客流量',
 		type: 'bar',
@@ -106,16 +97,16 @@ var option1 = {
 		 *这里嵌进服务器传来的数据
 		 */
 		data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-	}, {
+    }, {
 		name: '入店量',
 		type: 'bar',
 		data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-	}, {
+    }, {
 		name: '入店率',
 		type: 'line',
 		yAxisIndex: 1,
 		data: [20.0, 22.2, 35.3, 40.5, 60.3, 10.2, 20.3, 23.4, 43.0, 36.5, 22.0, 36.2]
-	}]
+    }]
 };
 
 
@@ -124,196 +115,115 @@ myChart1.setOption(option1);
 
 
 /*#######################################################################*/
-/*########################基于准备好的dom，初始化echarts实例#################*/
+/*########################初始化myChart2:新老顾客#################*/
 /*#######################################################################*/
-var myChart2 = echarts.init(document.getElementById('chart2'));
-myChart2.setOption({
-	title: {
-		text: '',
-		subtext: '过去七天新老顾客比例',
-		x: 'center'
-	},
-	tooltip: {
-		trigger: 'item',
-		formatter: "{a} <br/>{b} : {c} ({d}%)"
-	},
-	legend: {
-		orient: 'vertical',
-		left: 'left',
-		data: ['新顾客', '老顾客']
-	},
-	toolbox: {
-		show: true,
-		feature: {
-			mark: {
-				show: true
+function initMyChart2() {
+	// 指定图表的配置项和数据
+	$.get('/graph/findNewOldCustomer.do').done(function (data) {
+		option2 = {
+			title: {
+				text: '',
+				subtext: '过去七天新老顾客比例',
+				x: 'center'
 			},
-			dataView: {
-				show: true,
-				readOnly: true
+			tooltip: {
+				trigger: 'item',
+				formatter: "{a} <br/>{b} : {c} ({d}%)"
 			},
-			magicType: {
+			legend: {
+				orient: 'vertical',
+				left: 'left',
+				data: ['新顾客', '老顾客']
+			},
+			toolbox: {
 				show: true,
-				type: ['pie', 'funnel'],
-				option: {
-					funnel: {
-						x: '25%',
-						width: '50%',
-						funnelAlign: 'left',
-						max: 1548
+				feature: {
+					mark: {
+						show: true
+					},
+					dataView: {
+						show: true,
+						readOnly: true
+					},
+					magicType: {
+						show: true,
+						type: ['pie', 'funnel'],
+						option: {
+							funnel: {
+								x: '25%',
+								width: '50%',
+								funnelAlign: 'left',
+								max: 1548
+							}
+						}
+					},
+					restore: {
+						show: true
+					},
+					saveAsImage: {
+						show: true
 					}
 				}
 			},
-			restore: {
-				show: true
-			},
-			saveAsImage: {
-				show: true
-			}
-		}
-	},
-	calculable: true,
-});
-// 指定图表的配置项和数据
-/*
-var option2 = {
-	title: {
-		text: '',
-		subtext: '过去七天新老顾客比例',
-		x: 'center'
-	},
-	tooltip: {
-		trigger: 'item',
-		formatter: "{a} <br/>{b} : {c} ({d}%)"
-	},
-	legend: {
-		orient: 'vertical',
-		left: 'left',
-		data: ['新顾客', '老顾客']
-	},
-	toolbox: {
-		show: true,
-		feature: {
-			mark: {
-				show: true
-			},
-			dataView: {
-				show: true,
-				readOnly: true
-			},
-			magicType: {
-				show: true,
-				type: ['pie', 'funnel'],
-				option: {
-					funnel: {
-						x: '25%',
-						width: '50%',
-						funnelAlign: 'left',
-						max: 1548
+			calculable: true,
+			series: [{
+				name: '访问来源',
+				type: 'pie',
+				radius: '55%',
+				center: ['50%', '60%'],
+				data: [{
+					value: parseInt(data.newCustomer),
+					name: '新顾客'
+                }, {
+					value: parseInt(data.oldCustomer),
+					name: '老顾客'
+                }],
+				itemStyle: {
+					normal: {
+						color: function (params) {
+							// build a color map as your need.
+							var colorList = ['#22DDDD', '#F0805A'];
+							return colorList[params.dataIndex]
+						},
+					},
+					emphasis: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: 'rgba(0, 0, 0, 0.5)'
 					}
 				}
-			},
-			restore: {
-				show: true
-			},
-			saveAsImage: {
-				show: true
-			}
-		}
-	},
-	calculable: true,
-	series: [{
-		name: '访问来源',
-		type: 'pie',
-		radius: '55%',
-		center: ['50%', '60%'],
-		
-		data: [{
-			value: 105,
-			name: '新顾客'
-		}, {
-			value: 610,
-			name: '老顾客'
-		}],
-		itemStyle: {
-			normal: {
-				color: function (params) {
-					// build a color map as your need.
-					var colorList = ['#22DDDD', '#F0805A'];
-					return colorList[params.dataIndex]
-				},
-			},
-			emphasis: {
-				shadowBlur: 10,
-				shadowOffsetX: 0,
-				shadowColor: 'rgba(0, 0, 0, 0.5)'
-			}
-		}
-	}]
-};
-*/
-
-$.get('/graph/findNewOldCustomer.do').done(function(data) {
-	myChart2.setOption({
-		series: [{
-		name: '访问来源',
-		type: 'pie',
-		radius: '55%',
-		center: ['50%', '60%'],
-		data: [{
-			value: parseInt(data.newCustomer),
-			name: '新顾客'
-		}, {
-			value: parseInt(data.oldCustomer),
-			name: '老顾客'
-		}],
-		itemStyle: {
-			normal: {
-				color: function (params) {
-					// build a color map as your need.
-					var colorList = ['#22DDDD', '#F0805A'];
-					return colorList[params.dataIndex]
-				},
-			},
-			emphasis: {
-				shadowBlur: 10,
-				shadowOffsetX: 0,
-				shadowColor: 'rgba(0, 0, 0, 0.5)'
-			}
-		}
-	}]
+            }]
+		};
+		myChart2.setOption(option2);
+	}).fail(function (xhr, status) {
+		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
-}).fail((xhr, status) => {
-	console.log('失败: ' + xhr.status + ', 原因: ' + status);
-});
-var app = {
-	currentIndex: -1
-};
-app.currentIndex = -1;
+	
+	var app = {
+		currentIndex: -1
+	};
 
-setInterval(function () {
-	var dataLen = option2.series[0].data.length;
-	// 取消之前高亮的图形
-	myChart2.dispatchAction({
-		type: 'downplay',
-		seriesIndex: 0,
-		dataIndex: app.currentIndex
-	});
-	app.currentIndex = (app.currentIndex + 1) % dataLen;
-	// 高亮当前图形
-	myChart2.dispatchAction({
-		type: 'highlight',
-		seriesIndex: 0,
-		dataIndex: app.currentIndex
-	});
-	// 显示 tooltip
-	myChart2.dispatchAction({
-		type: 'showTip',
-		seriesIndex: 0,
-		dataIndex: app.currentIndex
-	});
-}, 3000);
+	setInterval(function () {
+		var dataLen = option2.series[0].data.length;
+		// 取消之前高亮的图形
+		myChart2.dispatchAction({
+			type: 'downplay',
+			seriesIndex: 0,
+			dataIndex: app.currentIndex
+		});
+		app.currentIndex = (app.currentIndex + 1) % dataLen;
+		// 高亮当前图形
+		myChart2.dispatchAction({
+			type: 'highlight',
+			seriesIndex: 0,
+			dataIndex: app.currentIndex
+		});
+		// 显示 tooltip
+		myChart2.dispatchAction({
+			type: 'showTip',
+			seriesIndex: 0,
+			dataIndex: app.currentIndex
+		});
+	}, 3000);
+}
 
-
-// 使用刚指定的配置项和数据显示图表。
-myChart2.setOption(option2);

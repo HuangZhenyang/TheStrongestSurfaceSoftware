@@ -11,7 +11,7 @@ function loginFunc() {
 				passWord: $('#passWord').val()
 			},
 
-		}).done( (data) => {
+		}).done( function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			//var result = JSON.parse(data);
 			var result = data;
@@ -22,7 +22,7 @@ function loginFunc() {
 				console.log("登录失败");
 			}
 			
-		}).fail( (xhr, status) =>{
+		}).fail(function(xhr, status){
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
