@@ -1,7 +1,7 @@
 // index.js 用于显示数据概览
 
 //文档加载后触发该函数
-$(document).ready(function() {
+$(document).ready(function () {
 	var unique_id = $.gritter.add({
 		// (string | mandatory) the heading of the notification
 		title: '欢迎来到商业数据分析决策平台!',
@@ -19,16 +19,18 @@ $(document).ready(function() {
 	});
 
 	//向服务器请求概览的数据
+	/*
 	$.get('/user/overviewData', {
 		name: $("#userName").text()
 	}).done((data) => {
-		/*
-		 * 到时候把数据嵌进Echarts里的数据
-		 */
+		
+		 // 到时候把数据嵌进Echarts里的数据
+		 
 		console.log("接收到数据" + data);
 	}).fail((xhr, status) => {
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	})
+	*/
 
 });
 
@@ -125,12 +127,59 @@ myChart1.setOption(option1);
 /*########################基于准备好的dom，初始化echarts实例#################*/
 /*#######################################################################*/
 var myChart2 = echarts.init(document.getElementById('chart2'));
-
+myChart2.setOption({
+	title: {
+		text: '',
+		subtext: '过去七天新老顾客比例',
+		x: 'center'
+	},
+	tooltip: {
+		trigger: 'item',
+		formatter: "{a} <br/>{b} : {c} ({d}%)"
+	},
+	legend: {
+		orient: 'vertical',
+		left: 'left',
+		data: ['新顾客', '老顾客']
+	},
+	toolbox: {
+		show: true,
+		feature: {
+			mark: {
+				show: true
+			},
+			dataView: {
+				show: true,
+				readOnly: true
+			},
+			magicType: {
+				show: true,
+				type: ['pie', 'funnel'],
+				option: {
+					funnel: {
+						x: '25%',
+						width: '50%',
+						funnelAlign: 'left',
+						max: 1548
+					}
+				}
+			},
+			restore: {
+				show: true
+			},
+			saveAsImage: {
+				show: true
+			}
+		}
+	},
+	calculable: true,
+});
 // 指定图表的配置项和数据
+/*
 var option2 = {
 	title: {
-		text: '新老顾客比例',
-		subtext: '',
+		text: '',
+		subtext: '过去七天新老顾客比例',
 		x: 'center'
 	},
 	tooltip: {
@@ -178,9 +227,7 @@ var option2 = {
 		type: 'pie',
 		radius: '55%',
 		center: ['50%', '60%'],
-		/*
-		 *这里嵌进服务器传来的新老顾客数据
-		 */
+		
 		data: [{
 			value: 105,
 			name: '新顾客'
@@ -190,7 +237,7 @@ var option2 = {
 		}],
 		itemStyle: {
 			normal: {
-				color: function(params) {
+				color: function (params) {
 					// build a color map as your need.
 					var colorList = ['#22DDDD', '#F0805A'];
 					return colorList[params.dataIndex]
@@ -204,31 +251,67 @@ var option2 = {
 		}
 	}]
 };
+*/
 
-var app={currentIndex:-1};
+$.get('/graph/findNewOldCustomer.do').done(function(data) {
+	myChart2.setOption({
+		series: [{
+		name: '访问来源',
+		type: 'pie',
+		radius: '55%',
+		center: ['50%', '60%'],
+		data: [{
+			value: parseInt(data.newCustomer),
+			name: '新顾客'
+		}, {
+			value: parseInt(data.oldCustomer),
+			name: '老顾客'
+		}],
+		itemStyle: {
+			normal: {
+				color: function (params) {
+					// build a color map as your need.
+					var colorList = ['#22DDDD', '#F0805A'];
+					return colorList[params.dataIndex]
+				},
+			},
+			emphasis: {
+				shadowBlur: 10,
+				shadowOffsetX: 0,
+				shadowColor: 'rgba(0, 0, 0, 0.5)'
+			}
+		}
+	}]
+	});
+}).fail((xhr, status) => {
+	console.log('失败: ' + xhr.status + ', 原因: ' + status);
+});
+var app = {
+	currentIndex: -1
+};
 app.currentIndex = -1;
 
 setInterval(function () {
-    var dataLen = option2.series[0].data.length;
-    // 取消之前高亮的图形
-    myChart2.dispatchAction({
-        type: 'downplay',
-        seriesIndex: 0,
-        dataIndex: app.currentIndex
-    });
-    app.currentIndex = (app.currentIndex + 1) % dataLen;
-    // 高亮当前图形
-    myChart2.dispatchAction({
-        type: 'highlight',
-        seriesIndex: 0,
-        dataIndex: app.currentIndex
-    });
-    // 显示 tooltip
-    myChart2.dispatchAction({
-        type: 'showTip',
-        seriesIndex: 0,
-        dataIndex: app.currentIndex
-    });
+	var dataLen = option2.series[0].data.length;
+	// 取消之前高亮的图形
+	myChart2.dispatchAction({
+		type: 'downplay',
+		seriesIndex: 0,
+		dataIndex: app.currentIndex
+	});
+	app.currentIndex = (app.currentIndex + 1) % dataLen;
+	// 高亮当前图形
+	myChart2.dispatchAction({
+		type: 'highlight',
+		seriesIndex: 0,
+		dataIndex: app.currentIndex
+	});
+	// 显示 tooltip
+	myChart2.dispatchAction({
+		type: 'showTip',
+		seriesIndex: 0,
+		dataIndex: app.currentIndex
+	});
 }, 3000);
 
 
