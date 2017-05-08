@@ -1026,14 +1026,14 @@ body .markdown-body
                 "week":[],
                 "month":[]
                },
-         value: {"passengerFlow":[[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3](日),[](周),[](月)],
-                 "enterFlow":[],
-                 "enteringRate":[]
+         value: {"passengerFlow":[[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3], [], []],
+                 "enterFlow":[[], [], []],
+                 "enteringRate":[[], [], []]
                 }              
         }</code></li>
 <li>Description： <br />
             1. time: <code>折线图X轴数据，代码重用</code><br />
-            2. value: <code>客流量数据、入店量数据、入店率数据</code></li>
+            2. value: <code>客流量数据(日、周、月)、入店量数据、入店率数据</code></li>
 </ol>
 <h4 id="mychart2"><strong>myChart2 新老顾客饼图</strong></h4>
 <ol>
@@ -1050,9 +1050,21 @@ body .markdown-body
 </ol>
 <h4 id="mychart3"><strong>myChart3 顾客活跃度</strong></h4>
 <ol>
-<li>Request URL: /graph/clientactivitydegree</li>
+<li>Request URL: /graph/activitydegree</li>
 <li>Request Method: GET</li>
 <li>Data Type: JSON</li>
-<li>```</li>
-</ol>
-<p>```</p></article></body></html>
+<li><code>{
+         time: {"day":['5/1','5/2','5/3'……,'5/7'],
+                "week":[],
+                "month":[]
+               },
+         value: {"highDegree":[[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3], [], []],
+                 "middleDegree":[[], [], []],
+                 "lowDegree":[[], [], []],
+                 "sleepDegree":[[], [], []]
+                }              
+        }</code></li>
+<li>Description:<br />
+            1. time: <code>折线图X轴数据，代码重用</code><br />
+            2. value: <code>高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度</code></li>
+</ol></article></body></html>

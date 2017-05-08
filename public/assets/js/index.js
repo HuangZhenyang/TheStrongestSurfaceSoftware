@@ -4,10 +4,10 @@
 var myChart1 = echarts.init(document.getElementById('chart1'));
 var chart1Data = null;
 var myChart2 = echarts.init(document.getElementById('chart2'));
-var option2 = null;
+var option2 = null; // 设置自动高亮需要option2
+var myChart3 = echarts.init(document.getElementById('chart3'));
+var chart3Data = null;
 
-
-//文档加载后触发该函数
 $(document).ready(function () {
 	// 欢迎的提示牌
 	var unique_id = $.gritter.add({
@@ -33,6 +33,7 @@ $(document).ready(function () {
 	// 初始化顾客活跃度图
 	initMyChart3();
 	// 初始化深访率、跳出率
+	//initMyChart4();
 });
 
 /*#######################################################################*/
@@ -130,27 +131,6 @@ function initMyChart1() {
 				 "enteringRate":[]
 		 		}			   
 		}
-		
-		
-		//以下作废
-		{
-		
-		passengerFlowData:{"day":{"time":['5/1','5/2','5/3'……,'5/7'],
-					               "value":[2.0, 4.9, 20.0, 6.4, 3.3]},
-			 				"week":{},
-							"month":{}
-							},
-		enterFlowData:{"day":{"time":['5/1','5/2','5/3'……,'5/7'],
-					               "value":[2.0, 4.9, 20.0, 6.4, 3.3]},
-			 		   "week":{},
-					   "month":{}
-					  },
-		enteringRate:{"day":{"time":['5/1','5/2','5/3'……,'5/7'],
-					               "value":[2.0, 4.9, 20.0, 6.4, 3.3]},
-			 		  "week":{},
-					  "month":{}
-					 }
-		}
 		*/
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart1Data = data;
@@ -174,8 +154,8 @@ function initMyChart1() {
 	});
 
 	//下拉框绑定事件
-	$('#select').change(function () {
-		var selectValue = $('#select').val();
+	$('#selectPassengerFlow').change(function () {
+		var selectValue = $('#selectPassengerFlow').val();
 		if (selectValue === "day") {
 			myChart1.setOption({
 				xAxis: [{
@@ -225,10 +205,11 @@ function initMyChart1() {
 /*########################初始化myChart2:新老顾客#################*/
 /*#######################################################################*/
 function initMyChart2() {
-	myChart1.showLoading();
+	myChart2.showLoading();
 	// 指定图表的配置项和数据
 	$.get('/graph/findNewOldCustomer.do').done(function (data) {
-		myChart1.hideLoading();
+		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+		myChart2.hideLoading();
 		option2 = {
 			title: {
 				text: '',
@@ -321,7 +302,7 @@ function initMyChart2() {
 			dataIndex: app.currentIndex
 		});
 		app.currentIndex = (app.currentIndex + 1) % dataLen;
-		// 高亮当前图形
+		// 高.亮当前图形
 		myChart2.dispatchAction({
 			type: 'highlight',
 			seriesIndex: 0,
@@ -337,11 +318,149 @@ function initMyChart2() {
 }
 
 /*#######################################################################*/
-/*########################初始化Mychart3:顾客活跃度图#################*/
+/*########################初始化Mychart3:顾客活跃度图(堆叠柱状图)#################*/
 /*#######################################################################*/
-function initMychart3(){
+function initMyChart3() {
+	myChart3.setOption({
+		tooltip: {
+			trigger: 'axis',
+			axisPointer: { // 坐标轴指示器，坐标轴触发有效
+				type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+			}
+		},
+		toolbox: {
+			feature: {
+				magicType: {
+					show: true,
+					type: ['line', 'bar']
+				}		
+			}
+		},
+		legend: {
+			data: ['高活跃度', '中活跃度', '低活跃度', '沉睡活跃度']
+		},
+		grid: {
+			left: '3%',
+			right: '4%',
+			bottom: '3%',
+			containLabel: true
+		},
+		xAxis: [
+			{
+				type: 'category',
+				data: []
+        }
+    ],
+		yAxis: [
+			{
+				type: 'value'
+        }
+    ],
+		series: [
+			{
+				name: '高活跃度',
+				type: 'bar',
+				data: []
+        },
+			{
+				name: '中活跃度',
+				type: 'bar',
+				stack: '广告',
+				data: []
+        },
+			{
+				name: '低活跃度',
+				type: 'bar',
+				stack: '广告',
+				data: []
+        },
+			{
+				name: '沉睡活跃度',
+				type: 'bar',
+				stack: '广告',
+				data: []
+        }
+    ]
+	});
 	
+	myChart3.showLoading();
+	$.get('/graph/activitydegree').done(function (data) {
+		myChart3.hideLoading();
+		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+		chart3Data = data;
+		
+		myChart3.setOption({
+			xAxis: [{
+				data: chart3Data.time.week
+			}],
+			series: [{
+				data: chart3Data.value.highDegree[1]
+        	}, {
+				data: chart3Data.value.middleDegree[1]
+			}, {
+				data: chart3Data.value.lowDegree[1]
+			},{
+				data: chart3Data.value.sleepDegree[1]
+			}]
+		});
+	}).fail(function (xhr, status) {
+		console.log('失败: ' + xhr.status + ', 原因: ' + status);
+	});
+	
+	//下拉框绑定事件
+	$('#selectActivityDegree').change(function () {
+		var selectValue = $('#selectActivityDegree').val();
+		if (selectValue === "day") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.time.day
+			}],
+				series: [{
+				data: chart3Data.value.highDegree[0]
+        	}, {
+				data: chart3Data.value.middleDegree[0]
+			}, {
+				data: chart3Data.value.lowDegree[0]
+			},{
+				data: chart3Data.value.sleepDegree[0]
+			}]
+			});
+		} else if (selectValue === "week") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.time.week
+			}],
+				series: [{
+				data: chart3Data.value.highDegree[1]
+        	}, {
+				data: chart3Data.value.middleDegree[1]
+			}, {
+				data: chart3Data.value.lowDegree[1]
+			},{
+				data: chart3Data.value.sleepDegree[1]
+			}]
+			});
+		} else if (selectValue === "month") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.time.week
+			}],
+				series: [{
+				data: chart3Data.value.highDegree[2]
+        	}, {
+				data: chart3Data.value.middleDegree[2]
+			}, {
+				data: chart3Data.value.lowDegree[2]
+			},{
+				data: chart3Data.value.sleepDegree[2]
+			}]
+			});
+		}
+	});
 }
+
+
+
 
 
 
