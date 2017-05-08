@@ -2244,4 +2244,14 @@ label {
     min-height: 900px;
 }
 
+/*My own classes*/
+.my-z-index-class{
+	z-index: -1;
+}
+
+.right-up-class{
+	float:right;
+	margin-top:0px;
+}
+
 
