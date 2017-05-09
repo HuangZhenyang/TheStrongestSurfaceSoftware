@@ -7,6 +7,8 @@ var myChart2 = echarts.init(document.getElementById('chart2'));
 var option2 = null; // 设置自动高亮需要option2
 var myChart3 = echarts.init(document.getElementById('chart3'));
 var chart3Data = null;
+var myChart4 = echarts.init(document.getElementById('chart4'));
+var chart4Data = null;
 
 $(document).ready(function () {
 	// 欢迎的提示牌
@@ -33,7 +35,7 @@ $(document).ready(function () {
 	// 初始化顾客活跃度图
 	initMyChart3();
 	// 初始化深访率、跳出率
-	//initMyChart4();
+	initMyChart4();
 });
 
 /*#######################################################################*/
@@ -333,7 +335,7 @@ function initMyChart3() {
 				magicType: {
 					show: true,
 					type: ['line', 'bar']
-				}		
+				}
 			}
 		},
 		legend: {
@@ -382,13 +384,13 @@ function initMyChart3() {
         }
     ]
 	});
-	
+
 	myChart3.showLoading();
 	$.get('/graph/activitydegree').done(function (data) {
 		myChart3.hideLoading();
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart3Data = data;
-		
+
 		myChart3.setOption({
 			xAxis: [{
 				data: chart3Data.time.week
@@ -399,14 +401,14 @@ function initMyChart3() {
 				data: chart3Data.value.middleDegree[1]
 			}, {
 				data: chart3Data.value.lowDegree[1]
-			},{
+			}, {
 				data: chart3Data.value.sleepDegree[1]
 			}]
 		});
 	}).fail(function (xhr, status) {
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
-	
+
 	//下拉框绑定事件
 	$('#selectActivityDegree').change(function () {
 		var selectValue = $('#selectActivityDegree').val();
@@ -416,13 +418,13 @@ function initMyChart3() {
 					data: chart3Data.time.day
 			}],
 				series: [{
-				data: chart3Data.value.highDegree[0]
+					data: chart3Data.value.highDegree[0]
         	}, {
-				data: chart3Data.value.middleDegree[0]
+					data: chart3Data.value.middleDegree[0]
 			}, {
-				data: chart3Data.value.lowDegree[0]
-			},{
-				data: chart3Data.value.sleepDegree[0]
+					data: chart3Data.value.lowDegree[0]
+			}, {
+					data: chart3Data.value.sleepDegree[0]
 			}]
 			});
 		} else if (selectValue === "week") {
@@ -431,13 +433,13 @@ function initMyChart3() {
 					data: chart3Data.time.week
 			}],
 				series: [{
-				data: chart3Data.value.highDegree[1]
+					data: chart3Data.value.highDegree[1]
         	}, {
-				data: chart3Data.value.middleDegree[1]
+					data: chart3Data.value.middleDegree[1]
 			}, {
-				data: chart3Data.value.lowDegree[1]
-			},{
-				data: chart3Data.value.sleepDegree[1]
+					data: chart3Data.value.lowDegree[1]
+			}, {
+					data: chart3Data.value.sleepDegree[1]
 			}]
 			});
 		} else if (selectValue === "month") {
@@ -446,13 +448,13 @@ function initMyChart3() {
 					data: chart3Data.time.week
 			}],
 				series: [{
-				data: chart3Data.value.highDegree[2]
+					data: chart3Data.value.highDegree[2]
         	}, {
-				data: chart3Data.value.middleDegree[2]
+					data: chart3Data.value.middleDegree[2]
 			}, {
-				data: chart3Data.value.lowDegree[2]
-			},{
-				data: chart3Data.value.sleepDegree[2]
+					data: chart3Data.value.lowDegree[2]
+			}, {
+					data: chart3Data.value.sleepDegree[2]
 			}]
 			});
 		}
@@ -460,8 +462,135 @@ function initMyChart3() {
 }
 
 
-
-
+/*#######################################################################*/
+/*########################初始化Mychart4:深访率、跳出率#################*/
+/*#######################################################################*/
+function initMyChart4() {
+	myChart4.setOption({
+		title: {
+			text: '',
+			subtext: ''
+		},
+		tooltip: {
+			trigger: 'axis'
+		},
+		legend: {
+			data: ['深访率', '跳出率']
+		},
+		toolbox: {
+			show: true,
+			feature: {
+				mark: {
+					show: true
+				},
+				dataView: {
+					show: true,
+					readOnly: false
+				},
+				magicType: {
+					show: true,
+					type: ['line', 'bar', 'stack', 'tiled']
+				},
+				restore: {
+					show: false
+				},
+				saveAsImage: {
+					show: true
+				}
+			}
+		},
+		calculable: true,
+		xAxis: [
+			{
+				type: 'category',
+				boundaryGap: false,
+				data: []
+        }
+    ],
+		yAxis: [
+			{
+				type: 'value',
+				axisLabel: {
+					formatter: '{value} %'
+				}
+        }
+    ],
+		series: [
+			{
+				name: '深访率',
+				type: 'line',
+				data: [],
+				markPoint: {
+					data: [
+						{
+							type: 'max',
+							name: '最大值'
+						},
+						{
+							type: 'min',
+							name: '最小值'
+						}
+                ]
+				},
+				markLine: {
+					data: [
+						{
+							type: 'average',
+							name: '平均值'
+						}
+                ]
+				}
+        },
+			{
+				name: '跳出率',
+				type: 'line',
+				data: [],
+				markPoint: {
+					data: [
+						{
+							type: 'max',
+							name: '最大值'
+						},
+						{
+							type: 'min',
+							name: '最小值'
+						}
+                ]
+				},
+				markLine: {
+					data: [
+						{
+							type: 'average',
+							name: '平均值'
+						}
+                ]
+				}
+        }
+    ]
+	});
+	
+	myChart4.showLoading();
+	$.get('/graph/deepoutdegree').done(function(data){
+		myChart4.hideLoading();
+		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+		chart4Data = data;
+		
+		myChart4.setOption({
+			xAxis: [{
+					data: chart3Data.time.day
+			}],
+			series:[{
+				data: chart4Data.value.deepDegree
+			},{
+				data: chart4Data.value.outDegree
+			}]
+		});
+		
+		
+	}).fail(function (xhr, status) {
+		console.log('失败: ' + xhr.status + ', 原因: ' + status);
+	});
+}
 
 
 
