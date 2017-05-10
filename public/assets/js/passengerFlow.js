@@ -1,10 +1,65 @@
 "use strict";
 
+var myChart1 = echarts.init(document.getElementById('realTimePassengerFlow'));
 var passengerFlowData = [];
 /*
  * 实时向服务器请求数据
  * passengerFlowData : [] --> 用于存取数据 [['1997/07/06', 626],['1992/01/06',677]]
  */
+
+$(document).ready(function () {
+
+	initMyChart1();
+});
+
+
+function initMyChart1() {
+	myChart1.setOption({
+		title: {
+			text: '实时客流量动态折线图'
+		},
+		tooltip: {
+			trigger: 'axis',
+			formatter: function (params) {
+				param = params[0];
+				//var date = new Date(params.name);
+				//return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+				console.log(param);
+				return param.value[0] + ':' + param.value[1];
+			},
+			axisPointer: {
+				animation: true
+			}
+		},
+		xAxis: {
+			type: 'time',
+			splitLine: {
+				show: false
+			}
+		},
+		yAxis: {
+			type: 'value',
+			boundaryGap: [0, '100%'],
+			splitLine: {
+				show: false
+			}
+		},
+		series: [{
+			name: '模拟数据',
+			type: 'line',
+			showSymbol: false,
+			hoverAnimation: false,
+			data: passengerFlowData,
+			lineStyle: {
+				normal: {
+					color: '#F0805A'
+				}
+			},
+    }]
+	});
+}
+
+
 var getPassengerFlowData = function () {
 	$.ajax({
 		type: "get",
@@ -77,7 +132,7 @@ var option = {
 				color: '#F0805A'
 			}
 		},
-    									}]
+    }]
 };
 
 setInterval(function () {
@@ -87,7 +142,7 @@ setInterval(function () {
 		//data.push(randomData1());
 	}
 
-	myChart.setOption({
+	myChart1.setOption({
 		series: [{
 			data: passengerFlowData
 											}]
@@ -96,11 +151,19 @@ setInterval(function () {
 
 //console.log(data[0]);
 // 使用刚指定的配置项和数据显示图表。
-myChart.setOption(option);
+myChart1.setOption(option);
 
 
 
 
+
+
+
+/****************************************
+ *
+ *
+ *
+ *****************************************/
 /*
  * 图表2
  */
@@ -111,20 +174,22 @@ var myChart2 = echarts.init(document.getElementById('realTimeEnteringFlow'));
 function randomData2() {
 	now = new Date(+now + oneDay);
 	value = value + Math.random() * 21 - 10;
-	return {
+	var result = {
 		name: now.toString(),
 		value: [
             [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
             Math.round(value)
         ]
-	}
+	};
+	//console.log(result);
+	return result;
 }
 
 var data = [];
 var now = +new Date(1997, 9, 3);
 var oneDay = 24 * 3600 * 1000;
 var value = Math.random() * 1000;
-for (var i = 0; i < 1000; i++) {
+for (var i = 0; i < 100; i++) {
 	data.push(randomData2());
 }
 
@@ -135,9 +200,9 @@ var option = {
 	tooltip: {
 		trigger: 'axis',
 		formatter: function (params) {
-			params = params[0];
-			var date = new Date(params.name);
-			return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+			//params = params[0];
+			var date = new Date(params[0].name);
+			return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params[0].value[1];
 		},
 		axisPointer: {
 			animation: false
@@ -153,7 +218,7 @@ var option = {
 		type: 'value',
 		boundaryGap: [0, '100%'],
 		splitLine: {
-			show: false
+			show: true
 		}
 	},
 	series: [{
@@ -167,11 +232,10 @@ var option = {
 				color: '#ED801C'
 			}
 		},
-    									}]
+    }]
 };
 
 setInterval(function () {
-
 	for (var i = 0; i < 5; i++) {
 		data.shift();
 		data.push(randomData2());
@@ -180,7 +244,7 @@ setInterval(function () {
 	myChart2.setOption({
 		series: [{
 			data: data
-											}]
+		}]
 	});
 }, 1000);
 

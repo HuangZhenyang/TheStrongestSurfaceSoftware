@@ -18,7 +18,7 @@ function registerFunc() {
 			//var result = JSON.parse(data);
 			var result=data;
 			if(result.result === "true"){
-			window.location.href = "index.html?name=" + result.name;
+			window.location.href = "setting.html?name=" + $('#userName').val();
 			}else if(result.result === "netFalse"){
 				$('#registerTip').text("网络连接失败");
 				console.log("注册失败");
