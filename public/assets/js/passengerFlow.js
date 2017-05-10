@@ -45,7 +45,7 @@ function initMyChart1() {
 			}
 		},
 		series: [{
-			name: '模拟数据',
+			name: '',
 			type: 'line',
 			showSymbol: false,
 			hoverAnimation: false,
@@ -55,29 +55,41 @@ function initMyChart1() {
 					color: '#F0805A'
 				}
 			},
-    }]
+    	}]
 	});
+
+	var getPassengerFlowData = function () {
+		myChart1.showLoading();
+		$.ajax({
+			type: "get",
+			url: "/graph/realTimePassengerflow",
+			dataType: "json",
+		}).done(function (data) {
+			//data: {time:'1997/05/07',value:753}
+			myChart1.hideLoading();
+			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+			var result = data;
+			var tempJsonData = {
+				name: result.time,
+				value: result.value
+			};
+			passengerFlowData.push(tempJsonData);
+		}).fail((xhr, status) => {
+			console.log('失败: ' + xhr.status + ', 原因: ' + status);
+		});
+	}
+
+	setInterval(function () {
+		myChart1.setOption({
+			series: [{
+				data: passengerFlowData
+			}]
+		});
+	}, 1000);
 }
 
 
-var getPassengerFlowData = function () {
-	$.ajax({
-		type: "get",
-		url: "passengerFlowData.do",
-		dataType: "json",
-	}).done((data) => {
-		//data: {time:'1997/05/07',value:753}
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		var result = data;
-		var tempList = [];
-		tempList.push(result.time);
-		tempList.push(result.value);
-		passengerFlowData.push(tempList);
-	}).fail((xhr, status) => {
-		console.log('失败: ' + xhr.status + ', 原因: ' + status);
-	});
 
-}
 
 
 
