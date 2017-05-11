@@ -121,33 +121,20 @@ function initMyChart1() {
 	myChart1.showLoading();
 
 	$.get('/graph/passengerflow').done(function (data) {
-		/*
-		data:
-		{
-		 time: {"day":['5/1','5/2','5/3'……,'5/7'],
-		 	    "week":[],
-				"month":[]
-			   },
-		 value: {"passengerFlow":[[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3](日),[](周),[](月)],
-		 		 "enterFlow":[],
-				 "enteringRate":[]
-		 		}			   
-		}
-		*/
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart1Data = data;
 		myChart1.hideLoading();
 
 		myChart1.setOption({
 			xAxis: [{
-				data: chart1Data.time.day
+				data: chart1Data.day.date
 			}],
 			series: [{
-				data: chart1Data.value.passengerFlow[0]
+				data: chart1Data.day.passengerFlow
         	}, {
-				data: chart1Data.value.enterFlow[0]
+				data: chart1Data.day.enterFlow
 			}, {
-				data: chart1Data.value.enteringRate[0]
+				data: chart1Data.day.enteringRate
 			}]
 		});
 
@@ -161,40 +148,40 @@ function initMyChart1() {
 		if (selectValue === "day") {
 			myChart1.setOption({
 				xAxis: [{
-					data: chart1Data.time.day
+					data: chart1Data.day.date
 			}],
 				series: [{
-					data: chart1Data.value.passengerFlow[0]
+					data: chart1Data.day.passengerFlow
         	}, {
-					data: chart1Data.value.enterFlow[0]
+					data: chart1Data.day.enterFlow
 			}, {
-					data: chart1Data.value.enteringRate[0]
+					data: chart1Data.day.enteringRate
 			}]
 			});
 		} else if (selectValue === "week") {
 			myChart1.setOption({
 				xAxis: [{
-					data: chart1Data.time.week
+					data: chart1Data.week.date
 			}],
 				series: [{
-					data: chart1Data.value.passengerFlow[1]
+					data: chart1Data.week.passengerFlow
         	}, {
-					data: chart1Data.value.enterFlow[1]
+					data: chart1Data.week.enterFlow
 			}, {
-					data: chart1Data.value.enteringRate[1]
+					data: chart1Data.week.enteringRate
 			}]
 			});
 		} else if (selectValue === "month") {
 			myChart1.setOption({
 				xAxis: [{
-					data: chart1Data.time.week
+					data: chart1Data.month.date
 			}],
 				series: [{
-					data: chart1Data.value.passengerFlow[2]
+					data: chart1Data.month.passengerFlow
         	}, {
-					data: chart1Data.value.enterFlow[2]
+					data: chart1Data.month.enterFlow
 			}, {
-					data: chart1Data.value.enteringRate[2]
+					data: chart1Data.month.enteringRate
 			}]
 			});
 		}
@@ -393,16 +380,16 @@ function initMyChart3() {
 
 		myChart3.setOption({
 			xAxis: [{
-				data: chart3Data.time.week
+				data: chart3Data.day.date
 			}],
 			series: [{
-				data: chart3Data.value.highDegree[1]
+				data: chart3Data.day.highDegree
         	}, {
-				data: chart3Data.value.middleDegree[1]
+				data: chart3Data.day.middleDegree
 			}, {
-				data: chart3Data.value.lowDegree[1]
+				data: chart3Data.day.lowDegree
 			}, {
-				data: chart3Data.value.sleepDegree[1]
+				data: chart3Data.day.sleepDegree
 			}]
 		});
 	}).fail(function (xhr, status) {
@@ -415,46 +402,46 @@ function initMyChart3() {
 		if (selectValue === "day") {
 			myChart3.setOption({
 				xAxis: [{
-					data: chart3Data.time.day
+					data: chart3Data.day.date
 			}],
 				series: [{
-					data: chart3Data.value.highDegree[0]
+					data: chart3Data.day.highDegree
         	}, {
-					data: chart3Data.value.middleDegree[0]
+					data: chart3Data.day.middleDegree
 			}, {
-					data: chart3Data.value.lowDegree[0]
+					data: chart3Data.day.lowDegree
 			}, {
-					data: chart3Data.value.sleepDegree[0]
+					data: chart3Data.day.sleepDegree
 			}]
 			});
 		} else if (selectValue === "week") {
 			myChart3.setOption({
 				xAxis: [{
-					data: chart3Data.time.week
+					data: chart3Data.week.date
 			}],
 				series: [{
-					data: chart3Data.value.highDegree[1]
+					data: chart3Data.week.highDegree
         	}, {
-					data: chart3Data.value.middleDegree[1]
+					data: chart3Data.week.middleDegree
 			}, {
-					data: chart3Data.value.lowDegree[1]
+					data: chart3Data.week.lowDegree
 			}, {
-					data: chart3Data.value.sleepDegree[1]
+					data: chart3Data.week.sleepDegree
 			}]
 			});
 		} else if (selectValue === "month") {
 			myChart3.setOption({
 				xAxis: [{
-					data: chart3Data.time.week
+					data: chart3Data.month.date
 			}],
 				series: [{
-					data: chart3Data.value.highDegree[2]
+					data: chart3Data.month.highDegree
         	}, {
-					data: chart3Data.value.middleDegree[2]
+					data: chart3Data.month.middleDegree
 			}, {
-					data: chart3Data.value.lowDegree[2]
+					data: chart3Data.month.lowDegree
 			}, {
-					data: chart3Data.value.sleepDegree[2]
+					data: chart3Data.month.sleepDegree
 			}]
 			});
 		}
@@ -568,28 +555,69 @@ function initMyChart4() {
         }
     ]
 	});
-	
+
 	myChart4.showLoading();
-	$.get('/graph/deepoutdegree').done(function(data){
+	$.get('/graph/deepoutdegree').done(function (data) {
 		myChart4.hideLoading();
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart4Data = data;
-		
+
 		myChart4.setOption({
 			xAxis: [{
-					data: chart3Data.time.day
+				data: chart3Data.day.date
 			}],
-			series:[{
-				data: chart4Data.value.deepDegree
-			},{
-				data: chart4Data.value.outDegree
+			series: [{
+				data: chart4Data.day.deepDegree
+			}, {
+				data: chart4Data.day.outDegree
 			}]
 		});
-		
-		
+
+
 	}).fail(function (xhr, status) {
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
+
+	//下拉框绑定事件
+	$('#selectDeepOutDegree').change(function () {
+		var selectValue = $('#selectActivityDegree').val();
+		if (selectValue === "day") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.day.date
+			}],
+				series: [{
+					data: chart4Data.day.deepDegree
+			}, {
+					data: chart4Data.day.outDegree
+			}]
+			});
+		} else if (selectValue === "week") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.week.date
+			}],
+				series: [{
+					data: chart4Data.week.deepDegree
+			}, {
+					data: chart4Data.week.outDegree
+			}]
+			});
+		} else if (selectValue === "month") {
+			myChart3.setOption({
+				xAxis: [{
+					data: chart3Data.month.date
+			}],
+				series: [{
+					data: chart4Data.month.deepDegree
+			}, {
+					data: chart4Data.month.outDegree
+			}]
+			});
+		}
+	});
+
+
 }
 
 

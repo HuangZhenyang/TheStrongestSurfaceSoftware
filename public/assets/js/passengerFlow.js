@@ -74,12 +74,13 @@ function initMyChart1() {
 				value: result.value
 			};
 			passengerFlowData.push(tempJsonData);
-		}).fail((xhr, status) => {
+		}).fail(function(xhr, status) {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
 
 	setInterval(function () {
+		getPassengerFlowData();
 		myChart1.setOption({
 			series: [{
 				data: passengerFlowData
