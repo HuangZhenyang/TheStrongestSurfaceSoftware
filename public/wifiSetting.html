@@ -60,83 +60,91 @@
 			<div id="sidebar" class="nav-collapse ">
 				<!-- sidebar menu start-->
 				<ul class="sidebar-menu" id="nav-accordion">
-
+					<!--#### 这里是用户头像 ####-->
 					<p class="centered">
 						<a href="profile.html"><img src="assets/img/ui-sam.jpg" class="img-circle" width="60"></a>
 					</p>
-					<!--用户名-->
-					<h5 class="centered"><script>window.location.href.split("=")[1]</script></h5>
-
+					<!--##### 这里是用户名 ####-->
+					<!-- index.html?name=XXX -->
+					<h5 id="userName" class="centered"><script>window.location.href.split("=")[1]</script></h5>
+					<hr>
 					<li class="mt">
 						<a href="index.html">
 							<i class="fa fa-desktop"></i>
-							<span>我的概览</span>
+							<span style="font-weight:bold;">我的概览</span>
 						</a>
 					</li>
-
 					<li class="sub-menu">
-						<a href="javascript:;">
+						<a href="index.html">
 							<i class="fa fa-dashboard"></i>
-							<span>实时数据</span>
+							<span style="font-weight:bold;">实时数据</span>
 						</a>
 						<ul class="sub">
-							<li><a href="general.html">客流量</a></li>
+							<li><a href="passengerFlow.html">客流量</a></li>
 							<li><a href="area.html">客流热图</a></li>
 							<li><a href="panels.html">Panels</a></li>
-						</ul>
-					</li>
-
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-bar-chart-o"></i>
-							<span>趋势分析</span>
-						</a>
-						<ul class="sub">
-							<li><a href="calendar.html">客流量Calendar</a></li>
-							<li><a href="gallery.html">入店量、入店率Gallery</a></li>
-							<li><a href="todo_list.html">Todo List</a></li>
-						</ul>
-					</li>
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-book"></i>
-							<span>顾客分析</span>
-						</a>
-						<ul class="sub">
-							<li><a href="blank.html">来访周期</a></li>
-							<li><a href="login.html">新老客户</a></li>
-							<li><a href="lock_screen.html">顾客活跃度</a></li>
-						</ul>
-					</li>
-					<li class="sub-menu">
-						<a class="active" href="javascript:;">
-							<i class="fa fa-tasks"></i>
-							<span>相关配置</span>
-						</a>
-						<ul class="sub">
-							<li class="active"><a href="form_component.html">探针设备配置</a></li>
-						</ul>
-					</li>
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-th"></i>
-							<span>Data Tables</span>
-						</a>
-						<ul class="sub">
-							<li><a href="basic_table.html">Basic Table</a></li>
-							<li><a href="responsive_table.html">Responsive Table</a></li>
 						</ul>
 					</li>
 					<li class="sub-menu">
 						<a href="javascript:;">
 							<i class=" fa fa-bar-chart-o"></i>
-							<span>Charts</span>
+							<span style="font-weight:bold;">趋势分析</span>
 						</a>
 						<ul class="sub">
-							<li><a href="morris.html">Morris</a></li>
-							<li><a href="chartjs.html">Chartjs</a></li>
+							<li><a href="calendar.html">客流量</a></li>
+							<li><a href="gallery.html">入店量、入店率</a></li>
+							<li><a href="funnelAnalisys.html">漏斗分析</a>
+								<li><a href="calendar.html">跳出率、深访率</a></li>
 						</ul>
-					</li>
+						</li>
+
+						<li class="sub-menu">
+							<a href="javascript:;">
+								<i class="fa fa-book"></i>
+								<span style="font-weight:bold;">顾客分析</span>
+							</a>
+							<ul class="sub">
+								<li><a href="blank.html">来访周期</a></li>
+								<li><a href="passengerTransform.html">客流转化</a></li>
+								<li><a href="lock_screen.html">顾客活跃度</a></li>
+							</ul>
+						</li>
+
+						<li class="sub-menu">
+							<a class="active" href="javascript:;">
+								<i class="fa fa-tasks"></i>
+								<span style="font-weight:bold;">相关配置</span>
+							</a>
+							<ul class="sub">
+								<li><a href="userSetting.html">用户设置</a></li>
+							</ul>
+							<ul class="sub">
+								<li><a href="thresholdSetting.html">阈值设置</a></li>
+							</ul>
+							<ul class="sub">
+								<li class="active"><a href="wifiSetting.html">探针设置</a></li>
+							</ul>
+						</li>
+						<li class="sub-menu">
+							<a href="javascript:;">
+								<i class="fa fa-th"></i>
+								<span>Data Tables</span>
+							</a>
+							<ul class="sub">
+								<li><a href="basic_table.html">Basic Table</a></li>
+								<li><a href="responsive_table.html">Responsive Table</a></li>
+							</ul>
+						</li>
+						<li class="sub-menu">
+							<a href="javascript:;">
+								<i class=" fa fa-bar-chart-o"></i>
+								<span>Charts</span>
+							</a>
+							<ul class="sub">
+								<li><a href="morris.html">Morris</a></li>
+								<li><a href="chartjs.html">Chartjs</a></li>
+							</ul>
+						</li>
 
 				</ul>
 				<!-- sidebar menu end-->
@@ -168,7 +176,6 @@
 									<div class="col-sm-2 col-xs-2 col-md-2 col-lg-2">
 										<input id="wifiProbeAddress" type="text" class="form-control" placeholder="输入探针地址">
 									</div>
-
 									<button id="bindingButton" type="button" class="btn btn-theme">绑定</button>
 									<label id="bindingTip"> </label>
 								</div>
@@ -196,17 +203,17 @@
 									<tr>
 										<td><a href="basic_table.html#">021</a></td>
 										<td class="hidden-phone">厦门市中山路353号</td>
-										<td><span class="label label-info label-mini">On</span></td>
+										<td><button class="label label-info label-mini">On</button></td>
 										<td>
-											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											<!--<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>-->
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
 									</tr>
 									<tr>
 										<td><a href="basic_table.html#">024</a></td>
 										<td class="hidden-phone">厦门市中山路352号</td>
-										<td><span class="label label-info label-mini">Off</span></td>
+										<td><button class="label label-info label-mini">Off</button></td>
 										<td>
 											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
@@ -216,7 +223,7 @@
 									<tr>
 										<td><a href="basic_table.html#">026</a></td>
 										<td class="hidden-phone">厦门市中山路351号</td>
-										<td><span class="label label-info label-mini">On</span></td>
+										<td><button class="label label-info label-mini">On</button></td>
 										<td>
 											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
@@ -226,7 +233,7 @@
 									<tr>
 										<td><a href="basic_table.html#">027</a></td>
 										<td class="hidden-phone">厦门市思明区龙头路95号</td>
-										<td><span class="label label-info label-mini">On</span></td>
+										<td><button class="label label-info label-mini">On</button></td>
 										<td>
 											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
@@ -236,70 +243,14 @@
 									<tr>
 										<td><a href="basic_table.html#">042</a></td>
 										<td class="hidden-phone">厦门市思明区龙头路95号</td>
-										<td><span class="label label-info label-mini">On</span></td>
+										<td><button class="label label-info label-mini">On</button></td>
 										<td>
 											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
 									</tr>
-									
-									<!--<tr>
-                                  <td>
-                                      <a href="basic_table.html#">
-                                          Dashgum co
-                                      </a>
-                                  </td>
-                                  <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                  
-                                  <td><span class="label label-warning label-mini">Due</span></td>
-                                  <td>
-                                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>
-                                      <a href="basic_table.html#">
-                                          Another Co
-                                      </a>
-                                  </td>
-                                  <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                  
-                                  <td><span class="label label-success label-mini">Paid</span></td>
-                                  <td>
-                                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td>
-                                      <a href="basic_table.html#">
-                                          Dashgum ext
-                                      </a>
-                                  </td>
-                                  <td class="hidden-phone">Lorem Ipsum dolor</td>
-                                  
-                                  <td><span class="label label-success label-mini">Paid</span></td>
-                                  <td>
-                                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td><a href="basic_table.html#">Total Ltd</a></td>
-                                  <td class="hidden-phone">Lorem Ipsum dolor</td>
-                               
-                                  <td><span class="label label-warning label-mini">Due</span></td>
-                                  <td>
-                                      <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
-                                      <button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
-                                      <button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
-                                  </td>
-                              </tr>-->
+									<!-- /tr -->
 								</tbody>
 							</table>
 						</div>
@@ -343,6 +294,9 @@
 	<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
 	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 	<script type="text/javascript" src="assets/js/setting.js"></script>
+	
+	<!--wifiSetting.js-->
+	<script type="text/javascript" src="assets/js/wifiSetting.js"></script>
 
 </body>
 

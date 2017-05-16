@@ -9,8 +9,7 @@ function loginFunc() {
 			data: {
 				userName: $('#userName').val(),
 				passWord: $('#passWord').val()
-			},
-
+			}
 		}).done( function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			//var result = JSON.parse(data);
