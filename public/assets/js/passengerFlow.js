@@ -58,11 +58,12 @@ function initMyChart1() {
     	}]
 	});
 
+	/*
 	var getPassengerFlowData = function () {
 		myChart1.showLoading();
 		$.ajax({
 			type: "get",
-			url: "/graph/realTimePassengerflow",
+			url: "/graph/realTimePassengerflow.do",
 			dataType: "json",
 		}).done(function (data) {
 			//data: {time:'1997/05/07',value:753}
@@ -77,10 +78,30 @@ function initMyChart1() {
 		}).fail(function(xhr, status) {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
-	}
+	}*/
 
 	setInterval(function () {
-		getPassengerFlowData();
+		(function(){
+			myChart1.showLoading();
+		$.ajax({
+			type: "get",
+			url: "/graph/realTimePassengerflow.do",
+			dataType: "json",
+		}).done(function (data) {
+			//data: {time:'1997/05/07',value:753}
+			myChart1.hideLoading();
+			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+			var result = data;
+			var tempJsonData = {
+				name: result.time,
+				value: result.value
+			};
+			passengerFlowData.push(tempJsonData);
+		}).fail(function(xhr, status) {
+			console.log('失败: ' + xhr.status + ', 原因: ' + status);
+		});
+		})();
+		
 		myChart1.setOption({
 			series: [{
 				data: passengerFlowData

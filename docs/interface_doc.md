@@ -50,12 +50,6 @@
 3. Data Type: `JSON`
 4. ```json	
 	{
-	  "day": { "date":["5/1","5/2","5/3",……,"5/7"],
-	  		   "highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
-			   "middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
-			   "lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
-			   "sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]
-			 },
 	  "week": {"date":["5/8","5/1"],
 	           "highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
 			   "middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
@@ -110,7 +104,7 @@
 ### **passengerFlow.js**
 ---
 #### **实时客流**
-1. Request URL: `/graph/realTimePassengerflow`
+1. Request URL: `/graph/realTimePassengerflow.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
 4.  ```json

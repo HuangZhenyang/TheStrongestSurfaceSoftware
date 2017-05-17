@@ -36,10 +36,10 @@ function checkLoginInput() {
 	if ($('#userName').val() === null || $('#userName').val() === '') {
 		$('#loginTip').text("请输入用户名");
 		return false;
-	} else if ($('#passwd').val() === null || $('#passwd').val() === '') {
+	} else if ($('#passWord').val() === null || $('#passWord').val() === '') {
 		$('#loginTip').text("请输入密码");
 		return false;
-	} else if(!($('#passwd').val().length>=9 && $('#passwd').val().length<=16)){
+	} else if(!($('#passWord').val().length>=9 && $('#passWord').val().length<=16)){
 		$('#loginTip').text("密码不能少于9个字符或多于16个字符");
 		return false;
 	}

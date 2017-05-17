@@ -86,7 +86,7 @@ function initMyChart1() {
 			type: 'value',
 			name: '人次',
 			min: 0,
-			max: 1500,
+
 			interval: 300,
 			axisLabel: {
 				formatter: '{value} '
@@ -95,10 +95,10 @@ function initMyChart1() {
 			type: 'value',
 			name: '百分比',
 			min: 0,
-			max: 100,
+
 			interval: 20,
 			axisLabel: {
-				formatter: '{value} %'
+				formatter: '{value} ' //'{value} %'
 			}
     }],
 		series: [{
@@ -120,9 +120,16 @@ function initMyChart1() {
 
 	myChart1.showLoading();
 
-	$.get('/graph/passengerflow').done(function (data) {
+	$.get('/graph/passengerflow.do').done(function (data) {
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart1Data = data;
+
+		//处理收到的部分数据（需要的时候再处理）
+		chart1Data.day.date.reverse();
+		for (let i = 0; i < chart1Data.day.enteringRate.length; i++) {
+			chart1Data.day.enteringRate[i] += "%";
+		}
+
 		myChart1.hideLoading();
 
 		myChart1.setOption({
@@ -159,6 +166,10 @@ function initMyChart1() {
 			}]
 			});
 		} else if (selectValue === "week") {
+			chart1Data.week.date.reverse();
+			for (let i = 0; i < chart1Data.week.enteringRate.length; i++) {
+				chart1Data.week.enteringRate[i] += "%";
+			}
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.week.date
@@ -172,6 +183,10 @@ function initMyChart1() {
 			}]
 			});
 		} else if (selectValue === "month") {
+			chart1Data.month.date.reverse();
+			for (let i = 0; i < chart1Data.month.enteringRate.length; i++) {
+				chart1Data.month.enteringRate[i] += "%";
+			}
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.month.date
@@ -373,23 +388,24 @@ function initMyChart3() {
 	});
 
 	myChart3.showLoading();
-	$.get('/graph/activitydegree').done(function (data) {
+	$.get('/graph/activitydegree.do').done(function (data) {
+		chart3Data.week.date.reverse();
 		myChart3.hideLoading();
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart3Data = data;
 
 		myChart3.setOption({
 			xAxis: [{
-				data: chart3Data.day.date
+				data: chart3Data.week.date
 			}],
 			series: [{
-				data: chart3Data.day.highDegree
+				data: chart3Data.week.highDegree
         	}, {
-				data: chart3Data.day.middleDegree
+				data: chart3Data.week.middleDegree
 			}, {
-				data: chart3Data.day.lowDegree
+				data: chart3Data.week.lowDegree
 			}, {
-				data: chart3Data.day.sleepDegree
+				data: chart3Data.week.sleepDegree
 			}]
 		});
 	}).fail(function (xhr, status) {
@@ -399,22 +415,7 @@ function initMyChart3() {
 	//下拉框绑定事件
 	$('#selectActivityDegree').change(function () {
 		var selectValue = $('#selectActivityDegree').val();
-		if (selectValue === "day") {
-			myChart3.setOption({
-				xAxis: [{
-					data: chart3Data.day.date
-			}],
-				series: [{
-					data: chart3Data.day.highDegree
-        	}, {
-					data: chart3Data.day.middleDegree
-			}, {
-					data: chart3Data.day.lowDegree
-			}, {
-					data: chart3Data.day.sleepDegree
-			}]
-			});
-		} else if (selectValue === "week") {
+		if (selectValue === "week") {
 			myChart3.setOption({
 				xAxis: [{
 					data: chart3Data.week.date
@@ -430,6 +431,7 @@ function initMyChart3() {
 			}]
 			});
 		} else if (selectValue === "month") {
+			chart3Data.month.date.reverse();
 			myChart3.setOption({
 				xAxis: [{
 					data: chart3Data.month.date
@@ -557,14 +559,15 @@ function initMyChart4() {
 	});
 
 	myChart4.showLoading();
-	$.get('/graph/deepoutdegree').done(function (data) {
+	$.get('/graph/deepoutdegree.do').done(function (data) {
+		chart4Data.day.date.reverse();
 		myChart4.hideLoading();
 		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		chart4Data = data;
 
 		myChart4.setOption({
 			xAxis: [{
-				data: chart3Data.day.date
+				data: chart4Data.day.date
 			}],
 			series: [{
 				data: chart4Data.day.deepDegree
@@ -580,11 +583,11 @@ function initMyChart4() {
 
 	//下拉框绑定事件
 	$('#selectDeepOutDegree').change(function () {
-		var selectValue = $('#selectActivityDegree').val();
+		var selectValue = $('#selectDeepOutDegree').val();
 		if (selectValue === "day") {
-			myChart3.setOption({
+			myChart4.setOption({
 				xAxis: [{
-					data: chart3Data.day.date
+					data: chart4Data.day.date
 			}],
 				series: [{
 					data: chart4Data.day.deepDegree
@@ -593,9 +596,10 @@ function initMyChart4() {
 			}]
 			});
 		} else if (selectValue === "week") {
-			myChart3.setOption({
+			chart4Data.month.week.reverse();
+			myChart4.setOption({
 				xAxis: [{
-					data: chart3Data.week.date
+					data: chart4Data.week.date
 			}],
 				series: [{
 					data: chart4Data.week.deepDegree
@@ -604,9 +608,10 @@ function initMyChart4() {
 			}]
 			});
 		} else if (selectValue === "month") {
-			myChart3.setOption({
+			chart4Data.month.month.reverse();
+			myChart4.setOption({
 				xAxis: [{
-					data: chart3Data.month.date
+					data: chart4Data.month.date
 			}],
 				series: [{
 					data: chart4Data.month.deepDegree
@@ -619,87 +624,3 @@ function initMyChart4() {
 
 
 }
-
-
-
-
-
-// 指定图表的配置项和数据
-/*
-var option1 = {
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'cross',
-			crossStyle: {
-				color: '#999'
-			}
-		}
-	},
-	toolbox: {
-		feature: {
-			dataView: {
-				show: true,
-				readOnly: false
-			},
-			magicType: {
-				show: true,
-				type: ['line', 'bar']
-			},
-			restore: {
-				show: true
-			},
-			saveAsImage: {
-				show: true
-			}
-		}
-	},
-	legend: {
-		data: ['客流量', '入店量', '入店率']
-	},
-	xAxis: [{
-		type: 'category',
-		
-		data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-		axisPointer: {
-			type: 'shadow'
-		}
-    }],
-	yAxis: [{
-		type: 'value',
-		name: '人次',
-		min: 0,
-		max: 250,
-		interval: 50,
-		axisLabel: {
-			formatter: '{value} '
-		}
-    }, {
-		type: 'value',
-		name: '百分比',
-		min: 0,
-		max: 100,
-		interval: 20,
-		axisLabel: {
-			formatter: '{value} %'
-		}
-    }],
-	series: [{
-		name: '客流量',
-		type: 'bar',
-		
-		data: [2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3]
-    }, {
-		name: '入店量',
-		type: 'bar',
-		data: [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
-    }, {
-		name: '入店率',
-		type: 'line',
-		yAxisIndex: 1,
-		data: [20.0, 22.2, 35.3, 40.5, 60.3, 10.2, 20.3, 23.4, 43.0, 36.5, 22.0, 36.2]
-    }]
-};
-
-// 使用刚指定的配置项和数据显示图表。
-myChart1.setOption(option1);*/

@@ -71,7 +71,7 @@
 					</p>
 					<!--##### 这里是用户名 ####-->
 					<!-- index.html?name=XXX -->
-					<h5 id="userName" class="centered"><script>window.location.href.split("=")[1]</script></h5>
+					<h5 id="userName" class="centered"><!--<script>window.location.href.split("=")[1]</script>--></h5>
 					<hr>
 					<li class="mt">
 						<a class="active" href="index.html">
@@ -130,6 +130,7 @@
 								<li><a href="wifiSetting.html">探针设置</a></li>
 							</ul>
 						</li>
+						<!--
 						<li class="sub-menu">
 							<a href="javascript:;">
 								<i class="fa fa-th"></i>
@@ -150,8 +151,9 @@
 								<li><a href="chartjs.html">Chartjs</a></li>
 							</ul>
 						</li>
-
+						-->
 				</ul>
+				<!-- /ul -->
 				<!-- sidebar menu end-->
 			</div>
 		</aside>
@@ -231,8 +233,8 @@
 							<div class="content-panel">
 								<h4><i class="fa fa-angle-right"></i> 顾客活跃度</h4>
 								<select id="selectActivityDegree" class=" right-up-class">
-									<option value="day" selected>日视图</option>
-									<option value="week">周视图</option>
+									<!--<option value="day" selected>日视图</option>-->
+									<option value="week" selected>周视图</option>
 									<option value="month">月视图</option>
 								</select>
 								<!-- select -->
