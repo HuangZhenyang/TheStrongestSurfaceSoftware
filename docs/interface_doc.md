@@ -25,7 +25,7 @@
 	 }
 	```
 5. Description： 
- 			1. time: `折线图X轴数据，代码重用`
+ 			1. time: `折线图X轴数据`
  			2. value: `客流量数据(日、周、月)、入店量数据、入店率数据`
 
 
@@ -65,7 +65,7 @@
 	 }
    ```
 5. Description:
-			1. time: `堆叠柱状图X轴数据，代码重用`
+			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
 			
 			
@@ -90,7 +90,7 @@
 	 }
    ```
 5. Description:
-			1. time: `堆叠柱状图X轴数据，代码重用`
+			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
 			
 			
@@ -181,21 +181,21 @@
 	   ]
 	 "links": [
 		{
-		  "source": "Agricultural 'waste'",
-		  "target": "Bio-conversion",
-		  "value": 124.729
+		  "source": "流失顾客",
+		  "target": "回流顾客",
+		  "value": 12
 		},
 		{
-		  "source": "Bio-conversion",
-		  "target": "Liquid",
-		  "value": 0.597
+		  "source": "活跃顾客",
+		  "target": "不活跃顾客",
+		  "value": 20
 		}
 		]		   
 	}
 	
 	
 }
-	```
+```
 5. Description： 
  			1. nodes: `指标名称`
  			2. links: `指标与指标之间的关系`
@@ -212,7 +212,7 @@
 ### **wifiSetting.js**
 ---
 #### **探针绑定**
-1. Request URL: `/wifisetting.do`
+1. Request URL: `/config/wifisetting.do`
 2. Request Method: `POST`
 3. ```json
 	{
@@ -229,7 +229,7 @@
 
 
 #### **请求探针信息**
-1. Request URL: `/wifiprobeinfo.do`
+1. Request URL: `/config/wifiprobeinfo.do`
 2. Request Method: `GET`
 3. ```json
 	{
@@ -262,7 +262,7 @@
 ### **thresholdSetting.js**
 ---
 #### **设置顾客活跃度阈值**
-1. Request URL: `/thresholdhmls.do`
+1. Request URL: `/config/thresholdhmls.do`
 2. Request Method: `POST`
 3. ```json
 	{
@@ -279,7 +279,7 @@
 	3. l_s: `wifi探针的部署地址`
 
 #### **设置深访跳出率阈值**
-1. Request URL: `/thresholddj.do`
+1. Request URL: `/config/thresholddj.do`
 2. Request Method: `POST`
 3. ```json
 	{

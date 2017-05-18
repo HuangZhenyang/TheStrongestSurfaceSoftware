@@ -10,7 +10,7 @@ function btn1Func(){
 	if(checkIsNum(h_m) && checkIsNum(m_l) && checkIsNum(l_s)){
 		$.ajax({
 			type: 'post',
-			url: '/thresholdhmls.do',
+			url: '/config/thresholdhmls.do',
 			dataType: 'json',
 			data: {
 				h_m: h_m,
@@ -49,7 +49,7 @@ function btn2Func(){
 		
 		$.ajax({
 			type: 'post',
-			url: '/thresholddj.do',
+			url: '/config/thresholddj.do',
 			dataType: 'json',
 			data: {
 				deep: deep_sec,
