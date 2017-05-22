@@ -13,6 +13,7 @@ function loginFunc() {
 		}).done( function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			//var result = JSON.parse(data);
+			
 			var result = data;
 			if(result.result === "true"){
 				window.location.href = "index.html?name=" + result.name;

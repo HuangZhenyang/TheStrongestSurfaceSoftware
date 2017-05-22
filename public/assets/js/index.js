@@ -10,33 +10,6 @@ var chart3Data = null;
 var myChart4 = echarts.init(document.getElementById('chart4'));
 var chart4Data = null;
 
-$(document).ready(function () {
-	// 欢迎的提示牌
-	var unique_id = $.gritter.add({
-		// (string | mandatory) the heading of the notification
-		title: '欢迎来到商业数据分析决策平台!',
-		// (string | mandatory) the text inside the notification
-		//text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="http://blacktie.co" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
-		text: ' ',
-		// (string | optional) the image to display on the left
-		image: 'assets/img/ui-sam.jpg',
-		// (bool | optional) if you want it to fade out on its own or just sit there
-		sticky: false,
-		// (int | optional) the time you want it to be alive for before fading out
-		time: '1500',
-		// (string | optional) the class name you want to apply to that specific message
-		class_name: 'my-sticky-class'
-	});
-
-	// 初始化客流、入店量、入店率图
-	initMyChart1();
-	// 初始化新老顾客饼图
-	initMyChart2();
-	// 初始化顾客活跃度图
-	initMyChart3();
-	// 初始化深访率、跳出率
-	initMyChart4();
-});
 
 /*#######################################################################*/
 /*########################初始化myChart1:日周月 客流量#################*/
@@ -80,14 +53,24 @@ function initMyChart1() {
 			data: [],
 			axisPointer: {
 				type: 'shadow'
-			}
+			},
+
+			axisLabel: {
+				interval: 0,
+				rotate: 45, //倾斜度 -90 至 90 默认为0  
+				margin: 2,
+				textStyle: {
+					fontWeight: "bolder",
+					color: "#000000"
+				}
+			},
     }],
 		yAxis: [{
 			type: 'value',
 			name: '人次',
 			min: 0,
 
-			interval: 300,
+			interval: 10,
 			axisLabel: {
 				formatter: '{value} '
 			}
@@ -95,10 +78,10 @@ function initMyChart1() {
 			type: 'value',
 			name: '百分比',
 			min: 0,
-
+			max: 100,
 			interval: 20,
 			axisLabel: {
-				formatter: '{value} ' //'{value} %'
+				formatter: '{value} %' //'{value} %'
 			}
     }],
 		series: [{
@@ -119,33 +102,11 @@ function initMyChart1() {
 	});
 
 	myChart1.showLoading();
-
 	$.get('/graph/passengerflow.do').done(function (data) {
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		chart1Data = data;
-
-		//处理收到的部分数据（需要的时候再处理）
-		chart1Data.day.date.reverse();
-		for (let i = 0; i < chart1Data.day.enteringRate.length; i++) {
-			chart1Data.day.enteringRate[i] += "%";
-		}
-
-		myChart1.hideLoading();
-
-		myChart1.setOption({
-			xAxis: [{
-				data: chart1Data.day.date
-			}],
-			series: [{
-				data: chart1Data.day.passengerFlow
-        	}, {
-				data: chart1Data.day.enterFlow
-			}, {
-				data: chart1Data.day.enteringRate
-			}]
-		});
-
+		setMyChart1(data);
 	}).fail(function (xhr, status) {
+		var data = '{"day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"passengerFlow":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"enterFlow":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"enteringRate":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"week": {"date":["5/8","5/1"],"passengerFlow":[2.0, 4.9],"enterFlow":[2.0, 4.9],"enteringRate":[2.0, 4.9]},"month": {"date":[1,2,3,4,5,6,7,8,9,10,11,12],"passengerFlow":[2.0, 4.9,3.2,3.2,3.1,2.0, 4.9,3.2,3.2,3.1,3.2,3.1],"enterFlow":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2],"enteringRate":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2]}}';
+		setMyChart1(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -167,9 +128,6 @@ function initMyChart1() {
 			});
 		} else if (selectValue === "week") {
 			chart1Data.week.date.reverse();
-			for (let i = 0; i < chart1Data.week.enteringRate.length; i++) {
-				chart1Data.week.enteringRate[i] += "%";
-			}
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.week.date
@@ -184,9 +142,6 @@ function initMyChart1() {
 			});
 		} else if (selectValue === "month") {
 			chart1Data.month.date.reverse();
-			for (let i = 0; i < chart1Data.month.enteringRate.length; i++) {
-				chart1Data.month.enteringRate[i] += "%";
-			}
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.month.date
@@ -203,6 +158,28 @@ function initMyChart1() {
 	});
 }
 
+/*把收到数据与将数据嵌入图表 拆分开，减少耦合*/
+function setMyChart1(data) {
+	//console.log('Chart1 成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+	chart1Data = data;
+	//处理收到的部分数据（需要的时候再处理）
+	chart1Data.day.date.reverse();
+
+	myChart1.hideLoading();
+	myChart1.setOption({
+		xAxis: [{
+			data: chart1Data.day.date
+			}],
+		series: [{
+			data: chart1Data.day.passengerFlow
+        	}, {
+			data: chart1Data.day.enterFlow
+			}, {
+			data: chart1Data.day.enteringRate
+			}]
+	});
+
+}
 
 
 /*#######################################################################*/
@@ -210,85 +187,10 @@ function initMyChart1() {
 /*#######################################################################*/
 function initMyChart2() {
 	myChart2.showLoading();
-	// 指定图表的配置项和数据
+	
+	
 	$.get('/graph/findNewOldCustomer.do').done(function (data) {
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		myChart2.hideLoading();
-		option2 = {
-			title: {
-				text: '',
-				subtext: '过去七天新老顾客比例',
-				x: 'center'
-			},
-			tooltip: {
-				trigger: 'item',
-				formatter: "{a} <br/>{b} : {c} ({d}%)"
-			},
-			legend: {
-				orient: 'vertical',
-				left: 'left',
-				data: ['新顾客', '老顾客']
-			},
-			toolbox: {
-				show: true,
-				feature: {
-					mark: {
-						show: true
-					},
-					dataView: {
-						show: true,
-						readOnly: true
-					},
-					magicType: {
-						show: true,
-						type: ['pie', 'funnel'],
-						option: {
-							funnel: {
-								x: '25%',
-								width: '50%',
-								funnelAlign: 'left',
-								max: 1548
-							}
-						}
-					},
-					restore: {
-						show: true
-					},
-					saveAsImage: {
-						show: true
-					}
-				}
-			},
-			calculable: true,
-			series: [{
-				name: '访问来源',
-				type: 'pie',
-				radius: '55%',
-				center: ['50%', '60%'],
-				data: [{
-					value: parseInt(data.newCustomer),
-					name: '新顾客'
-                }, {
-					value: parseInt(data.oldCustomer),
-					name: '老顾客'
-                }],
-				itemStyle: {
-					normal: {
-						color: function (params) {
-							// build a color map as your need.
-							var colorList = ['#22DDDD', '#F0805A'];
-							return colorList[params.dataIndex]
-						},
-					},
-					emphasis: {
-						shadowBlur: 10,
-						shadowOffsetX: 0,
-						shadowColor: 'rgba(0, 0, 0, 0.5)'
-					}
-				}
-            }]
-		};
-		myChart2.setOption(option2);
+		setMyChart2(data);
 	}).fail(function (xhr, status) {
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
@@ -319,6 +221,87 @@ function initMyChart2() {
 			dataIndex: app.currentIndex
 		});
 	}, 3000);
+}
+
+function setMyChart2(data) {
+	console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+	
+	myChart2.hideLoading();
+	option2 = {
+		title: {
+			text: '',
+			subtext: '过去七天新老顾客比例',
+			x: 'center'
+		},
+		tooltip: {
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : {c} ({d}%)"
+		},
+		legend: {
+			orient: 'vertical',
+			left: 'left',
+			data: ['新顾客', '老顾客']
+		},
+		toolbox: {
+			show: true,
+			feature: {
+				mark: {
+					show: true
+				},
+				dataView: {
+					show: true,
+					readOnly: true
+				},
+				magicType: {
+					show: true,
+					type: ['pie', 'funnel'],
+					option: {
+						funnel: {
+							x: '25%',
+							width: '50%',
+							funnelAlign: 'left',
+							max: 1548
+						}
+					}
+				},
+				restore: {
+					show: true
+				},
+				saveAsImage: {
+					show: true
+				}
+			}
+		},
+		calculable: true,
+		series: [{
+			name: '访问来源',
+			type: 'pie',
+			radius: '55%',
+			center: ['50%', '60%'],
+			data: [{
+				value: parseInt(data.newCustomer),
+				name: '新顾客'
+                }, {
+				value: parseInt(data.oldCustomer),
+				name: '老顾客'
+                }],
+			itemStyle: {
+				normal: {
+					color: function (params) {
+						// build a color map as your need.
+						var colorList = ['#22DDDD', '#F0805A'];
+						return colorList[params.dataIndex]
+					},
+				},
+				emphasis: {
+					shadowBlur: 10,
+					shadowOffsetX: 0,
+					shadowColor: 'rgba(0, 0, 0, 0.5)'
+				}
+			}
+            }]
+	};
+	myChart2.setOption(option2);
 }
 
 /*#######################################################################*/
@@ -357,13 +340,15 @@ function initMyChart3() {
     ],
 		yAxis: [
 			{
-				type: 'value'
+				type: 'value',
+				name: '人次',
         }
     ],
 		series: [
 			{
 				name: '高活跃度',
 				type: 'bar',
+				stack: '广告',
 				data: []
         },
 			{
@@ -389,26 +374,11 @@ function initMyChart3() {
 
 	myChart3.showLoading();
 	$.get('/graph/activitydegree.do').done(function (data) {
-		chart3Data.week.date.reverse();
-		myChart3.hideLoading();
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		chart3Data = data;
+		setMyChart3(data);
 
-		myChart3.setOption({
-			xAxis: [{
-				data: chart3Data.week.date
-			}],
-			series: [{
-				data: chart3Data.week.highDegree
-        	}, {
-				data: chart3Data.week.middleDegree
-			}, {
-				data: chart3Data.week.lowDegree
-			}, {
-				data: chart3Data.week.sleepDegree
-			}]
-		});
 	}).fail(function (xhr, status) {
+		var data = '{"week": {"date":["5/8","5/1"],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"month": {"date":[12,11,10,9,8,7,6,5,4,3,2,1],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]}}';
+		setMyChart3(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -450,6 +420,26 @@ function initMyChart3() {
 	});
 }
 
+function setMyChart3(data) {
+	myChart3.hideLoading();
+	console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+	chart3Data = data;
+	chart3Data.week.date.reverse();
+	myChart3.setOption({
+		xAxis: [{
+			data: chart3Data.week.date
+			}],
+		series: [{
+			data: chart3Data.week.highDegree
+        	}, {
+			data: chart3Data.week.middleDegree
+			}, {
+			data: chart3Data.week.lowDegree
+			}, {
+			data: chart3Data.week.sleepDegree
+			}]
+	});
+}
 
 /*#######################################################################*/
 /*########################初始化Mychart4:深访率、跳出率#################*/
@@ -461,7 +451,8 @@ function initMyChart4() {
 			subtext: ''
 		},
 		tooltip: {
-			trigger: 'axis'
+			trigger: 'item',
+			formatter: "{a} <br/>{b} : ({c}%)"
 		},
 		legend: {
 			data: ['深访率', '跳出率']
@@ -499,10 +490,14 @@ function initMyChart4() {
 		yAxis: [
 			{
 				type: 'value',
+				name: '百分比',
+				min: 0,
+				max: 100,
+				interval: 20,
 				axisLabel: {
-					formatter: '{value} %'
+					formatter: '{value} %' //'{value} %'
 				}
-        }
+            }
     ],
 		series: [
 			{
@@ -560,24 +555,10 @@ function initMyChart4() {
 
 	myChart4.showLoading();
 	$.get('/graph/deepoutdegree.do').done(function (data) {
-		chart4Data.day.date.reverse();
-		myChart4.hideLoading();
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		chart4Data = data;
-
-		myChart4.setOption({
-			xAxis: [{
-				data: chart4Data.day.date
-			}],
-			series: [{
-				data: chart4Data.day.deepDegree
-			}, {
-				data: chart4Data.day.outDegree
-			}]
-		});
-
-
+		setMyChart4(data);
 	}).fail(function (xhr, status) {
+		var data = '{"day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"deepDegree":[2.0, 4.9, 6, 3.4, 10.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 1.6, 5.4, 4.0, 6.4, 3.3]},"week": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"deepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"month": {"date":[12,11,10,9,8,7,6,5,4,3,2,1],"deepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]}}';
+		setMyChart4(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -624,3 +605,57 @@ function initMyChart4() {
 
 
 }
+
+function setMyChart4(data) {
+	myChart4.hideLoading();
+	console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+	chart4Data = data;
+	
+	chart4Data.day.date.reverse();
+	myChart4.setOption({
+		xAxis: [{
+			data: chart4Data.day.date
+			}],
+		series: [{
+			data: chart4Data.day.deepDegree
+			}, {
+			data: chart4Data.day.outDegree
+			}]
+	});
+}
+
+
+
+
+
+
+
+/*$(document).ready()*/
+
+$(document).ready(function () {
+	// 欢迎的提示牌
+	var unique_id = $.gritter.add({
+		// (string | mandatory) the heading of the notification
+		title: '欢迎来到商业数据分析决策平台!',
+		// (string | mandatory) the text inside the notification
+		//text: 'Hover me to enable the Close Button. You can hide the left sidebar clicking on the button next to the logo. Free version for <a href="http://blacktie.co" target="_blank" style="color:#ffd777">BlackTie.co</a>.',
+		text: ' ',
+		// (string | optional) the image to display on the left
+		image: 'assets/img/ui-sam.jpg',
+		// (bool | optional) if you want it to fade out on its own or just sit there
+		sticky: false,
+		// (int | optional) the time you want it to be alive for before fading out
+		time: '1500',
+		// (string | optional) the class name you want to apply to that specific message
+		class_name: 'my-sticky-class'
+	});
+
+	// 初始化客流、入店量、入店率图
+	initMyChart1();
+	// 初始化新老顾客饼图
+	initMyChart2();
+	// 初始化顾客活跃度图
+	initMyChart3();
+	// 初始化深访率、跳出率
+	initMyChart4();
+});

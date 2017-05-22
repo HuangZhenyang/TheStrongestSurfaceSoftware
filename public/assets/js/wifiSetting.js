@@ -44,7 +44,7 @@ $(document).ready(function () {
 			eachTableDom += "<tr>" + 
 							"<td>" + result[i].id + "</td>" +
 							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
-							"<td><button onclick='statusBtn(this)' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
+							"<td><button onclick='statusBtn(this)'" + "id=" + result[i].id +　"class='label label-info label-mini'>" + result[i].status + "</button></td>" +
 							"<td>" + "<button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
 			                "</td>";
 			tableDom += eachTableDom;
@@ -118,8 +118,9 @@ function checkBindingInput() {
 function statusBtn(evt){
 	if(evt.innerHTML === "On"){
 		evt.innerHTML = "Off";
+		/*Button Id设置为探针的id*/
 		$.ajax({
-			type: 'get',
+			type: 'post',
 			url: '/config/statuscontrol.do',
 			dataType: 'json',
 			data: {
@@ -132,5 +133,17 @@ function statusBtn(evt){
 		});
 	}else if(evt.innerHTML === "Off"){
 		evt.innerHTML = "On";
+		$.ajax({
+			type: 'get',
+			url: '/config/statuscontrol.do',
+			dataType: 'json',
+			data: {
+				status: 'on' 
+			}
+		}).done(function(data){
+		
+		}).fail(function(xhr, status){
+			alert("修改失败");
+		});
 	}
 }
