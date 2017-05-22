@@ -37,6 +37,11 @@ $(document).ready(function () {
 		
 		$("#table3 tr:last").after(newRow);
 		*/
+		/*********测试********/
+		if(typeof(data) === "string"){
+			data = JSON.parse(data);
+		}
+		
 		var tableDom = "";
 		var eachTableDom = "";
 		var result = data.result;
@@ -44,7 +49,7 @@ $(document).ready(function () {
 			eachTableDom += "<tr>" + 
 							"<td>" + result[i].id + "</td>" +
 							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
-							"<td><button onclick='statusBtn(this)'" + "id=" + result[i].id +　"class='label label-info label-mini'>" + result[i].status + "</button></td>" +
+							"<td><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
 							"<td>" + "<button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
 			                "</td>";
 			tableDom += eachTableDom;
@@ -64,7 +69,7 @@ $('#bindingButton').click(function () {
 	if (checkBindingInput()) {
 		$.ajax({
 			type: 'post',
-			url: '/config/wifiSetting.do',
+			url: '/config/wifisetting.do',
 			dataType: 'json',
 			data: {
 				wifiProbeID: $('#wifiProbeID').val(),
@@ -75,6 +80,7 @@ $('#bindingButton').click(function () {
 		}).done(function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			//var result = JSON.parse(data);
+			alert(typeof(data));
 			var result = data;
 			if (result.result === "true") {
 				$('#bindingTip').text("绑定成功");
@@ -116,14 +122,15 @@ function checkBindingInput() {
 探针状态按钮函数
 */
 function statusBtn(evt){
-	if(evt.innerHTML === "On"){
-		evt.innerHTML = "Off";
+	if(evt.innerHTML === "on"){
+		evt.innerHTML = "off";
 		/*Button Id设置为探针的id*/
 		$.ajax({
 			type: 'post',
-			url: '/config/statuscontrol.do',
+			url: '/config/setwifistatus.do',
 			dataType: 'json',
 			data: {
+				id: evt.getAttribute("id"),
 				status: 'off' 
 			}
 		}).done(function(data){
@@ -131,13 +138,15 @@ function statusBtn(evt){
 		}).fail(function(xhr, status){
 			alert("修改失败");
 		});
-	}else if(evt.innerHTML === "Off"){
-		evt.innerHTML = "On";
+	}else if(evt.innerHTML === "off"){
+		alert("asasasasas");
+		evt.innerHTML = "on";
 		$.ajax({
-			type: 'get',
-			url: '/config/statuscontrol.do',
+			type: 'post',
+			url: '/config/setwifistatus.do',
 			dataType: 'json',
 			data: {
+				id: evt.getAttribute("id"),
 				status: 'on' 
 			}
 		}).done(function(data){

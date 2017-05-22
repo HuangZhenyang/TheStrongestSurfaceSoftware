@@ -27,7 +27,7 @@
 5. Description： 
  			1. time: `折线图X轴数据`
  			2. value: `客流量数据(日、周、月)、入店量数据、入店率数据`
-
+6. Data From To: Server to Client
 
 #### **myChart2 新老顾客**
 1. Request URL: `/graph/findnewoldcustomer.do`
@@ -42,6 +42,7 @@
 5. Description:
 			1. newCustomer: `新顾客数量`
 			2. oldCustomer: `老顾客数量`
+6. Data From To: Server to Client
 
 
 #### **myChart3 顾客活跃度**
@@ -67,7 +68,8 @@
 5. Description:
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
-			
+6. Data From To: Server to Client
+
 			
 #### **myChart4 深访率、跳出率**
 1. Request URL: `/graph/deepoutdegree.do`
@@ -92,7 +94,7 @@
 5. Description:
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
-			
+6. Data From To: Server to Client			
 			
 
 
@@ -116,20 +118,21 @@
 5. Description： 
  			1. time: `时间`
  			2. value: `客流量数据`
+6. Data From To: Server to Client
+
 
 
 ---
-
 ---
 
 ### **passengerTransform.js**
 ---
-
-1. Request URL: `/graph/realTimePassengerflow.do`
+#### 客流转化
+1. Request URL: `/graph/passengerTransform.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
 4.  ```json
-{ "1月":{
+{"1月":{
 		 "nodes": [
 			{
 			  "name": "忠诚顾客"
@@ -160,7 +163,6 @@
 		}
 		]		   
 	},
-	
 	"2月":{
 		 "nodes": [
 			{
@@ -202,7 +204,7 @@
 					1. source: `源`
 					2. target: `终点`
 					3. value: `源与终点关系的数值`
-
+6. Data From To: Server To Client
 
 
 
@@ -226,10 +228,11 @@
 	1. wifiProbeID: `wifi探针的id`
 	2. wifiProbePassword: `wifi探针的密码，验证成功才可以绑定`
 	3. wifiProbeAddress: `wifi探针的部署地址`
+6. Data From To: Client To Server
 
 
 #### **请求探针信息**
-1. Request URL: `/config/wifiprobeinfo.do`
+1. Request URL:  `/config/wifiprobeinfo.do`
 2. Request Method: `POST`
 3. ```json
 	{
@@ -253,7 +256,23 @@
 	1. id: `探针id`
 	2. address: `探针地址`
 	3. status: `探针状态`
+6. Data From To: Server To Client
 
+
+#### ** 修改探针状态 **
+1. Request URL:  `/config/setwifistatus.do`
+2. Request Method: `POST`
+3. ```json
+	{
+		id:"024",
+		status:"off"
+	}
+   ```
+4. Data Type: `JSON`
+5. Description：
+	1. id: `探针id`
+	2. status: `探针状态`
+6. Data From To: Client To Server
 
 
 ---
@@ -273,10 +292,10 @@
    ```
 4. Data Type: `JSON`
 5. Description:
-
 	1. h_m: `高、中活跃度阈值`
 	2. m_l: `中低活跃度阈值`
 	3. l_s: `wifi探针的部署地址`
+6. Data From To: Client To Server
 
 #### **设置深访跳出率阈值**
 1. Request URL: `/config/thresholddj.do`
@@ -289,6 +308,6 @@
    ```
 4. Data Type: `JSON`
 5. Description:
-
 	1. deep: `深访率阈值`
 	2. jump: `跳出率阈值`
+6. Data From To: Client To Server

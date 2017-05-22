@@ -188,7 +188,7 @@
 							<h4><i class="fa fa-angle-right"></i> 探针管理</h4>
 							<hr>
 							<table id="infotable" class="table table-striped table-advance table-hover">
-									
+
 								<thead>
 									<tr>
 										<th><i class="fa fa-bullhorn"></i> 探针ID</th>
@@ -200,12 +200,13 @@
 								</thead>
 								<!-- /thead -->
 								<tbody>
+									<!--
 									<tr>
 										<td><a href="basic_table.html#">021</a></td>
 										<td class="hidden-phone">厦门市中山路353号</td>
 										<td><button id="test" onclick="statusBtn(this)" class="label label-info label-mini">On</button></td>
 										<td>
-											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
@@ -215,7 +216,7 @@
 										<td class="hidden-phone">厦门市中山路352号</td>
 										<td><button class="label label-info label-mini">Off</button></td>
 										<td>
-											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
@@ -225,7 +226,7 @@
 										<td class="hidden-phone">厦门市中山路351号</td>
 										<td><button class="label label-info label-mini">On</button></td>
 										<td>
-											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
@@ -235,7 +236,7 @@
 										<td class="hidden-phone">厦门市思明区龙头路95号</td>
 										<td><button class="label label-info label-mini">On</button></td>
 										<td>
-											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
@@ -245,11 +246,12 @@
 										<td class="hidden-phone">厦门市思明区龙头路95号</td>
 										<td><button class="label label-info label-mini">On</button></td>
 										<td>
-											<!--<button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>-->
+											
 											<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
 											<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
 										</td>
 									</tr>
+									-->
 									<!-- /tr -->
 								</tbody>
 							</table>
@@ -293,10 +295,29 @@
 	<!--script for this page-->
 	<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
 	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
-	<script type="text/javascript" src="assets/js/setting.js"></script>
-	
+
 	<!--wifiSetting.js-->
 	<script type="text/javascript" src="assets/js/wifiSetting.js"></script>
+
+	<!-- 测试 -->
+	<script src="http://mockjs.com/dist/mock.js"></script>
+	<script type="text/javascript">
+		var data = {
+			result: [
+				{
+					id: 024,
+					address: "贝克街221号",
+					status: "on"
+			},
+				{
+					id: 026,
+					address: "贝克街211号",
+					status: "off"
+			}
+	    ]
+		};
+		Mock.mock('/config/wifiprobeinfo.do', data);
+	</script>
 
 </body>
 
