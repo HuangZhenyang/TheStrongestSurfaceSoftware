@@ -70,7 +70,7 @@ function initMyChart1() {
 			name: '人次',
 			min: 0,
 
-			interval: 10,
+			//interval: 10,
 			axisLabel: {
 				formatter: '{value} '
 			}
@@ -105,8 +105,8 @@ function initMyChart1() {
 	$.get('/graph/passengerflow.do').done(function (data) {
 		setMyChart1(data);
 	}).fail(function (xhr, status) {
-		var data = '{"day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"passengerFlow":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"enterFlow":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"enteringRate":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"week": {"date":["5/8","5/1"],"passengerFlow":[2.0, 4.9],"enterFlow":[2.0, 4.9],"enteringRate":[2.0, 4.9]},"month": {"date":[1,2,3,4,5,6,7,8,9,10,11,12],"passengerFlow":[2.0, 4.9,3.2,3.2,3.1,2.0, 4.9,3.2,3.2,3.1,3.2,3.1],"enterFlow":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2],"enteringRate":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2]}}';
-		setMyChart1(JSON.parse(data));
+		//var data = '{"day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"passengerFlow":[2222.0, 4222.9, 2222.6, 1111.4, 2220.0, 560.4, 1111.3],"enterFlow":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"enteringRate":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"week": {"date":["5/8","5/1"],"passengerFlow":[2.0, 4.9],"enterFlow":[2.0, 4.9],"enteringRate":[2.0, 4.9]},"month": {"date":[1,2,3,4,5,6,7,8,9,10,11,12],"passengerFlow":[2.0, 4.9,3.2,3.2,3.1,2.0, 4.9,3.2,3.2,3.1,3.2,3.1],"enterFlow":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2],"enteringRate":[2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2,2.0, 4.9,3.2]}}';
+		//setMyChart1(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -141,7 +141,7 @@ function initMyChart1() {
 			}]
 			});
 		} else if (selectValue === "month") {
-			chart1Data.month.date.reverse();
+			
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.month.date
@@ -161,10 +161,17 @@ function initMyChart1() {
 /*把收到数据与将数据嵌入图表 拆分开，减少耦合*/
 function setMyChart1(data) {
 	//console.log('Chart1 成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-	chart1Data = data;
+	if(typeof(data) === "string"){
+		chart1Data = JSON.parse(data);
+	}else{
+		chart1Data = data;
+	}
+	//chart1Data = data;
 	//处理收到的部分数据（需要的时候再处理）
 	chart1Data.day.date.reverse();
-
+	chart1Data.week.date.reverse();
+	chart1Data.month.date.reverse();
+	
 	myChart1.hideLoading();
 	myChart1.setOption({
 		xAxis: [{
@@ -375,10 +382,9 @@ function initMyChart3() {
 	myChart3.showLoading();
 	$.get('/graph/activitydegree.do').done(function (data) {
 		setMyChart3(data);
-
 	}).fail(function (xhr, status) {
-		var data = '{"week": {"date":["5/8","5/1"],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"month": {"date":[12,11,10,9,8,7,6,5,4,3,2,1],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]}}';
-		setMyChart3(JSON.parse(data));
+		//var data = '{"week": {"date":["5/8","5/1"],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"month": {"date":[12,11,10,9,8,7,6,5,4,3,2,1],"highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"middleDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"lowDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]}}';
+		//setMyChart3(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -401,7 +407,6 @@ function initMyChart3() {
 			}]
 			});
 		} else if (selectValue === "month") {
-			chart3Data.month.date.reverse();
 			myChart3.setOption({
 				xAxis: [{
 					data: chart3Data.month.date
@@ -425,6 +430,7 @@ function setMyChart3(data) {
 	console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 	chart3Data = data;
 	chart3Data.week.date.reverse();
+	chart3Data.month.date.reverse();
 	myChart3.setOption({
 		xAxis: [{
 			data: chart3Data.week.date
@@ -557,8 +563,6 @@ function initMyChart4() {
 	$.get('/graph/deepoutdegree.do').done(function (data) {
 		setMyChart4(data);
 	}).fail(function (xhr, status) {
-		var data = '{"day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"deepDegree":[2.0, 4.9, 6, 3.4, 10.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 1.6, 5.4, 4.0, 6.4, 3.3]},"week": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],"deepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]},"month": {"date":[12,11,10,9,8,7,6,5,4,3,2,1],"deepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],"outDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]}}';
-		setMyChart4(JSON.parse(data));
 		console.log('失败: ' + xhr.status + ', 原因: ' + status);
 	});
 
@@ -577,7 +581,6 @@ function initMyChart4() {
 			}]
 			});
 		} else if (selectValue === "week") {
-			chart4Data.month.week.reverse();
 			myChart4.setOption({
 				xAxis: [{
 					data: chart4Data.week.date
@@ -589,7 +592,6 @@ function initMyChart4() {
 			}]
 			});
 		} else if (selectValue === "month") {
-			chart4Data.month.month.reverse();
 			myChart4.setOption({
 				xAxis: [{
 					data: chart4Data.month.date
@@ -602,8 +604,6 @@ function initMyChart4() {
 			});
 		}
 	});
-
-
 }
 
 function setMyChart4(data) {
@@ -612,6 +612,9 @@ function setMyChart4(data) {
 	chart4Data = data;
 	
 	chart4Data.day.date.reverse();
+	chart4Data.week.date.reverse();
+	chart4Data.month.date.reverse();
+	
 	myChart4.setOption({
 		xAxis: [{
 			data: chart4Data.day.date
@@ -623,10 +626,6 @@ function setMyChart4(data) {
 			}]
 	});
 }
-
-
-
-
 
 
 

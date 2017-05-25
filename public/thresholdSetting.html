@@ -119,7 +119,7 @@
 								<li><a href="userSetting.html">用户设置</a></li>
 							</ul>
 							<ul class="sub">
-								<li class="active" ><a href="thresholdSetting.html">阈值设置</a></li>
+								<li class="active"><a href="thresholdSetting.html">阈值设置</a></li>
 							</ul>
 							<ul class="sub">
 								<li><a href="wifiSetting.html">探针设置</a></li>
@@ -163,7 +163,7 @@
 						<div class="content-panel">
 							<h4><i class="fa fa-angle-right"></i> 顾客活跃度阈值设置</h4>
 							<hr>
-							<table class="table table-striped table-advance table-hover">
+							<table id="activitytable" class="table table-striped table-advance table-hover">
 								<thead>
 									<tr>
 										<th><i class="fa fa-bullhorn"></i> 高、中活跃度阈值</th>
@@ -175,10 +175,19 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td><input id="h_m_text" type="text" placeholder="天/次"></td>
-										<td><input id="m_l_text" type="text" placeholder="天/次"></td>
-										<td><input id="l_s_text" type="text" placeholder="天/次"></td>
-										<td><button id="btn1" class="label label-info label-mini" onclick="btn1Func()"> OK</button><label id="btn1Tip"></label></td>
+										<td>
+											<input id="h_m_text" type="text" placeholder="天/次">
+										</td>
+										<td>
+											<input id="m_l_text" type="text" placeholder="天/次">
+										</td>
+										<td>
+											<input id="l_s_text" type="text" placeholder="天/次">
+										</td>
+										<td>
+											<button id="btn1" class="label label-info label-mini" onclick="btn1Func()"> OK</button>
+											<span><font color="red"><label id="btn1Tip"></label></font></span>
+										</td>
 									</tr>
 									<!-- /tr -->
 								</tbody>
@@ -192,21 +201,31 @@
 						<div class="content-panel">
 							<h4><i class="fa fa-angle-right"></i> 深访、跳出率阈值设置</h4>
 							<hr>
-							<table class="table table-striped table-advance table-hover">
+							<table id="deepjumptable" class="table table-striped table-advance table-hover">
 								<thead>
 									<tr>
 										<th><i class="fa fa-bullhorn"></i> 深访率阈值</th>
 										<th class="hidden-phone"><i class="fa fa-question-circle"></i> 跳出率阈值</th>
-										
-										<th><i class=" fa fa-edit"></i> 确认修改</th>
+										<th><i class=" fa fa-edit"></i> 确认修改 <span class="pull-left">
+							<font color="red">
+                			<label id="loginTip"></label>
+                			</font> 
+	                	</span></th>
 										<th></th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td><input id="deep_text" type="text" placeholder="小时-分-秒"></td>
-										<td><input id="jump_text" type="text" placeholder="小时-分-秒"></td>
-										<td><button id="btn2" class="label label-info label-mini" onclick="btn2Func()"> OK</button><label id="btn2Tip"></label></td></td>
+										<td>
+											<input id="deep_text" type="text" placeholder="小时-分-秒">
+										</td>
+										<td>
+											<input id="jump_text" type="text" placeholder="小时-分-秒">
+										</td>
+										<td>
+											<button id="btn2" class="label label-info label-mini" onclick="btn2Func()"> OK</button>
+											<span><font color="red"><label id="btn2Tip"></label></font></span>
+										</td>
 									</tr>
 									<!-- /tr -->
 								</tbody>
@@ -251,8 +270,27 @@
 	<!--script for this page-->
 	<script type="text/javascript" src="assets/js/gritter/js/jquery.gritter.js"></script>
 	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
-	
+
+
 	<script type="text/javascript" src="assets/js/thresholdSetting.js"></script>
+
+
+	<!-- 测试 -->
+	<script src="http://mockjs.com/dist/mock.js"></script>
+	<script type="text/javascript">
+		var data = {
+			activity: {
+				h_m: 15,
+				m_l: 11,
+				l_s: 5
+			},
+			deepjump: {
+				deep: 3600,
+				jump: 1800
+			}
+		};
+		Mock.mock('/data/getthreshold.do', data);
+	</script>
 
 </body>
 

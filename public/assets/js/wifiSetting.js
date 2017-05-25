@@ -2,6 +2,7 @@
 
 $(document).ready(function () {
 	$.get('/config/wifiprobeinfo.do').done(function (data) {
+		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 		//操纵dom,插入数据到表格里
 		/*
 		{
@@ -51,7 +52,8 @@ $(document).ready(function () {
 							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
 							"<td><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
 							"<td>" + "<button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
-			                "</td>";
+			                "</td>" + 
+							"</tr>";
 			tableDom += eachTableDom;
 		}
 		$('#infotable tr:last').after(tableDom);
@@ -76,24 +78,23 @@ $('#bindingButton').click(function () {
 				wifiProbePassword: $('#wifiProbePassword').val(),
 				wifiProbeAddress: $('#wifiProbeAddress').val()
 			}
-
 		}).done(function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-			//var result = JSON.parse(data);
-			alert(typeof(data));
-			var result = data;
-			if (result.result === "true") {
+			if (data.result === "true") {
 				$('#bindingTip').text("绑定成功");
 				$('#wifiProbeID').val("");
 				$('#wifiProbePassword').val("");
 				$('#wifiProbeAddress').val("");
-			} else {
-				$('#bindingTip').text("绑定失败");
+			} else if(data.result === "noId"){
+				$('#bindingTip').text("探针ID不存在");
+			}else if(data.result === "hasLocked"){
+				$('#bindingTip').text("探针已被绑定");
+			}else if(data.result === "wrongpassword"){
+				$('#bindingTip').text("探针密码错误");
 			}
-
 		}).fail((xhr, status) => {
 			$('#bindingTip').text("绑定失败");
-			console.log('失败: ' + xhr.status + ', 原因: ' + status);
+			//console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
 	}
 });
@@ -123,7 +124,6 @@ function checkBindingInput() {
 */
 function statusBtn(evt){
 	if(evt.innerHTML === "on"){
-		evt.innerHTML = "off";
 		/*Button Id设置为探针的id*/
 		$.ajax({
 			type: 'post',
@@ -134,13 +134,13 @@ function statusBtn(evt){
 				status: 'off' 
 			}
 		}).done(function(data){
-		
+			if(data.result === "true"){
+				evt.innerHTML = "off";
+			}
 		}).fail(function(xhr, status){
 			alert("修改失败");
 		});
 	}else if(evt.innerHTML === "off"){
-		alert("asasasasas");
-		evt.innerHTML = "on";
 		$.ajax({
 			type: 'post',
 			url: '/config/setwifistatus.do',
@@ -150,7 +150,9 @@ function statusBtn(evt){
 				status: 'on' 
 			}
 		}).done(function(data){
-		
+			if(data.result === "true"){
+				evt.innerHTML = "on";
+			}
 		}).fail(function(xhr, status){
 			alert("修改失败");
 		});

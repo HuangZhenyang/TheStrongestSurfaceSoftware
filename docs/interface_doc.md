@@ -100,6 +100,7 @@
 
 ---
 
+
 ---
 
 
@@ -123,6 +124,8 @@
 
 
 ---
+
+
 ---
 
 ### **passengerTransform.js**
@@ -131,7 +134,7 @@
 1. Request URL: `/graph/passengerTransform.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
-4.  ```json
+4. ```json
 {"1月":{
 		 "nodes": [
 			{
@@ -210,6 +213,7 @@
 
 ---
 
+
 ---
 ### **wifiSetting.js**
 ---
@@ -277,6 +281,7 @@
 
 ---
 
+
 ---
 ### **thresholdSetting.js**
 ---
@@ -296,6 +301,13 @@
 	2. m_l: `中低活跃度阈值`
 	3. l_s: `wifi探针的部署地址`
 6. Data From To: Client To Server
+7. Server Response:
+```json
+{
+	"result": "true"
+}
+```
+
 
 #### **设置深访跳出率阈值**
 1. Request URL: `/config/thresholddj.do`
@@ -311,3 +323,34 @@
 	1. deep: `深访率阈值`
 	2. jump: `跳出率阈值`
 6. Data From To: Client To Server
+
+
+
+#### **请求阈值数据**
+1. Request URL: `/data/getthreshold.do`
+2. Request Method: `GET`
+3. 
+```json
+	{
+		activity:{
+			h_m:15,
+			m_l:11,
+			l_s:5
+		},
+		deepjump:{
+			deep:3600,
+			jump:1800
+		}
+	} 
+```
+4. Data Type: `JSON`
+5. Description:
+
+	1. hmls: `顾客活跃度阈值数据`
+		1. h_m: `高 中`
+		2. m_l: `中 低`
+		3. l_s: `低 睡眠`
+	2. dj: `深访跳出率阈值`
+		1.	deep: `深访`
+		2.	jump: `跳出`
+6. Data From To: Server To Client
