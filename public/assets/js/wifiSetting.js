@@ -47,7 +47,7 @@ $(document).ready(function () {
 		var eachTableDom = "";
 		var result = data.result;
 		for(let i=0;i<result.length;i++){
-			eachTableDom += "<tr>" + 
+			eachTableDom = "<tr>" + 
 							"<td>" + result[i].id + "</td>" +
 							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
 							"<td><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +

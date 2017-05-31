@@ -141,7 +141,6 @@ function initMyChart1() {
 			}]
 			});
 		} else if (selectValue === "month") {
-			
 			myChart1.setOption({
 				xAxis: [{
 					data: chart1Data.month.date
@@ -169,9 +168,20 @@ function setMyChart1(data) {
 	//chart1Data = data;
 	//处理收到的部分数据（需要的时候再处理）
 	chart1Data.day.date.reverse();
-	chart1Data.week.date.reverse();
-	chart1Data.month.date.reverse();
+	chart1Data.day.passengerFlow.reverse();
+	chart1Data.day.enterFlow.reverse();
+	chart1Data.day.enteringRate.reverse();
 	
+	chart1Data.week.date.reverse();
+	chart1Data.week.passengerFlow.reverse();
+	chart1Data.week.enterFlow.reverse();
+	chart1Data.week.enteringRate.reverse();
+	
+	chart1Data.month.date.reverse();
+	chart1Data.month.passengerFlow.reverse();
+	chart1Data.month.enterFlow.reverse();
+	chart1Data.month.enteringRate.reverse();
+
 	myChart1.hideLoading();
 	myChart1.setOption({
 		xAxis: [{
@@ -430,7 +440,17 @@ function setMyChart3(data) {
 	console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 	chart3Data = data;
 	chart3Data.week.date.reverse();
+	chart3Data.week.highDegree.reverse();
+	chart3Data.week.middleDegree.reverse();
+	chart3Data.week.lowDegree.reverse();
+	chart3Data.week.sleepDegree.reverse();
+	
 	chart3Data.month.date.reverse();
+	chart3Data.month.highDegree.reverse();
+	chart3Data.month.middleDegree.reverse();
+	chart3Data.month.lowDegree.reverse();
+	chart3Data.month.sleepDegree.reverse();
+	
 	myChart3.setOption({
 		xAxis: [{
 			data: chart3Data.week.date
@@ -612,8 +632,16 @@ function setMyChart4(data) {
 	chart4Data = data;
 	
 	chart4Data.day.date.reverse();
+	chart4Data.day.deepDegree.reverse();
+	chart4Data.day.outDegree.reverse();
+	
 	chart4Data.week.date.reverse();
+	chart4Data.week.deepDegree.reverse();
+	chart4Data.week.outDegree.reverse();
+	
 	chart4Data.month.date.reverse();
+	chart4Data.month.deepDegree.reverse();
+	chart4Data.month.outDegree.reverse();
 	
 	myChart4.setOption({
 		xAxis: [{

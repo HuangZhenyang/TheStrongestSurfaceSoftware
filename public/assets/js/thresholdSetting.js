@@ -119,3 +119,7 @@ function checkFormat(input){
 	alert(input + "  " +reg.test(input));
 	return reg.test(input);
 }
+
+function secondToFormat(data){
+	
+}

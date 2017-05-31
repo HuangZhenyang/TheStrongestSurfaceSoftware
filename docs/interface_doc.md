@@ -49,7 +49,8 @@
 1. Request URL: `/graph/activitydegree.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
-4. ```json	
+4. 
+```json	
 	{
 	  "week": {"date":["5/8","5/1"],
 	           "highDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
@@ -64,7 +65,7 @@
 			   "sleepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]
 			}
 	 }
-   ```
+```
 5. Description:
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
@@ -75,7 +76,8 @@
 1. Request URL: `/graph/deepoutdegree.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
-4. ```json
+4. 
+```json
 	{
 	  "day": {"date":["5/7","5/6","5/5","5/4","5/3","5/2","5/1"],
 			  "deepDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3],
@@ -90,7 +92,7 @@
 			   "outDegree":[2.0, 4.9, 5.6, 5.4, 20.0, 6.4, 3.3]
 			}
 	 }
-   ```
+```
 5. Description:
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
@@ -238,7 +240,8 @@
 #### **请求探针信息**
 1. Request URL:  `/config/wifiprobeinfo.do`
 2. Request Method: `POST`
-3. ```json
+3. 
+```json
 	{
 		result:[
 			{
