@@ -51,7 +51,7 @@ $(document).ready(function () {
 							"<td>" + result[i].id + "</td>" +
 							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
 							"<td><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
-							"<td>" + "<button class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
+							"<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
 			                "</td>" + 
 							"</tr>";
 			tableDom += eachTableDom;
@@ -82,6 +82,17 @@ $('#bindingButton').click(function () {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			if (data.result === "true") {
 				$('#bindingTip').text("绑定成功");
+				var newTableDom = "<tr>" + 
+								  "<td>" + $('#wifiProbeID').val() + "</td>" + 
+					              "<td>" + $('#wifiProbeAddress').val() + "</td>" + 
+								  "<td><button onclick='statusBtn(this)'" + "id='" + $('#wifiProbeID').val() +　"' class='label label-info label-mini'>" + "off" + "</button></td>" + 
+								  "<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" + 
+								  "</tr>";
+				
+				$('#infotable tr:last').after(newTableDom);
+				
+				
+				//清空输入框信息
 				$('#wifiProbeID').val("");
 				$('#wifiProbePassword').val("");
 				$('#wifiProbeAddress').val("");
@@ -158,3 +169,13 @@ function statusBtn(evt){
 		});
 	}
 }
+
+/*
+* 探针修改信息函数
+*/
+/*
+function modifyBtn(evt){
+	alert("");
+	window.location.href = "wifiSetting.html#myModal";
+	alert("1");
+}*/

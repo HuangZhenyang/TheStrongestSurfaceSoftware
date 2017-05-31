@@ -278,6 +278,7 @@
 	<!-- 测试 -->
 	<script src="http://mockjs.com/dist/mock.js"></script>
 	<script type="text/javascript">
+		
 		var data = {
 			activity: {
 				h_m: 15,
@@ -285,10 +286,11 @@
 				l_s: 5
 			},
 			deepjump: {
-				deep: 3600,
-				jump: 1800
+				deep: 3601,
+				jump: 1960
 			}
 		};
+		//var data = {result:"true"};
 		Mock.mock('/data/getthreshold.do', data);
 	</script>
 

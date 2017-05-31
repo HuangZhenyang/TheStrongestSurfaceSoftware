@@ -16,7 +16,7 @@ function loginFunc() {
 			
 			var result = data;
 			if(result.result === "true"){
-				window.location.href = "index.html?name=" + result.name;
+				window.location.href = "index.html";
 			}else{
 				$('#loginTip').text("登录失败");
 				console.log("登录失败");
