@@ -112,15 +112,15 @@
 1. Request URL: `/graph/realTimePassengerflow.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
-4.  ```json
+4.  
+```json
 		{
-		 time: "5/8",
-		 value: 153		   
+		 value: ["12:05:25", 120]   
 		}
-	```
+```
 5. Description： 
- 			1. time: `时间`
- 			2. value: `客流量数据`
+ 			1.value[0]: `横轴数据`
+			2.value[1]: `纵轴数据`
 6. Data From To: Server to Client
 
 
