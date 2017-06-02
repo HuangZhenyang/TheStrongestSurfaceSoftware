@@ -275,7 +275,7 @@
 6. Data From To: Server To Client
 
 
-#### ** 修改探针状态 **
+#### **修改探针状态**
 1. Request URL:  `/config/setwifistatus.do`
 2. Request Method: `POST`
 3. 
@@ -380,18 +380,29 @@
 ---
 #### **请求来访周期等数据**
 1. Request URL: `/table/comeperiod.do`
-2. Request Method: `GET`
-3. 
-```json
-	{
-		result:[
-			{mac:"B8******AFA8", telbrand:"华为", "comeperiod":5, staytime:0.5, frequency:7, lasttime:"2016-09-07"},
-			{mac:"C7******ADV8", telbrand:"小米", "comeperiod":1, staytime:1, frequency:12, lasttime:"2016-09-07"}
-		]
-	} 
-```
-4. Data Type: `JSON`
-5. Description:
+2. Request Method: `POST`
+3. Client To Server:
+	1. 
+		```json
+			{
+				num:100
+			}
+		```
+	2. Description:
+		num: `请求的数据个数`
+4. Server To Client:
+
+	1. 
+	```json
+		{
+			result:[
+				{mac:"B8******AFA8", telbrand:"华为", "comeperiod":5, staytime:0.5, frequency:7, lasttime:"2016-09-07"},
+				{mac:"C7******ADV8", telbrand:"小米", "comeperiod":1, staytime:1, frequency:12, lasttime:"2016-09-07"}
+			]
+		} 
+	```
+	2. Data Type: `JSON`
+	3. Description:
 
 		1. mac: `手机mac地址`
 		2. telbrand: `手机品牌`
@@ -399,7 +410,7 @@
 		4. staytime: `驻店时长`
 		5. frequency: `到店次数`
 		6. lasttime: `最后一次到店时间`
-6. Data From To:  Server To Client
+
 
 
 
