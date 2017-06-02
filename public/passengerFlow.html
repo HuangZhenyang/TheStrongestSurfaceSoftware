@@ -221,11 +221,15 @@
 <!--
 	<script src="http://mockjs.com/dist/mock.js"></script>
 	<script type="text/javascript">
+		var arr = ["001", "002", "003", "004", "005", "006","007","008","009","010","011","012","013","014","015","016","017","018","019","020","021","022"];
+		var d = [1,2,4,5,6,7,9,5,323,323,10,189,33,62,32,54,46,66,77,88,4,34]
+		var index1 = Math.floor((Math.random()*arr.length));		
+		var index2 = Math.floor(Math.random()*d.length);
 		var data = {
-			time: Mock.mock('@date("MM-dd")'), //"5/8"
-			value: 153
+			//time: Mock.mock('@date("MM-dd")'), //"5/8"
+			value: [Math.random()*100, Math.random()*900]
 		};
-		
+
 		Mock.mock('/graph/realTimePassengerflow.do', data);
 	</script>
 -->
