@@ -25,6 +25,7 @@
 	 }
 	```
 5. Description： 
+
  			1. time: `折线图X轴数据`
  			2. value: `客流量数据(日、周、月)、入店量数据、入店率数据`
 6. Data From To: Server to Client
@@ -40,6 +41,7 @@
     }
    ```
 5. Description:
+
 			1. newCustomer: `新顾客数量`
 			2. oldCustomer: `老顾客数量`
 6. Data From To: Server to Client
@@ -67,6 +69,7 @@
 	 }
 ```
 5. Description:
+
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
 6. Data From To: Server to Client
@@ -94,6 +97,7 @@
 	 }
 ```
 5. Description:
+
 			1. time: `堆叠柱状图X轴数据`
 			2. value: `高活跃度（日、周、月）、中活跃度、低活跃度、沉睡活跃度`
 6. Data From To: Server to Client			
@@ -136,7 +140,8 @@
 1. Request URL: `/graph/passengerTransform.do`
 2. Request Method: `GET`
 3. Data Type: `JSON`
-4. ```json
+4. 
+```json
 {"1月":{
 		 "nodes": [
 			{
@@ -204,6 +209,7 @@
 }
 ```
 5. Description： 
+
  			1. nodes: `指标名称`
  			2. links: `指标与指标之间的关系`
 					1. source: `源`
@@ -222,15 +228,17 @@
 #### **探针绑定**
 1. Request URL: `/config/wifisetting.do`
 2. Request Method: `POST`
-3. ```json
+3. 
+```json
 	{
 		wifiProbeID: "12",
 		wifiProbePassword: "123456",
 		wifiProbeAddress: "贝克街221号"
 	} 
-   ```
+```
 4. Data Type: `JSON`
 5. Description：
+
 	1. wifiProbeID: `wifi探针的id`
 	2. wifiProbePassword: `wifi探针的密码，验证成功才可以绑定`
 	3. wifiProbeAddress: `wifi探针的部署地址`
@@ -260,6 +268,7 @@
    ```
 4. Data Type: `JSON`
 5. Description：
+
 	1. id: `探针id`
 	2. address: `探针地址`
 	3. status: `探针状态`
@@ -278,6 +287,7 @@
 ```
 4. Data Type: `JSON`
 5. Description：
+
 	1. id: `探针id`
 	2. status: `探针状态`
 6. Data From To: Client To Server
@@ -301,6 +311,7 @@
    ```
 4. Data Type: `JSON`
 5. Description:
+
 	1. h_m: `高、中活跃度阈值`
 	2. m_l: `中低活跃度阈值`
 	3. l_s: `wifi探针的部署地址`
@@ -325,6 +336,7 @@
 ```
 4. Data Type: `JSON`
 5. Description:
+
 	1. deep: `深访率阈值`
 	2. jump: `跳出率阈值`
 6. Data From To: Client To Server
@@ -365,6 +377,8 @@
 
 ---
 ### **comeperiod.js**
+---
+#### **请求来访周期等数据**
 1. Request URL: `/table/comeperiod.do`
 2. Request Method: `GET`
 3. 
@@ -378,6 +392,7 @@
 ```
 4. Data Type: `JSON`
 5. Description:
+
 		1. mac: `手机mac地址`
 		2. telbrand: `手机品牌`
 		3. comeperiod: `来访周期`
