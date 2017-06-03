@@ -3,14 +3,14 @@
 $(document).ready(function(){
 	getCPTableData();
 	$(".dropdown-menu li").click(function(){
-    	alert($(this).text());
+    	
+		$("#cptable  tr:not(:first)").empty("");  
 		getCPTableData($(this).text());
     });
 });
 
 function getCPTableData(){
 	var num = arguments[0]?arguments[0]:10;
-	console.log("num:" + num);
 	$.ajax({
 		type: 'post',
 		url: '/table/comeperiod.do',
@@ -39,7 +39,7 @@ function setCPTable(data){
 					   "<td style='text-align: center;'>" + result[i].staytime + "</td>" +
 					   "<td style='text-align: center;'>" + result[i].frequency + "</td>" + 
 					   "<td style='text-align: center;'>" + result[i].lasttime + "</td>" + 
-					   "</tr>"
+					   "</tr>" 
 			
 		tableDom += eachTableDom;
 	}
