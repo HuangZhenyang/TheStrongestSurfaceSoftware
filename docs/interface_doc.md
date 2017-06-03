@@ -382,6 +382,7 @@
 1. Request URL: `/table/comeperiod.do`
 2. Request Method: `POST`
 3. Client To Server:
+
 	1. 
 		```json
 			{

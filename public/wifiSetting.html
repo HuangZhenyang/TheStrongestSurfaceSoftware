@@ -191,10 +191,10 @@
 
 								<thead>
 									<tr>
-										<th><i class="fa fa-bullhorn"></i> 探针ID</th>
-										<th class="hidden-phone"><i class="fa fa-question-circle"></i> 探针地址</th>
-										<th><i class="fa fa-bookmark"></i> 探针状态</th>
-										<th><i class=" fa fa-edit"></i> 探针控制</th>
+										<th style='text-align: center;'><i class="fa fa-bullhorn"></i> 探针ID</th>
+										<th style='text-align: center;' class="hidden-phone"><i class="fa fa-question-circle"></i> 探针地址</th>
+										<th style='text-align: center;'><i class="fa fa-bookmark"></i> 探针状态</th>
+										<th style='text-align: center;'><i class=" fa fa-edit"></i> 探针控制</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -322,10 +322,10 @@
 	<script type="text/javascript" src="assets/js/wifiSetting.js"></script>
 
 	<!-- 测试 -->
-	<!--
+	
 	<script src="http://mockjs.com/dist/mock.js"></script>
 	<script type="text/javascript">
-		/*
+		
 		var data = {
 			result: [
 				{
@@ -339,11 +339,11 @@
 					status: "off"
 			}
 	    ]
-		};*/
-		var data={result:"true"};
-		Mock.mock('/config/wifisetting.do', data);
+		};
+		//var data={result:"true"};
+		Mock.mock('/config/wifiprobeinfo.do', data);
 	</script>
-	-->
+	
 	<!-- /测试 -->
 
 </body>

@@ -48,10 +48,10 @@ $(document).ready(function () {
 		var result = data.result;
 		for(let i=0;i<result.length;i++){
 			eachTableDom = "<tr>" + 
-							"<td>" + result[i].id + "</td>" +
-							"<td class='hidden-phone'>" + result[i].address + "</td>" + 
-							"<td><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
-							"<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
+							"<td style='text-align: center;'>" + result[i].id + "</td>" +
+							"<td style='text-align: center;' class='hidden-phone'>" + result[i].address + "</td>" + 
+							"<td style='text-align: center;'><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
+							"<td style='text-align: center;'>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
 			                "</td>" + 
 							"</tr>";
 			tableDom += eachTableDom;
@@ -83,10 +83,10 @@ $('#bindingButton').click(function () {
 			if (data.result === "true") {
 				$('#bindingTip').text("绑定成功");
 				var newTableDom = "<tr>" + 
-								  "<td>" + $('#wifiProbeID').val() + "</td>" + 
-					              "<td>" + $('#wifiProbeAddress').val() + "</td>" + 
+								  "<td style='text-align: center;'>" + $('#wifiProbeID').val() + "</td>" + 
+					              "<td style='text-align: center;'>" + $('#wifiProbeAddress').val() + "</td>" + 
 								  "<td><button onclick='statusBtn(this)'" + "id='" + $('#wifiProbeID').val() +　"' class='label label-info label-mini'>" + "off" + "</button></td>" + 
-								  "<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" + 
+								  "<td style='text-align: center;'>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" + 
 								  "</tr>";
 				
 				$('#infotable tr:last').after(newTableDom);
