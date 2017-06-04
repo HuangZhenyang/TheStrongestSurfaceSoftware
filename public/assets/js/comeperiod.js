@@ -1,12 +1,38 @@
 'use strict';
 
 $(document).ready(function(){
+	// 获取数据
 	getCPTableData();
+	// 
 	$(".dropdown-menu li").click(function(){
-    	
+		alert($('#sinput').val());
 		$("#cptable  tr:not(:first)").empty("");  
 		getCPTableData($(this).text());
     });
+	$('#sdatetimepicker').datetimepicker({  
+		format: "yyyy-mm-dd hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        language:'zh-CN',
+        pickerPosition:"bottom-left",
+        locale: moment.locale('zh-cn')  
+    });
+	$('#edatetimepicker').datetimepicker({  
+		format: "yyyy-mm-dd hh:ii",
+        autoclose: true,
+        todayBtn: true,
+        language:'zh-CN',
+        pickerPosition:"bottom-left",
+        locale: moment.locale('zh-cn')  
+    });
+	/*
+	$(".form_datetime").datetimepicker({
+      format: "yyyy-mm-dd hh:ii",
+      autoclose: true,
+      todayBtn: true,
+      language:'zh-CN',
+      pickerPosition:"bottom-left"
+    });*/
 });
 
 function getCPTableData(){

@@ -413,8 +413,8 @@ ul.sidebar-menu li a.active i {
 }
 
 .black-bg {
-    background: #ffd777;
-    border-bottom: 1px solid #c9aa5f;
+    background: #ffd777;/*#ffd777*/
+    border-bottom: 1px solid #ffd777;/*#c9aa5f*/
 }
 
 .wrapper {
@@ -2244,6 +2244,9 @@ label {
     min-height: 900px;
 }
 
+
+
+/******************************************************/
 /*My own classes*/
 .my-z-index-class{
 	z-index: -1;
@@ -2254,4 +2257,7 @@ label {
 	margin-top:0px;
 }
 
+.my-inline{
+	display: inline;
+}
 
