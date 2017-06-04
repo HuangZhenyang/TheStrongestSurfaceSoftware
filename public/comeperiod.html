@@ -148,9 +148,28 @@
 					<div class="col-md-12">
 						<div class="content-panel">
 							<h4><i class="fa fa-angle-right"></i> 来访周期
+							<!--split btn-->
+							<div style="float:right;display:block-inline;margin-left:20px;" class="btn-group">
+							    <button id="okbtn" type="button" class="btn btn-theme">确定</button>
+									<button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
+									<span class="caret"></span>
+									<span class="sr-only">Toggle Dropdown</span>
+							    </button>
+							    <ul class="dropdown-menu" role="menu">
+								    <li><a>数据数目</a></li>
+								    <li class="divider"></li>
+								    <li><a href="#">50</a></li>
+								    <li><a href="#">100</a></li>
+								    <li><a href="#">200</a></li>
+								    <li><a href="#">500</a></li>
+								    <li><a href="#">从上线至今</a></li>
+							    </ul>
+							</div>
+							<!--/split btn-->
 							<!-- button -->
+							<!--
 							<div style="float:right;display:block-inline;margin-left:20px" class="btn-group">
-							  <button type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
+							  <button id="numbtn" type="button" class="btn btn-theme dropdown-toggle" data-toggle="dropdown">
 								数据个数 <span class="caret"></span>
 							  </button>
 							  <ul class="dropdown-menu" role="menu">
@@ -162,17 +181,18 @@
 								<li><a href="#">All</a></li>
 							  </ul>
 						    </div>
+						    -->
 							<!--/button--> 
 							<!--日历--> 
 								<!--指定 date标记-->  
 								<div class='input-group date my-inline' id='edatetimepicker' style="width:200px;float:right;margin-left:20px">  
-									<input id='einput' type='text' class="form-control" placeholder="终止时间" autofocus/>  
+									<input id='einput' type='text' class="form-control" placeholder="终止时间(y-m-d)" autofocus/>  
 									<span class="input-group-addon">  
 										<span class="glyphicon glyphicon-calendar"></span>  
 									</span>  
 								</div>  
 								<div class='input-group date my-inline' id='sdatetimepicker'style="width:200px;float:right;margin-left:20px">  
-									<input id='sinput' type='text' class="form-control" placeholder="起始时间" autofocus/>  
+									<input id='sinput' type='text' class="form-control" placeholder="起始时间(y-m-d)" autofocus/>  
 									<span class="input-group-addon">  
 										<span class="glyphicon glyphicon-calendar"></span>  
 									</span>  
@@ -180,6 +200,7 @@
 							<!--/日历-->
 							
 						</h4>
+							<!--/h4-->
 							<hr>
 							<table id="cptable" class="table table-striped table-advance table-hover table-bordered">
 								<thead>
