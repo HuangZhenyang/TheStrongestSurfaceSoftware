@@ -63,14 +63,15 @@ function getCPTableData() {
 		if (checkDateFormat(s_date_str) && checkDateFormat(e_date_str)) { //检查格式
 			var s_date = new Date(s_date_str);
 			var e_date = new Date(e_date_str);
-
+			
 			if (s_date <= e_date) { //检查起始 终止
-
-				if (curr_date < e_date) { //检查起始 当天
+				
+				if ((s_date <= curr_date) && (curr_date <= e_date)) { //检查起始 当天
 					// Ajax请求
 					ajaxRequest(num, s_date_str, e_date_str);
+					
 				} else {
-					alert('终止日期不应大于当前日期');
+					alert('日期范围有误');
 				}
 			} else {
 				alert('起始日期不应大于终止日期');
@@ -79,12 +80,9 @@ function getCPTableData() {
 			alert('数据格式错误');
 		}
 	}
-
-
-
-
 }
 
+/*向服务器发送ajax请求*/
 function ajaxRequest(num_p, s_date_p, e_date_p) {
 	$.ajax({
 		type: 'post',
