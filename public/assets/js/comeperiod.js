@@ -33,7 +33,13 @@ $(document).ready(function () {
 		pickerPosition: "bottom-left",
 		locale: moment.locale('zh-cn')
 	});
-
+	//设置输入框的placeholder,为当前时间前一个月至当前时间
+	var currDate = new Date();
+	$('#einput').attr('placeholder', currDate.toLocaleDateString().replace(/\//g,"-"));
+	//设置一个月之前
+	currDate.setMonth(currDate.getMonth() - 1);
+	$('#sinput').attr('placeholder',currDate.toLocaleDateString().replace(/\//g,"-"));
+	
 });
 
 
