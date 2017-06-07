@@ -40,7 +40,7 @@ function initPFChart() {
 	
 	var option = {
 		title: {
-			text: '动态数据 + 时间坐标轴'
+			text: ''
 		},
 		tooltip: {
 			trigger: 'axis',
@@ -92,10 +92,9 @@ function initPFChart() {
 					data: pfData
         		}]
 			});
-				
-			console.log(pfData);
 		}).fail(function (xhr, status) {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
+			
 		});
 
 
