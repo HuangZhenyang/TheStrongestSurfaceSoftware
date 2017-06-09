@@ -1,203 +1,181 @@
 'use strict';
 
-/*
- * 变量
- */
-var myChart = echarts.init(document.getElementById('realTimePassengerFlow'));
- // 图表数据： [{value:["2/4",121]},{value:["3/4",22]}]
-var pfData = [];
-
 $(document).ready(function () {
-	initPFChart();
+	$.get('/config/wifiprobeinfo.do').done(function (data) {
+		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+		//操纵dom,插入数据到表格里
+		/*
+		{
+		result:[
+			{
+				id: 024,
+				address: "贝克街221号",
+				status: "on"
+			},
+			{
+				id: 026,
+				address: "贝克街211号",
+				status: "off"
+			}
+	    ]
+	} 
+		*/
+
+		/*
+		<tr>
+			<td>021</td>
+			<td class="hidden-phone">厦门市中山路353号</td>
+			<td><button class="label label-info label-mini">On</button></td>
+			<td>
+				<button class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></button>
+				<button class="btn btn-danger btn-xs"><i class="fa fa-trash-o "></i></button>
+			</td>
+		</tr>		
+		*/
+		
+		/*
+		var newRow = "<tr style=\"background:red;\"><td>新行第一列</td><td>新行第二列</td><td>新行第三列</td><td>新行第四列</td><td>新行第五列</td></tr>";
+		
+		$("#table3 tr:last").after(newRow);
+		*/
+		/*********测试********/
+		if(typeof(data) === "string"){
+			data = JSON.parse(data);
+		}
+		
+		var tableDom = "";
+		var eachTableDom = "";
+		var result = data.result;
+		for(let i=0;i<result.length;i++){
+			eachTableDom = "<tr>" + 
+							"<td style='text-align: center;'>" + result[i].id + "</td>" +
+							"<td class='hidden-phone' style='text-align: center;'>" + result[i].address + "</td>" + 
+							"<td style='text-align: center;'><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
+							"<td style='text-align: center;'>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
+			                "</td>" + 
+							"</tr>";
+			tableDom += eachTableDom;
+		}
+		$('#infotable tr:last').after(tableDom);
+	}).fail(function (xhr, status) {
+		console.log('失败: ' + xhr.status + ', 原因: ' + status);
+	});
 });
 
 /*
- * 实时客流图
+ * 绑定探针
+ * 修改探针位置信息
  */
 
-function initPFChart() {
-	/*
-	function randomData() {
-		now = new Date(+now + oneDay);
-		value = value + Math.random() * 21 - 10;
-		return {
-			//name: now.toString(),
-			value: [
-            	[now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-				Math.round(value)
-        	]
-		}
-
-	}
-
-
-	var now = +new Date(1997, 9, 3);
-	var oneDay = 24 * 3600 * 1000;
-	var value = Math.random() * 1000;
-	for (var i = 0; i < 10; i++) {
-		data.push(randomData());
-	}*/
-	
-	var option = {
-		title: {
-			text: '动态数据 + 时间坐标轴'
-		},
-		tooltip: {
-			trigger: 'axis',
-			formatter: function (params) {
-				params = params[0];
-				//var date = new Date(params.name);
-				//return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-				var d = new Date(params.value[0]);
-				return '(' + d.toLocaleFormat().split(' ')[1] + '，' + params.value[1] + ')';
-
-			},
-			axisPointer: {
-				animation: false
-			}
-		},
-		xAxis: {
-			type: 'time',
-			splitLine: {
-				show: false
-			}
-		},
-		yAxis: {
-			type: 'value',
-			boundaryGap: [0, '100%'],
-			splitLine: {
-				show: false
-			}
-		},
-		series: [{
-			name: '模拟数据',
-			type: 'line',
-			showSymbol: false,
-			hoverAnimation: false,
-			data: pfData
-    }]
-	};
-
-	myChart.setOption(option);
-
-	setInterval(function () {
+$('#bindingButton').click(function () {
+	if (checkBindingInput()) {
 		$.ajax({
-			type: 'get',
-			url: '/graph/realTimePassengerflow.do',
+			type: 'post',
+			url: '/config/wifisetting.do',
 			dataType: 'json',
-		}).done(function (data) {
+			data: {
+				wifiProbeID: $('#wifiProbeID').val(),
+				wifiProbePassword: $('#wifiProbePassword').val(),
+				wifiProbeAddress: $('#wifiProbeAddress').val()
+			}
+		}).done(function(data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-			pfData.push(data);
-			myChart.setOption({
-				series: [{
-					data: pfData
-        		}]
-			});
+			if (data.result === "true") {
+				$('#bindingTip').text("绑定成功");
+				var newTableDom = "<tr>" + 
+								  "<td>" + $('#wifiProbeID').val() + "</td>" + 
+					              "<td>" + $('#wifiProbeAddress').val() + "</td>" + 
+								  "<td><button onclick='statusBtn(this)'" + "id='" + $('#wifiProbeID').val() +　"' class='label label-info label-mini'>" + "off" + "</button></td>" + 
+								  "<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" + 
+								  "</tr>";
 				
-			console.log(pfData);
-		}).fail(function (xhr, status) {
-			console.log('失败: ' + xhr.status + ', 原因: ' + status);
-            myChart.setOption({
-                series: [{
-                    data: pfData
-                }]
-            });
+				$('#infotable tr:last').after(newTableDom);
+				
+				
+				//清空输入框信息
+				$('#wifiProbeID').val("");
+				$('#wifiProbePassword').val("");
+				$('#wifiProbeAddress').val("");
+			} else if(data.result === "noId"){
+				$('#bindingTip').text("探针ID不存在");
+			}else if(data.result === "hasLocked"){
+				$('#bindingTip').text("探针已被绑定");
+			}else if(data.result === "wrongpassword"){
+				$('#bindingTip').text("探针密码错误");
+			}
+		}).fail((xhr, status) => {
+			$('#bindingTip').text("绑定失败");
+			//console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
-
-
-	}, 5000);
-
-	
-}
-
-
-
-
-
-
+	}
+});
 
 /*
-
-function randomData() {
-
-	now = new Date(+now + oneDay);
-	value = value + Math.random() * 21 - 10;
-	return {
-		//name: now.toString(),
-		value: [
-            [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-			Math.round(value)
-        ]
+ * 检查输入规范.
+ */
+function checkBindingInput() {
+	var numberReg = /^(\d+){1,}$/;
+	var isNumber = numberReg.test($('#wifiProbeID').val());
+	var isEmpty = null;
+	if ($('#wifiProbeID').val() === "" || $('#wifiProbePassword').val() === "" || $('#wifiProbeAddress').val() === "") {
+		isEmpty = true;
+	} else {
+		isEmpty = false;
 	}
 
-}
-
-var data = [];
-var now = +new Date(1997, 9, 3);
-var oneDay = 24 * 3600 * 1000;
-var value = Math.random() * 1000;
-for (var i = 0; i < 10; i++) {
-	data.push(randomData());
-}
-
-var option = {
-	title: {
-		text: '动态数据 + 时间坐标轴'
-	},
-	tooltip: {
-		trigger: 'axis',
-		formatter: function (params) {
-
-			params = params[0];
-			//console.log("params value " + params.value);
-			//console.log("params value[0] " + params.value[0]);
-			//console.log("params value[1] " + params.value[1]);
-			var date = new Date(params.name);
-			return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-
-		},
-		axisPointer: {
-			animation: false
-		}
-	},
-	xAxis: {
-		type: 'time',
-		splitLine: {
-			show: false
-		}
-	},
-	yAxis: {
-		type: 'value',
-		boundaryGap: [0, '100%'],
-		splitLine: {
-			show: false
-		}
-	},
-	series: [{
-		name: '模拟数据',
-		type: 'line',
-		showSymbol: false,
-		hoverAnimation: false,
-		data: data
-    }]
-};
-
-myChart.setOption(option);
-
-setInterval(function () {
-
-	for (var i = 0; i < 5; i++) {
-		data.shift();
-		data.push(randomData());
-
+	if ((!isNumber) || isEmpty) {
+		$('#bindingTip').text("输入有误！");
+		return false;
 	}
+	return true;
+}
 
-	myChart.setOption({
-		series: [{
-			data: data
-        }]
-	});
-}, 10000);
-
-console.log(data);
+/*
+探针状态按钮函数
 */
+function statusBtn(evt){
+	if(evt.innerHTML === "on"){
+		/*Button Id设置为探针的id*/
+		$.ajax({
+			type: 'post',
+			url: '/config/setwifistatus.do',
+			dataType: 'json',
+			data: {
+				id: evt.getAttribute("id"),
+				status: 'off' 
+			}
+		}).done(function(data){
+			if(data.result === "true"){
+				evt.innerHTML = "off";
+			}
+		}).fail(function(xhr, status){
+			alert("修改失败");
+		});
+	}else if(evt.innerHTML === "off"){
+		$.ajax({
+			type: 'post',
+			url: '/config/setwifistatus.do',
+			dataType: 'json',
+			data: {
+				id: evt.getAttribute("id"),
+				status: 'on' 
+			}
+		}).done(function(data){
+			if(data.result === "true"){
+				evt.innerHTML = "on";
+			}
+		}).fail(function(xhr, status){
+			alert("修改失败");
+		});
+	}
+}
+
+/*
+* 探针修改信息函数
+*/
+/*
+function modifyBtn(evt){
+	alert("");
+	window.location.href = "wifiSetting.html#myModal";
+	alert("1");
+}*/

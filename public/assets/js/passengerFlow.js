@@ -3,12 +3,20 @@
 /*
  * 变量
  */
-var myChart = echarts.init(document.getElementById('realTimePassengerFlow'));
- // 图表数据： [{value:["2/4",121]},{value:["3/4",22]}]
+var myChart1 = echarts.init(document.getElementById('realTimePassengerFlow'));
+var myChart2 = echarts.init(document.getElementById('passengerFlow'));
+var myChart3 = echarts.init(document.getElementById('enterFlow'));
+
+// 图表数据： [{value:["2/4",121]},{value:["3/4",22]}]
 var pfData = [];
+var maxNumP = ["", 0]; //最大客流量值 [0]为时间，[1]为数据
+var maxNumE = ["", 0]; //最大入店量值 [0]为时间，[1]为数据
+var temp = 0;
+
 
 $(document).ready(function () {
 	initPFChart();
+	initHeadChart();
 });
 
 /*
@@ -37,7 +45,7 @@ function initPFChart() {
 	for (var i = 0; i < 10; i++) {
 		data.push(randomData());
 	}*/
-	
+
 	var option = {
 		title: {
 			text: ''
@@ -77,7 +85,7 @@ function initPFChart() {
     }]
 	};
 
-	myChart.setOption(option);
+	myChart1.setOption(option);
 
 	setInterval(function () {
 		$.ajax({
@@ -85,26 +93,149 @@ function initPFChart() {
 			url: '/graph/realTimePassengerflow.do',
 			dataType: 'json',
 		}).done(function (data) {
-			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-			pfData.push(data);
-			myChart.setOption({
+			//console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
+			setMax(data); //设置最大值
+
+			pfData.push(data.p);
+			myChart1.setOption({
 				series: [{
 					data: pfData
         		}]
 			});
+
+			setHeadChart(data); //设置顶部的图
+			setTable(data); // 设置表格数据
 		}).fail(function (xhr, status) {
 			console.log('失败: ' + xhr.status + ', 原因: ' + status);
-			
 		});
-
-
 	}, 5000);
-
-	
 }
 
+function initHeadChart() {
+	var option2 = {
+		tooltip: {
+			formatter: "{c}"
+		},
+		toolbox: {
+			feature: {
+				restore: {},
+				saveAsImage: {}
+			}
+		},
+		series: [
+			{
+				name: '客流量',
+				type: 'gauge',
+				detail: {
+					formatter: '{value}'
+				},
+				data: [{
+					value: 0,
+					name: '客流量'
+					}]
+			}
+    	]
+	};
+	myChart2.setOption(option2);
 
+	var option3 = {
+		tooltip: {
+			formatter: "{c}"
+		},
+		toolbox: {
+			feature: {
+				restore: {},
+				saveAsImage: {}
+			}
+		},
+		series: [
+			{
+				name: '入店量',
+				type: 'gauge',
+				detail: {
+					formatter: '{value}'
+				},
+				data: [{
+					value: 0,
+					name: '入店量'
+					}]
+			}
+    	]
+	};
+	myChart3.setOption(option3);
+}
 
+function setHeadChart(data) {
+
+	myChart2.setOption({
+		series: [
+			{
+				max: maxNumP[1],
+				data: [{
+						value: parseInt(data.p.value[1]),
+						name: '客流量'
+					}
+				]
+			}
+		]
+	});
+
+	myChart3.setOption({
+		series: [
+			{
+				max: maxNumE[1],
+				data: [{
+						value: parseInt(data.e),
+						name: '入店量'
+					}
+				]
+			}
+		]
+	});
+}
+
+function setMax() {
+	
+	if (parseInt(data.p.value[1]) > maxNumP[1]) {
+		maxNumP[0] = data.p.value[0];
+		maxNumP[1] = parseInt(data.p.value[1]);
+	}
+	if (parseInt(data.e) > maxNumE[1]) {
+		maxNumE[0] = data.p.value[0];
+		maxNumE[1] = parseInt(data.e);
+	}
+	$('#maxP').text(maxNumP[1] + "(" + maxNumP[0] + ")");
+	//$('#maxE').text(maxNumE[1] + "(" + maxNumE[0] + ")");
+}
+
+function setTable(data){
+	var tableDom = "";
+	var eachTableDom = "";
+	eachTableDom = "<tr>" + 
+				   "<td style='text-align: center;'>" + data.p.value[0] + "</td>" + 
+				   "<td style='text-align: center;'>" + data.p.value[1] + "</td>" +
+				　　"<td style='text-align: center;'>" + data.e  + "</td>" + 
+				   "</tr>";
+	if(document.getElementById("datatable").rows.length === 8){
+		$('#datatable tr:gt(0):eq(0)').remove();
+	}
+	$('#datatable tr:last').after(eachTableDom);
+	if(temp < maxNumP[1]){ //上升，图标是下降的时候换成上升图标
+		//设置图标
+		if($('#pi').hasClass('fa-level-down')){
+			$('#pi').removeClass('fa-level-down');
+			$('#pi').addClass('fa-level-up');
+		}
+	}else if(temp > maxNumP[1]){ //下降，图标是上升的时候才需要换成下降图标
+		if($('#pi').hasClass('fa-level-up')){
+			$('#pi').removeClass('fa-level-up');
+			$('#pi').addClass('fa-level-down');
+		}
+		
+	}
+	temp = maxNumP[1];
+	//console.log( document.getElementById("datatable").rows.length);
+}
 
 
 

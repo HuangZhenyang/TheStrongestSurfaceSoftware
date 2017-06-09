@@ -118,13 +118,23 @@
 3. Data Type: `JSON`
 4.  
 ```json
-		{
-		 value: ["12:05:25", 120]   
-		}
+{
+	p:{
+		value: ["12:05:25", 120]
+	},
+	
+	e: 125
+}
+		
 ```
-5. Description： 
- 			1.value[0]: `横轴数据`
-			2.value[1]: `纵轴数据`
+5. Description：
+
+	1. p:`客流`
+	
+		1.value[0]: `横轴数据`
+		2.value[1]: `纵轴数据`
+ 	2. e:`入店量`		
+			
 6. Data From To: Server to Client
 
 

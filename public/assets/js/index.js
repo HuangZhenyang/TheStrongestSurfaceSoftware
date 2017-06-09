@@ -172,9 +172,9 @@ function setMyChart1(data) {
 	chart1Data.day.enterFlow.reverse();
 	chart1Data.day.enteringRate.reverse();
 	/*删除日视图的年份*/
-	for(let i=0;i<char1Date.day.date.length;i++){
-		var temp = char1Date.day.date[i];
-		char1Date.day.date[i] = temp.split("-")[1] + temp.split("-")[2];
+	for(let i=0;i<chart1Data.day.date.length;i++){
+		var temp = chart1Data.day.date[i];
+		chart1Data.day.date[i] = temp.split("-")[1] + temp.split("-")[2];
 	}
 	
 	chart1Data.week.date.reverse();

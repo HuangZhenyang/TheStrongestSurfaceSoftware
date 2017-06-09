@@ -21,7 +21,8 @@
 	<link href="assets/css/style-responsive.css" rel="stylesheet">
 
 	<!--Echarts-->
-	<script src="https://cdn.bootcss.com/echarts/3.5.2/echarts.common.js"></script>
+	<!--<script src="https://cdn.bootcss.com/echarts/3.5.2/echarts.common.js"></script>-->
+	<script src="assets/js/echarts.min.js"></script>
 
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -66,75 +67,44 @@
 					</p>
 					<!--用户名-->
 					<h5 class="centered"><script>window.location.href.split("=")[1]</script></h5>
-
+					<hr>
 					<li class="mt">
 						<a href="index.html">
 							<i class="fa fa-desktop"></i>
 							<span>我的概览</span>
 						</a>
 					</li>
-
 					<li class="sub-menu">
-						<a class="active" href="javascript:;">
+						<a class="active" href="passengerFlow.html">
 							<i class="fa fa-dashboard"></i>
 							<span>实时数据</span>
 						</a>
-						<ul class="sub">
-							<li class="active"><a href="general.html">客流量</a></li>
-							<li><a href="area.html">客流热图</a></li>
-							<li><a href="panels.html">Panels</a></li>
-						</ul>
-					</li>
-
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-bar-chart-o"></i>
-							<span>趋势分析</span>
-						</a>
-						<ul class="sub">
-							<li><a href="calendar.html">客流量Calendar</a></li>
-							<li><a href="gallery.html">入店量、入店率Gallery</a></li>
-							<li><a href="todo_list.html">Todo List</a></li>
-						</ul>
 					</li>
 					<li class="sub-menu">
 						<a href="javascript:;">
 							<i class="fa fa-book"></i>
-							<span>顾客分析</span>
+							<span style="font-weight:bold;">顾客分析</span>
 						</a>
 						<ul class="sub">
-							<li><a href="blank.html">来访周期Blank Page</a></li>
-							<li><a href="login.html">新老客户Login</a></li>
-							<li><a href="lock_screen.html">顾客活跃度Lock Screen</a></li>
+							<li><a href="main.html">流量分析</a></li>
+							<li><a href="comeperiod.html">来访分析</a></li>
+							<li><a href="passengerTransform.html">客流转化</a></li>
 						</ul>
 					</li>
+
 					<li class="sub-menu">
 						<a href="javascript:;">
 							<i class="fa fa-tasks"></i>
-							<span>探针设备配置</span>
+							<span style="font-weight:bold;">相关配置</span>
 						</a>
 						<ul class="sub">
-							<li><a href="form_component.html">Form Components</a></li>
+							<li><a href="userSetting.html">用户设置</a></li>
 						</ul>
-					</li>
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class="fa fa-th"></i>
-							<span>Data Tables</span>
-						</a>
 						<ul class="sub">
-							<li><a href="basic_table.html">Basic Table</a></li>
-							<li><a href="responsive_table.html">Responsive Table</a></li>
+							<li><a href="thresholdSetting.html">阈值设置</a></li>
 						</ul>
-					</li>
-					<li class="sub-menu">
-						<a href="javascript:;">
-							<i class=" fa fa-bar-chart-o"></i>
-							<span>Charts</span>
-						</a>
 						<ul class="sub">
-							<li><a href="morris.html">Morris</a></li>
-							<li><a href="chartjs.html">Chartjs</a></li>
+							<li><a href="wifiSetting.html">探针设置</a></li>
 						</ul>
 					</li>
 
@@ -151,23 +121,72 @@
 		<section id="main-content">
 			<section class="wrapper">
 				<div class="row mt">
-					<div class="col-lg-6 col-md-6 col-sm-12">
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<div class="showback">
+							<h4><i class="fa fa-angle-right"></i> 客流量</h4>
+							<div class="panel-body text-center">
+								<div id="passengerFlow" style="width: 300px;height:270px;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<div class="showback">
+							<div>
+								
+								<h4><i id="pi" class="fa fa-level-up"></i>
+								客流量峰值:
+									<label id="maxP">0</label>
+								</h4>
+
+							</div>
+
+							<div class="panel-body text-center">
+								<div style="width: 300px;height:270px;">
+									<table id="datatable" class="table table-striped table-advance table-hover">
+										<thead>
+											<tr>
+												<th style='text-align: center;'><i class="fa fa-bullhorn"></i> 时间</th>
+												<th style='text-align: center;' class="hidden-phone"><i class="fa fa-question-circle"></i> 客流量</th>
+
+												<th style='text-align: center;'><i class="fa fa-bookmark"></i> 入店量</th>
+
+
+											</tr>
+										</thead>
+										<!-- /thead -->
+										<tbody>
+									</table>
+								</div>
+							</div>
+
+
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-4 col-sm-12">
+						<div class="showback">
+							<h4><i class="fa fa-angle-right"></i> 入店量</h4>
+							<div class="panel-body text-center">
+								<div id="enterFlow" style="width: 300px;height:270px;"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--/row mt-->
+				<div class="row mt">
+					<div class="col-lg-12 col-md-12 col-sm-12">
 						<!-- REAL TIME PASSENGER FLOW-->
 						<div class="showback">
 							<h4><i class="fa fa-angle-right"></i> 实时客流量</h4>
 							<div class="panel-body text-center">
-								<div id="realTimePassengerFlow" style="width: 490px;height:305px;"></div>
+								<div id="realTimePassengerFlow" style="width: 1000px;height:400px;"></div>
 							</div>
-
 						</div>
 						<!--/showback -->
-
 					</div>
 					<!--/col-lg-6 -->
 
-
+					<!--
 					<div class="col-lg-6 col-md-6 col-sm-12">
-						<!-- REAL TIME ENTERING FLOW-->
 						<div class="showback">
 							<h4><i class="fa fa-angle-right"></i> 实时入店量</h4>
 							<div class="panel-body text-center">
@@ -175,7 +194,7 @@
 							</div>
 						</div>
 
-					</div>
+					</div>-->
 					<!-- /col-lg-6 -->
 
 				</div>
@@ -221,12 +240,16 @@
 
 	<script src="http://mockjs.com/dist/mock.js"></script>
 	<script type="text/javascript">
-		var arr = ["001", "002", "003", "004", "005", "006","007","008","009","010","011","012","013","014","015","016","017","018","019","020","021","022"];
-		var d = [1,2,4,5,6,7,9,5,323,323,10,189,33,62,32,54,46,66,77,88,4,34]
-		var index1 = Math.floor((Math.random()*arr.length));		
-		var index2 = Math.floor(Math.random()*d.length);
+		var arr = ["001", "002", "003", "004", "005", "006", "007", "008", "009", "010", "011", "012", "013", "014", "015", "016", "017", "018", "019", "020", "021", "022"];
+		var d = [1, 2, 4, 5, 6, 7, 9, 5, 323, 323, 10, 189, 33, 62, 32, 54, 46, 66, 77, 88, 4, 34]
+		var index1 = Math.floor((Math.random() * arr.length));
+		var index2 = Math.floor(Math.random() * d.length);
 		var data = {
-			value: [12, 22]
+			p: {
+				value: ["12:05:25", 100]
+			},
+
+			e: 125
 		};
 
 		Mock.mock('/graph/realTimePassengerflow.do', data);
