@@ -32,28 +32,28 @@ $(document).ready(function () {
 			</td>
 		</tr>		
 		*/
-		
+
 		/*
 		var newRow = "<tr style=\"background:red;\"><td>新行第一列</td><td>新行第二列</td><td>新行第三列</td><td>新行第四列</td><td>新行第五列</td></tr>";
 		
 		$("#table3 tr:last").after(newRow);
 		*/
 		/*********测试********/
-		if(typeof(data) === "string"){
+		if (typeof (data) === "string") {
 			data = JSON.parse(data);
 		}
-		
+
 		var tableDom = "";
 		var eachTableDom = "";
 		var result = data.result;
-		for(let i=0;i<result.length;i++){
-			eachTableDom = "<tr>" + 
-							"<td style='text-align: center;'>" + result[i].id + "</td>" +
-							"<td class='hidden-phone' style='text-align: center;'>" + result[i].address + "</td>" + 
-							"<td style='text-align: center;'><button onclick='statusBtn(this)'" + "id='" + result[i].id +　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
-							"<td style='text-align: center;'>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + 
-			                "</td>" + 
-							"</tr>";
+		for (let i = 0; i < result.length; i++) {
+			eachTableDom = "<tr>" +
+				"<td style='text-align: center;'>" + result[i].id + "</td>" +
+				"<td class='hidden-phone' style='text-align: center;'>" + result[i].address + "</td>" +
+				"<td style='text-align: center;'><button onclick='statusBtn(this)'" + "id='" + result[i].id + 　"' class='label label-info label-mini'>" + result[i].status + "</button></td>" +
+				"<td style='text-align: center;'>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" +
+				"</td>" +
+				"</tr>";
 			tableDom += eachTableDom;
 		}
 		$('#infotable tr:last').after(tableDom);
@@ -78,29 +78,31 @@ $('#bindingButton').click(function () {
 				wifiProbePassword: $('#wifiProbePassword').val(),
 				wifiProbeAddress: $('#wifiProbeAddress').val()
 			}
-		}).done(function(data) {
+		}).done(function (data) {
 			console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
 			if (data.result === "true") {
 				$('#bindingTip').text("绑定成功");
-				var newTableDom = "<tr>" + 
-								  "<td>" + $('#wifiProbeID').val() + "</td>" + 
-					              "<td>" + $('#wifiProbeAddress').val() + "</td>" + 
-								  "<td><button onclick='statusBtn(this)'" + "id='" + $('#wifiProbeID').val() +　"' class='label label-info label-mini'>" + "off" + "</button></td>" + 
-								  "<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" + 
-								  "</tr>";
-				
+				var newTableDom = "<tr>" +
+					"<td>" + $('#wifiProbeID').val() + "</td>" +
+					"<td>" + $('#wifiProbeAddress').val() + "</td>" +
+					"<td><button onclick='statusBtn(this)'" + "id='" + $('#wifiProbeID').val() + 　"' class='label label-info label-mini'>" + "off" + "</button></td>" +
+					"<td>" + "<button data-toggle='modal' data-target='#myModal' class='btn btn-primary btn-xs'><i class='fa fa-pencil'></i></button>" + "<button onclick='delBtn(this)' class='btn btn-danger btn-xs'><i class='fa fa-trash-o '></i></button>" + "</td>" +
+					"</tr>";
+
 				$('#infotable tr:last').after(newTableDom);
-				
-				
+
+
 				//清空输入框信息
 				$('#wifiProbeID').val("");
 				$('#wifiProbePassword').val("");
 				$('#wifiProbeAddress').val("");
-			} else if(data.result === "noId"){
+			} else if (data.result === "hadBind") {
+				$('#bindingTip').text("探针ID已被锁定");
+			} else if (data.result === "noId") {
 				$('#bindingTip').text("探针ID不存在");
-			}else if(data.result === "hasLocked"){
+			} else if (data.result === "hasLocked") {
 				$('#bindingTip').text("探针已被绑定");
-			}else if(data.result === "wrongpassword"){
+			} else if (data.result === "wrongpassword") {
 				$('#bindingTip').text("探针密码错误");
 			}
 		}).fail((xhr, status) => {
@@ -133,8 +135,8 @@ function checkBindingInput() {
 /*
 探针状态按钮函数
 */
-function statusBtn(evt){
-	if(evt.innerHTML === "on"){
+function statusBtn(evt) {
+	if (evt.innerHTML === "on") {
 		/*Button Id设置为探针的id*/
 		$.ajax({
 			type: 'post',
@@ -142,37 +144,37 @@ function statusBtn(evt){
 			dataType: 'json',
 			data: {
 				id: evt.getAttribute("id"),
-				status: 'off' 
+				status: 'off'
 			}
-		}).done(function(data){
-			if(data.result === "true"){
+		}).done(function (data) {
+			if (data.result === "true") {
 				evt.innerHTML = "off";
 			}
-		}).fail(function(xhr, status){
+		}).fail(function (xhr, status) {
 			alert("修改失败");
 		});
-	}else if(evt.innerHTML === "off"){
+	} else if (evt.innerHTML === "off") {
 		$.ajax({
 			type: 'post',
 			url: '/config/setwifistatus.do',
 			dataType: 'json',
 			data: {
 				id: evt.getAttribute("id"),
-				status: 'on' 
+				status: 'on'
 			}
-		}).done(function(data){
-			if(data.result === "true"){
+		}).done(function (data) {
+			if (data.result === "true") {
 				evt.innerHTML = "on";
 			}
-		}).fail(function(xhr, status){
+		}).fail(function (xhr, status) {
 			alert("修改失败");
 		});
 	}
 }
 
 /*
-* 探针修改信息函数
-*/
+ * 探针修改信息函数
+ */
 /*
 function modifyBtn(evt){
 	alert("");

@@ -1,137 +1,214 @@
 'use strict';
-var num = '20';
-
+var currDate = new Date();
+var type = ""; //表示用户选择的报表类型，用于按钮事件时方便知道当前的控件有哪些
 
 $(document).ready(function () {
-	// 获取数据
-	getCPTableData();
-	//数据数目按钮
-	$(".dropdown-menu li").click(function () {
-		//$('#numbtn').text($(this).text());
-		//$("#cptable  tr:not(:first)").empty("");  
-		//getCPTableData($(this).text());
-		num = $(this).text();
-	});
-	//确定按钮
-	$('#okbtn').click(function () {
-		getCPTableData();
-	});
-	//日期选择
-	$('#sdatetimepicker').datetimepicker({
-		format: "yyyy-mm-dd hh:ii",
+	//显示$('#wm_edatetimepicker').show();
+
+	/*日、周、月、年报*/
+	//日
+	$('#d_edatetimepicker').datetimepicker({
+		format: "yyyy-mm-dd hh:ii", // hh:ii
 		autoclose: true,
 		todayBtn: true,
 		language: 'zh-CN',
 		pickerPosition: "bottom-left",
 		locale: moment.locale('zh-cn')
 	});
-	$('#edatetimepicker').datetimepicker({
-		format: "yyyy-mm-dd hh:ii",
+	$('#d_sdatetimepicker').datetimepicker({
+		format: "yyyy-mm-dd hh:ii", // hh:ii
 		autoclose: true,
 		todayBtn: true,
 		language: 'zh-CN',
 		pickerPosition: "bottom-left",
 		locale: moment.locale('zh-cn')
 	});
-	//设置输入框的placeholder,为当前时间前一个月至当前时间
-	var currDate = new Date();
-	$('#einput').attr('placeholder', currDate.toLocaleDateString().replace(/\//g,"-"));
-	//设置一个月之前
-	currDate.setMonth(currDate.getMonth() - 1);
-	$('#sinput').attr('placeholder',currDate.toLocaleDateString().replace(/\//g,"-"));
-	
+	//周、 月
+	$('#wm_edatetimepicker').datetimepicker({
+		minView: 2,
+		format: "yyyy-mm-dd", // hh:ii
+		autoclose: true,
+		todayBtn: true,
+		language: 'zh-CN',
+		pickerPosition: "bottom-left",
+		locale: moment.locale('zh-cn')
+	});
+	$('#wm_sdatetimepicker').datetimepicker({
+		minView: 2,
+		format: "yyyy-mm-dd", // hh:ii
+		autoclose: true,
+		todayBtn: true,
+		language: 'zh-CN',
+		pickerPosition: "bottom-left",
+		locale: moment.locale('zh-cn')
+	});
+	//年
+	$('#y_edatetimepicker').datetimepicker({
+		minView: 3,
+		format: "yyyy-mm", // hh:ii
+		autoclose: true,
+		todayBtn: true,
+		language: 'zh-CN',
+		pickerPosition: "bottom-left",
+		locale: moment.locale('zh-cn')
+	});
+	$('#y_sdatetimepicker').datetimepicker({
+		minView: 3,
+		format: "yyyy-mm", // hh:ii
+		autoclose: true,
+		todayBtn: true,
+		language: 'zh-CN',
+		pickerPosition: "bottom-left",
+		locale: moment.locale('zh-cn')
+	});
+
+	//一开始时是日报，要有 日期+时间段  即可
+	setDay();
+
+	//报表类型改变事件
+	$('#sel_type').change(function () {
+		var sel_val = $(this).val();
+		changeDateTimePicker(sel_val);
+	})
 });
 
-
-function getCPTableData() {
-	var s_date_str = $('#sinput').val().split(' ')[0];
-	var e_date_str = $('#einput').val().split(' ')[0];
-	var curr_date = new Date();
-
-	if (s_date_str === '' && e_date_str === '') {
-		ajaxRequest(num, '', '');
-	} else if (s_date_str === '' && e_date_str != '') {
-		if (checkDateFormat(e_date_str)) {
-			var e_date = new Date(e_date_str);
-			if (e_date <= curr_date) {
-				ajaxRequest(num, '', e_date_str);
-			} else {
-				alert('终止日期不应大于当前日期');
-			}
-		} else {
-			alert('数据格式错误');
-		}
-	} else if (s_date_str != '' && e_date_str === '') {
-		if(checkDateFormat(s_date_str)){
-			ajaxRequest(num,s_date_str,'');
-		}
-	} else {
-		if (checkDateFormat(s_date_str) && checkDateFormat(e_date_str)) { //检查格式
-			var s_date = new Date(s_date_str);
-			var e_date = new Date(e_date_str);
-			
-			if (s_date <= e_date) { //检查起始 终止
-				
-				if ((s_date <= curr_date) && (curr_date <= e_date)) { //检查起始 当天
-					// Ajax请求
-					ajaxRequest(num, s_date_str, e_date_str);
-					
-				} else {
-					alert('日期范围有误');
-				}
-			} else {
-				alert('起始日期不应大于终止日期');
-			}
-		} else {
-			alert('数据格式错误');
-		}
+/********************
+ *    报表类型变化     *
+ *********************/
+function changeDateTimePicker(sel_val) {
+	type = sel_val;
+	if (sel_val === "D") {
+		setDay();
+	} else if (sel_val === "W") {
+		setWeek();
+	} else if (sel_val === "M") {
+		setMonth();
+	} else if (sel_val === "Y") {
+		setYear();
 	}
 }
 
-/*向服务器发送ajax请求*/
-function ajaxRequest(num_p, s_date_p, e_date_p) {
-	$.ajax({
-		type: 'post',
-		url: '/table/comeperiod.do',
-		dataType: 'json',
-		data: {
-			num: num_p,
-			s_date: s_date_p,
-			e_date: e_date_p
-		}
-	}).done(function (data) {
-		console.log('成功, 收到的数据: ' + JSON.stringify(data, null, '  '));
-		setCPTable(data);
-	}).fail(function (xhr, status) {
 
-	});
-}
+/********************
+ *    设置日期格式     *
+ *********************/
+function setDay() {
+	$('#show_time').hide();
+	$('#wm_edatetimepicker').hide();
+	$('#wm_sdatetimepicker').hide();
+	$('#y_edatetimepicker').hide();
+	$('#y_sdatetimepicker').hide();
 
-function setCPTable(data) {
-	var result = data.result;
-	var tableDom = "";
-	var eachTableDom = "";
+	$('#d_edatetimepicker').show();
+	$('#d_sdatetimepicker').show();
 
-	for (let i = 0; i < result.length; i++) {
-		eachTableDom = "<tr>" +
-			"<td style='text-align: center;'>" + (i + 1) + "</td>" + 　　"<td style='text-align: center;'>" + result[i].mac + "</td>" +
-			"<td style='text-align: center;'>" + result[i].telbrand + "</td>" +
-			"<td style='text-align: center;'>" + result[i].comeperiod + "</td>" +
-			"<td style='text-align: center;'>" + result[i].staytime + "</td>" +
-			"<td style='text-align: center;'>" + result[i].frequency + "</td>" +
-			"<td style='text-align: center;'>" + result[i].lasttime + "</td>" +
-			"</tr>"
-
-		tableDom += eachTableDom;
-	}
-
-	$('#cptable tbody').after(tableDom);
-
+	$('#d_einput').attr('placeholder', "终止：" + currDate.toLocaleDateString().replace(/\//g, "-"));
+	$('#d_sinput').attr('placeholder', "起始：" + currDate.toLocaleDateString().replace(/\//g, "-"));
 }
 
 
-/*验证输入*/
-function checkDateFormat(input) {
-	var reg = /^(\d{1,})-(\d{1,})-(\d{1,})/;
-	return reg.test(input);
+function setWeek() {
+	$('#d_edatetimepicker').hide();
+	$('#d_sdatetimepicker').hide();
+	$('#y_edatetimepicker').hide();
+	$('#y_sdatetimepicker').hide();
+
+	$('#wm_edatetimepicker').show();
+	$('#wm_sdatetimepicker').show();
+
+	$('#show_time').show();
+
+	$('#wm_einput').attr('placeholder', "终止：" + currDate.toLocaleDateString().replace(/\//g, "-"));
+	$('#wm_sinput').attr('placeholder', "起始：" + currDate.toLocaleDateString().replace(/\//g, "-"));
+
+	addSelWeek();
 }
+
+
+//添加下拉框的week值
+function addSelWeek() {
+	var weekOpts = "<option value='1'>周一</option>" +
+		"<option value='2'>周二</option>" +
+		"<option value='3'>周三</option>" +
+		"<option value='4'>周四</option>" +
+		"<option value='5'>周五</option>" +
+		"<option value='6'>周六</option>" +
+		"<option value='7'>周七</option>";
+	$('#sel_start').empty();
+	$('#sel_end').empty();
+	$('#sel_start').append(weekOpts);
+	$('#sel_end').append(weekOpts);
+}
+
+
+function setMonth() {
+	$('#d_edatetimepicker').hide();
+	$('#d_sdatetimepicker').hide();
+	$('#y_edatetimepicker').hide();
+	$('#y_sdatetimepicker').hide();
+
+	$('#wm_edatetimepicker').show();
+	$('#wm_sdatetimepicker').show();
+
+	$('#show_time').hide();
+
+	$('#wm_einput').attr('placeholder', "终止：" + currDate.toLocaleDateString().replace(/\//g, "-"));
+	$('#wm_sinput').attr('placeholder', "起始：" + currDate.toLocaleDateString().replace(/\//g, "-"));
+}
+
+function setYear() {
+	$('#d_edatetimepicker').hide();
+	$('#d_sdatetimepicker').hide();
+	$('#wm_edatetimepicker').hide();
+	$('#wm_sdatetimepicker').hide();
+
+	$('#y_edatetimepicker').show();
+	$('#y_sdatetimepicker').show();
+
+	$('#show_time').hide();
+
+	var currDateStr = currDate.toLocaleDateString().replace(/\//g, "-");
+	$('#y_einput').attr('placeholder', "终止：" + currDateStr.split('-')[0] + "-" + currDateStr.split('-')[1]);
+	$('#y_sinput').attr('placeholder', "起始：" + currDateStr.split('-')[0] + "-" + currDateStr.split('-')[1]);
+}
+
+/*
+//添加下拉框的month值
+function addSelWeek() {
+	var monthOpts_30 =  "<option value='1'>1日</option>" +
+					    "<option value='2'>2日</option>" +
+					    "<option value='3'>3日</option>" +
+					    "<option value='4'>4日</option>" +
+					    "<option value='5'>5</option>" +
+					    "<option value='6'>6</option>" +
+						"<option value='7'>7</option>" +
+						"<option value='8'>8</option>" +
+						"<option value='9'>9</option>" +
+						"<option value='10'>10</option>" +
+						"<option value='11'>11</option>" +
+						"<option value='12'>12</option>" +
+						"<option value='13'>13</option>" +
+						"<option value='14'>14</option>" +
+						"<option value='15'>15</option>" +
+						"<option value='16'>16</option>" +
+						"<option value='6'>17</option>" +
+						"<option value='6'>18</option>" +
+						"<option value='6'>19</option>" +
+						"<option value='6'>20</option>" +
+						"<option value='6'>21</option>" +
+						"<option value='6'>22</option>" +
+						"<option value='6'>23</option>" +
+						"<option value='6'>24</option>" +
+						"<option value='6'>25</option>" +
+						"<option value='6'>26</option>" +
+						"<option value='6'>27</option>" +
+						"<option value='6'>28</option>" +
+						"<option value='6'>29</option>" +
+						"<option value='6'>30</option>" +
+		
+
+		$('#sel_start').empty();
+	$('#sel_end').empty();
+	$('#sel_start').append(weekOpts);
+	$('#sel_end').append(weekOpts);
+}*/

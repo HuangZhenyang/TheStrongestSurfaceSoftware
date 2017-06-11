@@ -12,7 +12,7 @@ var pfData = [];
 var maxNumP = ["", 0]; //最大客流量值 [0]为时间，[1]为数据
 var maxNumE = ["", 0]; //最大入店量值 [0]为时间，[1]为数据
 var temp = 0;
-
+var date = null;
 
 $(document).ready(function () {
 	initPFChart();
@@ -56,7 +56,8 @@ function initPFChart() {
 				params = params[0];
 				//var date = new Date(params.name);
 				//return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
-				return params.value[0] + ':' + params.value[1];
+				date = new Date(params.value[0]);
+				return date.toLocaleDateString() + ':' + params.value[1];
 
 			},
 			axisPointer: {
@@ -111,6 +112,7 @@ function initPFChart() {
 	}, 5000);
 }
 
+//初始化顶部二图
 function initHeadChart() {
 	var option2 = {
 		tooltip: {
@@ -164,7 +166,7 @@ function initHeadChart() {
 	};
 	myChart3.setOption(option3);
 }
-
+//设置顶部二图
 function setHeadChart(data) {
 
 	myChart2.setOption({
@@ -194,14 +196,15 @@ function setHeadChart(data) {
 	});
 }
 
-function setMax() {
+function setMax(data) {
+	date = new Date(data.p.value[0]);
 	
 	if (parseInt(data.p.value[1]) > maxNumP[1]) {
-		maxNumP[0] = data.p.value[0];
+		maxNumP[0] = date.toLocaleDateString();
 		maxNumP[1] = parseInt(data.p.value[1]);
 	}
 	if (parseInt(data.e) > maxNumE[1]) {
-		maxNumE[0] = data.p.value[0];
+		maxNumE[0] = date.toLocaleDateString();
 		maxNumE[1] = parseInt(data.e);
 	}
 	$('#maxP').text(maxNumP[1] + "(" + maxNumP[0] + ")");
@@ -211,8 +214,9 @@ function setMax() {
 function setTable(data){
 	var tableDom = "";
 	var eachTableDom = "";
+	date = new Date(data.p.value[0]);
 	eachTableDom = "<tr>" + 
-				   "<td style='text-align: center;'>" + data.p.value[0] + "</td>" + 
+				   "<td style='text-align: center;'>" + date.toLocaleDateString() + "</td>" + 
 				   "<td style='text-align: center;'>" + data.p.value[1] + "</td>" +
 				　　"<td style='text-align: center;'>" + data.e  + "</td>" + 
 				   "</tr>";
@@ -236,6 +240,7 @@ function setTable(data){
 	temp = maxNumP[1];
 	//console.log( document.getElementById("datatable").rows.length);
 }
+
 
 
 

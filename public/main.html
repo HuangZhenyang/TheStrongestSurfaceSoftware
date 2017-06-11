@@ -127,31 +127,6 @@
 		<!--main content start-->
 		<section id="main-content">
 			<section class="wrapper">
-				<!-- row -->
-				<!--
-				<div class="row mt">
-					<div class="col-md-12">
-						<button id="okbtn" type="button" class="btn btn-round btn-primary" style="float:right;display:block-inline;margin-left:20px;">确定</button>
-						
-						
-						<div class='input-group date my-inline' id='edatetimepicker' style="width:200px;float:right;margin-left:20px">
-							<input id='einput' type='text' class="form-control" autofocus/>
-							<span class="input-group-addon">  
-										<span class="glyphicon glyphicon-calendar"></span>
-							</span>
-						</div>
-						<div class='input-group date my-inline' id='sdatetimepicker' style="width:200px;float:right;margin-left:20px">
-							<input id='sinput' type='text' class="form-control" autofocus/>
-							<span class="input-group-addon">  
-										<span class="glyphicon glyphicon-calendar"></span>
-							</span>
-						</div>
-						
-					</div>
-				</div>
-				<hr>
-				-->
-				<!-- /row -->
 				<!-- 顶部四图row -->
 				<div class="row mt">
 					<div class="col-lg-3 col-md-3 col-sm-12">
@@ -218,15 +193,132 @@
 						<div class="content-panel">
 							<div class="panel-body text-center">
 								<!--插入-->
-									
+								<div>
+									<table style="float:left;">
+										<tbody>
+											<tr>
+												<td>
+													<label>区域</label>
+												</td>
+												<td>&nbsp;&nbsp;</td>
+												<td>
+													<label>
+														<select id="sel_area">
+															<option value="101581" type="100" time="00:00-23:59" parent="null">tztest</option>
+														</select>
+													</label>
+												</td>
+												<td>&nbsp;&nbsp;
+													<label>|</label>&nbsp;&nbsp;&nbsp;</td>
+												<td></td>
+												<td>
+													<label>报表类型</label>
+												</td>
+												<td>&nbsp;&nbsp;</td>
+												<td>
+													<label>
+														<select id="sel_type">
+															<option value="Y">年报</option>
+															<option value="M">月报</option>
+															<option value="W">周报</option>
+															<option value="D" selected>日报</option>
+														</select>
+													</label>
+												</td>
+												<td>&nbsp;&nbsp;
+													<label>|</label>&nbsp;&nbsp;&nbsp;</td>
+												<td>
+													<label>
+														时间
+													</label>
+												</td>
+
+												<td>
+													<label>
+														<!--日日历-->
+														<div class='input-group date my-inline' id='d_edatetimepicker' style="width:200px;float:right;margin-left:20px">
+															<input id='d_einput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<div class='input-group date my-inline' id='d_sdatetimepicker' style="width:200px;float:right;margin-left:20px">
+															<input id='d_sinput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<!--/日历-->
+														<!--周月日历-->
+														<div class='input-group date my-inline' id='wm_edatetimepicker' style="width:200px;float:right;margin-left:20px;display:none">
+															<input id='wm_einput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<div class='input-group date my-inline' id='wm_sdatetimepicker' style="width:200px;float:right;margin-left:20px;display:none">
+															<input id='wm_sinput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<!--/日历-->
+														<!--年日历-->
+														<div class='input-group date my-inline' id='y_edatetimepicker' style="width:200px;float:right;margin-left:20px;display:none">
+															<input id='y_einput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<div class='input-group date my-inline' id='y_sdatetimepicker' style="width:200px;float:right;margin-left:20px;display:none">
+															<input id='y_sinput' type='text' class="form-control" autofocus/>
+															<span class="input-group-addon">  
+										<span class="glyphicon glyphicon-calendar"></span>
+															</span>
+														</div>
+														<!--/日历-->
+													</label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+
+									<button id="okbtn" type="button" class="btn btn-round btn-info" style="float:right;margin-left:10px;">确定</button>
+
+									<table id="show_time" style="float:right;" class="time-range-table">
+										<tbody>
+											<tr>
+												<td>&nbsp;&nbsp;
+													<label></label>&nbsp;&nbsp;&nbsp;</td>
+												<td>
+													<td>
+														<label>
+															显示时段&nbsp;
+														</label>
+													</td>
+													<td colspan="2">
+														<label>
+															<select id="sel_start">
+																<option>-</option>
+															</select>
+															至
+															<select id="sel_end">
+																<option>-</option>
+															</select>
+														</label>
+													</td>
+											</tr>
+										</tbody>
+									</table>
+
+
+								</div>
 								<!--/插入-->
 							</div>
 						</div>
 					</div>
-				</div>
-				<!-- /row -->
-				<!-- 客流趋势row -->
-				<div class="row mt">
+					<!-- /col 12-->
+					<!-- 客流趋势 -->
 					<div class="col-lg-12 col-md-12 col-sm-12">
 						<div class="content-panel">
 							<div class="panel-body text-center">
@@ -234,6 +326,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- /col 12-->
 				</div>
 				<!-- /row -->
 			</section>
@@ -270,7 +363,7 @@
 	<script type="text/javascript" src="assets/js/gritter-conf.js"></script>
 
 	<!--script for this page-->
-	<script src="assets/js/comeperiod.js"></script>
+	<script src="assets/js/main.js"></script>
 	<link href="assets/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 	<script src="assets/css/bootstrap-datetimepicker.min.css"></script>
 	<script src="assets/js/bootstrap-datetimepicker.min.js"></script>

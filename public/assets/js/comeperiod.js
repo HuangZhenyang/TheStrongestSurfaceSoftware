@@ -35,10 +35,10 @@ $(document).ready(function () {
 	});
 	//设置输入框的placeholder,为当前时间前一个月至当前时间
 	var currDate = new Date();
-	$('#einput').attr('placeholder', currDate.toLocaleDateString().replace(/\//g,"-"));
+	$('#einput').attr('placeholder', "终止: " + currDate.toLocaleDateString().replace(/\//g,"-"));
 	//设置一个月之前
 	currDate.setMonth(currDate.getMonth() - 1);
-	$('#sinput').attr('placeholder',currDate.toLocaleDateString().replace(/\//g,"-"));
+	$('#sinput').attr('placeholder',"起始: " + currDate.toLocaleDateString().replace(/\//g,"-"));
 	
 });
 
@@ -108,6 +108,7 @@ function ajaxRequest(num_p, s_date_p, e_date_p) {
 }
 
 function setCPTable(data) {
+	$("#cptable tr:not(:first)").empty("");  
 	var result = data.result;
 	var tableDom = "";
 	var eachTableDom = "";
