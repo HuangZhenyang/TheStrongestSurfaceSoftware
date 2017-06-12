@@ -25,6 +25,7 @@ $(document).ready(function () {
 	});
 	//周、 月
 	$('#wm_edatetimepicker').datetimepicker({
+		showWeekNumbers:true,
 		minView: 2,
 		format: "yyyy-mm-dd", // hh:ii
 		autoclose: true,
@@ -34,6 +35,7 @@ $(document).ready(function () {
 		locale: moment.locale('zh-cn')
 	});
 	$('#wm_sdatetimepicker').datetimepicker({
+		showWeekNumbers:true,
 		minView: 2,
 		format: "yyyy-mm-dd", // hh:ii
 		autoclose: true,

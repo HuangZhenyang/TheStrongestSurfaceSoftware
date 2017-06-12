@@ -57,7 +57,7 @@ function initPFChart() {
 				//var date = new Date(params.name);
 				//return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
 				date = new Date(params.value[0]);
-				return date.toLocaleDateString() + ':' + params.value[1];
+				return date.toLocaleTimeString() + ':' + params.value[1];
 
 			},
 			axisPointer: {
@@ -200,11 +200,11 @@ function setMax(data) {
 	date = new Date(data.p.value[0]);
 	
 	if (parseInt(data.p.value[1]) > maxNumP[1]) {
-		maxNumP[0] = date.toLocaleDateString();
+		maxNumP[0] = date.toLocaleTimeString();
 		maxNumP[1] = parseInt(data.p.value[1]);
 	}
 	if (parseInt(data.e) > maxNumE[1]) {
-		maxNumE[0] = date.toLocaleDateString();
+		maxNumE[0] = date.toLocaleTimeString();
 		maxNumE[1] = parseInt(data.e);
 	}
 	$('#maxP').text(maxNumP[1] + "(" + maxNumP[0] + ")");
@@ -216,7 +216,7 @@ function setTable(data){
 	var eachTableDom = "";
 	date = new Date(data.p.value[0]);
 	eachTableDom = "<tr>" + 
-				   "<td style='text-align: center;'>" + date.toLocaleDateString() + "</td>" + 
+				   "<td style='text-align: center;'>" + date.toLocaleTimeString() + "</td>" + 
 				   "<td style='text-align: center;'>" + data.p.value[1] + "</td>" +
 				　　"<td style='text-align: center;'>" + data.e  + "</td>" + 
 				   "</tr>";

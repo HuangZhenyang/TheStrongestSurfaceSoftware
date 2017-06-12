@@ -105,7 +105,7 @@ $('#bindingButton').click(function () {
 			} else if (data.result === "wrongpassword") {
 				$('#bindingTip').text("探针密码错误");
 			}
-		}).fail((xhr, status) => {
+		}).fail(function(xhr,status) {
 			$('#bindingTip').text("绑定失败");
 			//console.log('失败: ' + xhr.status + ', 原因: ' + status);
 		});
